@@ -2,13 +2,13 @@ import {Component}               from 'angular2/core';
 import {HTTP_PROVIDERS}          from 'angular2/http';
 import {RouteConfig, ROUTER_DIRECTIVES, ROUTER_PROVIDERS} from 'angular2/router';
 
-import {MainComponent}           from './main.component';
-import {UserStatisticsComponent} from './user-statistics.component';
+import {MainComponent}           from './main';
+import {UserStatisticsComponent} from './user-statistics';
 
-import {HttpService}             from './http.service';
-import {PollingService}          from './polling.service';
-import {ProblemService}          from './problem.service';
-import {UserService}             from './user.service';
+import {HttpService}             from '../services/http';
+import {PollingService}          from '../services/polling';
+import {ProblemService}          from '../services/problem';
+import {UserService}             from '../services/user';
 
 @Component({
   selector: 'uhunt-app',

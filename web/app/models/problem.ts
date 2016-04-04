@@ -1,5 +1,5 @@
-import {Settings}   from './settings';
-import {User}       from './user';
+import {Config}  from '../config';
+import {User}    from './user';
 
 export class Problem {
   public static get UNKNOWN(): Problem {
@@ -74,7 +74,7 @@ export class Problem {
       return 'prob prob_x';
     }
     var st = u.getProblemStats(this.id);
-    var ago = (Settings.now - st.last_sbt) / 60 / 60 / 24;
+    var ago = (Config.now - st.last_sbt) / 60 / 60 / 24;
     var c = 'prob';
     c += st.ac ? ' sub_ac' : st.ntry ? ' sub_wa' : ' sub_none';
     c +=

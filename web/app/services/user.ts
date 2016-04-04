@@ -1,12 +1,12 @@
 import {Injectable}     from 'angular2/core';
 
-import {Settings}       from './settings';
-import {Submission}     from './submission';
-import {User}           from './user';
+import {Config}         from '../config';
+import {Submission}     from '../models/submission';
+import {User}           from '../models/user';
 
-import {HttpService}    from './http.service';
-import {PollingService} from './polling.service';
-import {ProblemService} from './problem.service';
+import {HttpService}    from './http';
+import {PollingService} from './polling';
+import {ProblemService} from './problem';
 
 @Injectable()
 export class UserService {
@@ -24,7 +24,7 @@ export class UserService {
   }
 
   private loadUser(id: number, resolve) {
-    this._httpService.get(Settings.API_PATH + '/subs-user/' + id)
+    this._httpService.get(Config.API_PATH + '/subs-user/' + id)
       .then(res => {
         this.subscribeUser(new User({
           userid: id,

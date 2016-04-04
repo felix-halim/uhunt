@@ -1,11 +1,12 @@
 import {Injectable, EventEmitter} from 'angular2/core';
 
-import {Settings}                 from './settings';
-import {Submission}               from './submission';
-import {User}                     from './user';
+import {Config}                   from '../config';
 
-import {HttpService}              from './http.service';
-import {ProblemService}           from './problem.service';
+import {Submission}               from '../models/submission';
+import {User}                     from '../models/user';
+
+import {HttpService}              from './http';
+import {ProblemService}           from './problem';
 
 @Injectable()
 export class PollingService {
@@ -19,7 +20,7 @@ export class PollingService {
   }
 
   poll() {
-    this._httpService.get(Settings.API_PATH + '/poll/' + this.last_poll_id)
+    this._httpService.get(Config.API_PATH + '/poll/' + this.last_poll_id)
       .then(res => {
         this._problemService.ready.then(() => this.process_response(res))
       });

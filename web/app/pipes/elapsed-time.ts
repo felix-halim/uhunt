@@ -1,6 +1,6 @@
 import {Pipe, PipeTransform}  from 'angular2/core';
 
-import {Settings}             from './settings';
+import {Config}               from '../config';
 
 /*
  * Formats the value using seconds, hours, days ago.
@@ -17,7 +17,7 @@ export class ElapsedTimePipe implements PipeTransform {
   delta_time: number = 0;
 
   transform(value:number, [format]) : string {
-    var now = Settings.now;
+    var now = Config.now;
     this.delta_time = Math.max(this.delta_time, value - now);
     var w = now - value + this.delta_time;
     if (format <= 5 && w < 60) { return Math.ceil(w) + ' secs ago'; }

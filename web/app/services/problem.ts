@@ -1,9 +1,10 @@
 import {Injectable}    from 'angular2/core';
 
-import {Problem}       from './problem';
-import {Settings}      from './settings';
+import {Config}        from '../config';
 
-import {HttpService}   from './http.service';
+import {Problem}       from '../models/problem';
+
+import {HttpService}   from './http';
 
 interface HashMapOfProblems {
   [key: number]: Problem;
@@ -21,7 +22,7 @@ export class ProblemService {
 
     /*
     // Update problem statistics once a day.
-    var last_problem_reload = Settings.now - uhunt_db.get('last_problem_reload');
+    var last_problem_reload = Config.now - uhunt_db.get('last_problem_reload');
     if (last_problem_reload < 0 || last_problem_reload > 24 * 60 * 60 * (1 + Math.random() * 0)) reload();
 
     // Try initialize the problems from cache if exists.
@@ -55,7 +56,7 @@ export class ProblemService {
     this.refreshing = true;
     console.log('Loading problems ...');
 
-    return this._httpService.get(Settings.API_PATH + '/p').then(res => {
+    return this._httpService.get(Config.API_PATH + '/p').then(res => {
       for (let p of res) {
         let problem = new Problem(p);
         this.problem_by_id[problem.id] = problem;

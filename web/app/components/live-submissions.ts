@@ -1,12 +1,12 @@
 import {Component, Input} from 'angular2/core';
 
-import {Settings}         from './settings';
-import {Submission}       from './submission';
-import {User}             from './user';
+import {Config}           from '../config';
+import {Submission}       from '../models/submission';
+import {User}             from '../models/user';
 
-import {PollingService}   from './polling.service';
+import {PollingService}   from '../services/polling';
 
-import {ElapsedTimePipe}  from './elapsed-time.pipe';
+import {ElapsedTimePipe}  from '../pipes/elapsed-time';
 
 @Component({
   selector: 'uhunt-live-submissions',
@@ -108,11 +108,11 @@ export class LiveSubmissionsComponent {
   limit = 5;
   viewLiveSubmissionsDisplay = 'none';
 
-  host = Settings.UVA_HOST;
-  problem_full_link = Settings.PROBLEM_FULL_LINK;
-  problem_pdf_link = Settings.PROBLEM_PDF_LINK;
-  problem_discussion_link = Settings.PROBLEM_DISCUSSION_LINK;
-  problem_ranklist_link = Settings.PROBLEM_RANKLIST_LINK;
+  host = Config.UVA_HOST;
+  problem_full_link = Config.PROBLEM_FULL_LINK;
+  problem_pdf_link = Config.PROBLEM_PDF_LINK;
+  problem_discussion_link = Config.PROBLEM_DISCUSSION_LINK;
+  problem_ranklist_link = Config.PROBLEM_RANKLIST_LINK;
 
   constructor(_pollingService: PollingService) {
     _pollingService.submissions.subscribe((s: Submission) => this.update(s));

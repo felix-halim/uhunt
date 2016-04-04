@@ -1,0 +1,3 @@
+ICPC LA:
+* Fix formating of the "Next Problems to Solve and Virtual Contests".
+  Error on firefox's webconsole: "no element found1 ngx_pagespeed_beacon:1:1"

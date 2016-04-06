@@ -50,11 +50,23 @@ export class UserService {
           s[4]]));
       }
 
-      this._pollingService.out_of_sync.subscribe();
+      this._pollingService.out_of_sync.subscribe(() => {
+        uhunt_rpc.subs_since(uhunt_user.uid, uhunt_user.lastId(), function(res) {
+          var arr = res.subs;
+          for (var i = 0; i < arr.length; i++) {
+            var s = arr[i];
+            uhunt_user.update({ sid: s[0], pid: s[1], ver: s[2], run: s[3], sbt: s[4], lan: s[5], rank: s[6] });
+          }
+          console.log('submissions is now in sync');
+        });
 
-      this._pollingService.submissions.subscribe((s: Submission) => {
-        if (user.id == s.user.id) {
-          user.insertOrUpdate(s);
+      });
+
+      this._pollingService.submissions.subscribe((subs: Submission[]) => {
+        for (var s of subs) {
+          if (user.id == s.user.id) {
+            user.insertOrUpdate(s);
+          }
         }
       });
 

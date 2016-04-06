@@ -34,12 +34,16 @@ export class ProblemService {
     */
   }
 
-  getProblem(id: number) : Problem {
+  getProblem(id: number): Problem {
     if (!this.problem_by_id[id]) {
       this.ready = this.loadProblems();
       return Problem.UNKNOWN;
     }
     return this.problem_by_id[id];
+  }
+
+  getProblemByNumber(num: number): Problem {
+    return this.problem_by_number[num] ? this.problem_by_number[num] : null;
   }
 
   // Loop through all the problems.

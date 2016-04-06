@@ -3,12 +3,20 @@ export class Config {
     return 1 * 60 * 60 * 1000; // One hour.
   }
 
+  public static get CHAT_ROOM(): string {
+    return 'uhunt';
+  }
+
   public static get UVA_HOST(): string {
     return 'https://uva.onlinejudge.org';
   }
 
+  public static get UHUNT_HOST(): string {
+    return 'https://uhunt.onlinejudge.org';
+  }
+
   public static get API_PATH(): string {
-    return 'https://uhunt.onlinejudge.org/api';
+    return Config.UHUNT_HOST + '/api';
   }
 
   public static get now(): number {

@@ -12,7 +12,7 @@ import {UserService}              from '../services/user';
 @Component({
   selector: 'uhunt-user-statistics',
   template: `
-    <uhunt-chat-box width="550" height="250"
+    <uhunt-chat-box width="550" height="250" [user]="user"
       style="float:right; padding-left:25px">
     </uhunt-chat-box>
     <hr style="clear:both" />

@@ -27,7 +27,11 @@ export class LiveSubmissionsComponent {
   problem_ranklist_link = Config.PROBLEM_RANKLIST_LINK;
 
   constructor(_pollingService: PollingService) {
-    _pollingService.submissions.subscribe((s: Submission) => this.update(s));
+    _pollingService.submissions.subscribe((subs: Submission[]) => {
+      for (var s of subs) {
+        this.update(s);
+      }
+    });
     this.refresh();
   }
 

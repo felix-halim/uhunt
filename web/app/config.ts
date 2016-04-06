@@ -15,6 +15,10 @@ export class Config {
     return Math.floor(new Date().getTime() / 1000);
   }
 
+  public static LIVE_SUBMISSIONS_LINK(): string {
+    return Config.UVA_HOST + '/index.php?option=com_onlinejudge&Itemid=19';
+  }
+
   public static PROBLEM_PDF_LINK(problem_number: number): string {
     var v = Math.floor(problem_number / 100);
     return Config.UVA_HOST + '/external/' + v + '/' + problem_number + '.pdf';

@@ -2,6 +2,7 @@ import {Injectable, EventEmitter} from 'angular2/core';
 
 import {Config}                   from '../config';
 
+import {ChatMessage}              from '../models/chat';
 import {Submission}               from '../models/submission';
 import {User}                     from '../models/user';
 
@@ -11,6 +12,7 @@ import {ProblemService}           from './problem';
 @Injectable()
 export class PollingService {
   submissions: EventEmitter<Submission> = new EventEmitter();
+  chat_messages: EventEmitter<ChatMessage> = new EventEmitter();
   last_poll_id: number = 0;
 
   constructor(

@@ -1,6 +1,7 @@
 import {Injectable}     from 'angular2/core';
 
 import {Config}         from '../config';
+
 import {Submission}     from '../models/submission';
 import {User}           from '../models/user';
 
@@ -48,6 +49,8 @@ export class UserService {
           s[6],
           s[4]]));
       }
+
+      this._pollingService.out_of_sync.subscribe();
 
       this._pollingService.submissions.subscribe((s: Submission) => {
         if (user.id == s.user.id) {

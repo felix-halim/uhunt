@@ -13,7 +13,7 @@ import {UserService}              from '../services/user';
 
 @Component({
   selector: 'uhunt-user-statistics',
-  templateUrl: 'app/components/user-statistics.html',
+  templateUrl: 'app/components/statistics.html',
   directives: [
     ChatBoxComponent,
     LiveSubmissionsComponent,
@@ -21,7 +21,7 @@ import {UserService}              from '../services/user';
     UsernameInputComponent,
   ]
 })
-export class UserStatisticsComponent implements OnInit {
+export class StatisticsComponent implements OnInit {
   user: User = User.UNKNOWN;
 
   constructor(

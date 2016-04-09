@@ -3,7 +3,7 @@ import {HTTP_PROVIDERS}          from 'angular2/http';
 import {RouteConfig, ROUTER_DIRECTIVES, ROUTER_PROVIDERS} from 'angular2/router';
 
 import {MainComponent}           from './main';
-import {UserStatisticsComponent} from './user-statistics';
+import {StatisticsComponent}     from './statistics';
 
 import {DatabaseService}         from '../services/database';
 import {HttpService}             from '../services/http';
@@ -32,7 +32,7 @@ import {UserService}             from '../services/user';
   useAsDefault: true
 }, {
   path: '/id/:id',
-  name: 'UserStatistics',
-  component: UserStatisticsComponent
+  name: 'Statistics',
+  component: StatisticsComponent
 }])
 export class AppComponent {}

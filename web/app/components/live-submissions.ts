@@ -10,7 +10,7 @@ import {ElapsedTimePipe}  from '../pipes/elapsed-time';
 
 @Component({
   selector: 'uhunt-live-submissions',
-  templateUrl: 'app/templates/live-submissions.html', 
+  templateUrl: 'app/components/live-submissions.html', 
   pipes: [ElapsedTimePipe]
 })
 export class LiveSubmissionsComponent {

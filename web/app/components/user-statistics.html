@@ -1,0 +1,53 @@
+<uhunt-chat-box width="550" height="250" [user]="user"
+  style="float:right; padding-left:25px">
+</uhunt-chat-box>
+
+<!-- LOGO -->
+<table cellspacing="0" cellpadding="0">
+<tr>
+  <td><img border="0" src="images/uva.png" height="70" width="70" style="padding-right:15px"></td>
+  <td>
+    <span style="font-size:40px; font-family:Arial; font-weight:bold;">uHunt</span><br>
+    <span style="font-size:12px; font-family: verdana; font-style: italic; ">hunt problems that matter</span><br>
+  </td>
+  <td align=center style="padding-left:0px;" width="140">
+    <!-- 
+    <b><a href="/series" style="color:white; text-decoration:none" target="_blank">
+      uHunt Training<br>Series 2015<br>is running!<br></a>
+    </b>
+    -->
+  </td>
+</tr>
+</table>
+
+<p>
+  uHunt is a complementary tool for
+  <a target="_blank" href="http://uva.onlinejudge.org/index.php">
+    UVa online-judge
+  </a>
+  that keeps statistics, provide selections of problems to solve, and exposes a
+  web API for other web developers to build upon it. 
+  See <a href="/">a brief history of uHunt</a>.
+</p>
+
+<p>
+  To submit your solution, use
+  <a target="_blank"
+    href="http://uva.onlinejudge.org/index.php?option=com_onlinejudge&Itemid=25&page=submit_problem">
+    UVa Quick Submit
+  </a>.
+</p>
+
+<p style="margin:0">Your UVa username:
+  <uhunt-username-input></uhunt-username-input>
+</p>
+
+<br>
+<br>
+<br>
+
+<hr style="clear:both" />
+
+<h1>{{user.name}} ({{user.username}}) statistics</h1>
+
+<uhunt-live-submissions [user]="user"></uhunt-live-submissions>

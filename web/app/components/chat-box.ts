@@ -57,7 +57,7 @@ export class ChatProblemComponent implements OnInit {
 
 @Component({
   selector: 'uhunt-chat-box',
-  templateUrl: 'app/templates/chat-box.html',
+  templateUrl: 'app/components/chat-box.html',
   directives: [
     ChatProblemComponent
   ],
@@ -105,19 +105,30 @@ export class ChatBoxComponent {
   }
 
   post_message() {
-    if (!this.signed_in_user) {
-      this.show_login_dialog = true;
-    } else {
+    if (this.msg_value.length > 255) {
+      alert("Your message is " + (this.msg_value.length - 255) + " characters too long.");
+    } else if (this.msg_value.length > 0 && !this.is_posting) {
       this.is_posting = true;
-      setTimeout(() => {
-        this.messages.push(new ChatMessage(this.msg_value, false));
-        this.msg_value = "";
+
+      this._httpService.post(
+        Config.UHUNT_HOST + '/chat/post/' + this._pollingService.session_id,
+        { text: this.msg_value })
+      .then(res => {
+        if (res == 'ok') {
+          this.msg_value = "";
+        } else if (res === 'need login') {
+          alert('You need to sign in to post a message');
+          this.show_login_dialog = true;
+        } else {
+          alert('Server encountered a problem');
+        }
         this.is_posting = false;
         this.scroll_to_bottom(false);
+
         setTimeout(() => {
           document.getElementById('uhunt_chat_post_id').focus();
         }, 100);
-      }, 100);
+      });
     }
     return false;
   }
@@ -156,5 +167,3 @@ export class ChatBoxComponent {
       });
   }
 }
-
-

@@ -1,0 +1,95 @@
+<table cellpadding="2" cellspacing="1" class="uhunt_chat">
+  <tr>
+    <td valign="top">
+      <div class="scroll-down-able" style="height:{{height - 30}}px; width:135px">
+        -- Users({{whos_here.users.length}}/{{whos_here.total_users}}):{{
+          whos_here.server_start_ts | elapsedTime:'duration'}}<br>
+        <span *ngFor="#u of whos_here.users">
+          <a target="_blank" style="text-decoration:none"
+            href="/id/{{u.uid}}">{{u.uname}}</a>:{{u.since | elapsedTime:'duration'}}<br>
+        </span>
+      </div>
+    </td>
+    <td valign=top style="border-left:1px solid #aaa">
+      <div id="uhunt_chat_viewer" class="scroll-down-able" style="margin-left:2px;
+            height:{{height - 30}}px; width:{{width - 149}}px">
+        <div [hidden]="show_login_dialog">
+          <div *ngFor="#msg of messages">
+            <tt *ngIf="msg.is_system" style="color:green; font-size:12px"><i>uHunt</i>&gt;
+              <a href="/u/{{msg.message.uname}}"
+                 style="font-weight:bold; color: green; text-decoration:none">
+                    {{msg.message.uname}}
+              </a>
+              gets <b>Rank 1</b> for
+              <uhunt-chat-problem text="v.problem.number" [user]="signed_in_user || user"></uhunt-chat-problem>
+              at {{msg.message.run * 1e-3 | number:'1.3-3'}}  s
+            </tt>
+            <div *ngIf="!msg.is_system">
+              <a target="_blank" style="text-decoration:none; font-weight:bold; font-style:italic"
+                 href="/id/{{msg.message.userid}}" title="Posted: {{msg.message.post_ts / 1000 | elapsedTime:3}}">
+                   {{msg.message.uname}}
+              </a>&gt; <uhunt-chat-problem text="{{msg.message.message}}" [user]="signed_in_user || user"></uhunt-chat-problem>
+            </div>
+          </div>
+        </div>
+        <div [hidden]="!show_login_dialog"
+              style="background-color:#CCCCFF; padding:15px 15px 5px 15px;
+                     margin:0 auto 0 auto; border:1px solid #EEEEFF;">
+          <div [hidden]="!signed_in_user">
+            <div style="width:300px; margin:auto auto auto auto;">
+              <p align="right" style="font-size:14px">
+                You are signed in as <b>{{(signed_in_user && signed_in_user.username)}}</b>.<br>
+                <span [hidden]="!is_invisible">you are currently invisible<br></span><br>
+                <button (click)="sign_out()">Sign Out</button>
+                <button (click)="show_login_dialog=false">Close</button>
+              </p>
+            </div>
+          </div>
+          <div [hidden]="signed_in_user">
+            <br>
+            <form autocomplete="on" (submit)="sign_in(uname.value, ucode.value)">
+              <table align="center" cellspacing="5"
+                     style="border:1px dotted #6666FF; padding:0 15px 0 15px">
+                <tr>
+                  <td style="font-size:12px">Username</td>
+                  <td><input #uname type="text" placeholder="your UVa username"></td>
+                </tr>
+                <tr>
+                  <td style="font-size:12px">uHunt Code</td>
+                  <td><input #ucode type="password"></td>
+                </tr>
+                <tr>
+                  <td><input #invisible type="checkbox"> Invisible</td>
+                  <td align="right">
+                    <input type="submit" value="Sign In" ng-disabled="logging_in">
+                    <input type="button" (click)="show_login_dialog=false" value="Cancel">
+                  </td>
+                </tr>
+              </table>
+            </form>
+            <p>If you do not have a uHunt code yet, you can get it by sending an
+            email to <b>uhunt@felix-halim.net</b> from your UVa's registered
+            email, with subject "<b>generate-code</b>" without the quotes.</p>
+          </div>
+        </div>
+      </div>
+    </td>
+  </tr>
+
+  <tr>
+    <td align="center">
+      <a class='ellipsis' (click)="show_login_dialog=!show_login_dialog"
+         style="color:blue; width:135px; cursor:pointer; text-decoration:none;
+         font-weight:bold; font-size:13px">
+           [ {{(signed_in_user && signed_in_user.username) || 'Sign In'}} ]
+      </a>
+    </td>
+    <td>
+      <form autocomplete="off" (submit)="post_message()" style="display: inline;">
+        <input [(ngModel)]="msg_value" id="uhunt_chat_post_id" [disabled]="is_posting" 
+                type="text" style="width:{{width - 149}}px; outline:none;"
+                placeholder="post your message here (max 255 chars)">
+      </form>
+    </td>
+  </tr>
+</table>

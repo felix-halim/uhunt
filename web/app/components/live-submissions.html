@@ -1,0 +1,91 @@
+<div>
+  <table [hidden]="hide" width="970" style="border: 1px solid #AAA" cellpadding="1">
+    <thead>
+      <tr class="tablebar" height="25">
+      <th align="left" colspan="10" height="25">
+        <span style="float:right; font-weight:normal; color:white; padding-right:10px">Show :
+          <a class="white" style="cursor:pointer" (click)="limit=5"> 5 </a> |
+          <a class="white" style="cursor:pointer" (click)="limit=10"> 10 </a> |
+          <a class="white" style="cursor:pointer" (click)="limit=25"> 25 </a> |
+          <a class="white" style="cursor:pointer" (click)="limit=50"> 50 </a> |
+          <a class="white" style="cursor:pointer" (click)="limit=100"> 100 </a>
+        </span>
+        &nbsp;
+        <a target="_blank" class="white" href="{{live_submissions_link()}}">
+          <b>Live Submissions</b>
+        </a>
+        <a class="white" style="cursor:pointer" (click)="hide=true">(hide)</a>
+      </th>
+      <tr class="tablesubar" height="20">
+        <th width="65" align="left">&nbsp; &nbsp; #</th>
+        <th width="40" align="left"></th>
+        <th width="185" align="left">&nbsp; Problem Title</th>
+        <th width="205" align="left">&nbsp; User (username)</th>
+        <th width="110" align="left">&nbsp; Verdict</th>
+        <th width="60" align="center">Lang</th>
+        <th width="55" align="center">Time</th>
+        <th width="55" align="center">Best</th>
+        <th width="55" align="center">Rank</th>
+        <th width="120" align="center">Submit Time</th>
+      </tr>
+    </thead>
+
+    <tbody class="alt_colors" style="font-family:verdana; font-size:11px">
+      <tr style="height:18px" *ngFor="#s of live_submissions | slice:0:limit">
+        <td>&nbsp;{{s.id}}</td>
+        <td align="right">
+          <a class="{{s.problem.getClass(user)}}"
+             href="{{problem_pdf_link(s.problem.number)}}"
+             target="_blank">
+               {{s.problem.number}}
+          </a>
+        </td>
+        <td>
+          <span style="float:right; padding-right:5px">
+            <!--span ng-bind-html-unsafe="s.p.num | algorithmist:'|'"></span-->
+            <a class="nou"
+              href="{{problem_discussion_link(s.problem.number)}}"
+              target="_blank">
+                discuss
+            </a>
+          </span>
+          <a class="ellipsis"
+            style="margin-left:5px; width:{{130 - 10 - 0}}px; color:black;"
+            href="{{problem_full_link(s.problem.id)}}"
+            target="_blank">
+              {{s.problem.title}}
+          </a>
+        </td>
+        <td>
+          <a class="ellipsis"
+            style="margin-left:5px; width:{{205 - 10}}px"
+            href="/id/{{s.user.id}}"
+            target="_blank">
+              {{s.user.name + ' (' + s.user.username + ')' }}
+          </a>
+        </td>
+        <td style="font-weight:bold; color:{{s.getVerdictColor()}}">
+          &nbsp;{{ s.getVerdict() }}
+        </td>
+        <td align="center">{{s.getLanguage()}}</td>
+        <td align="center">{{s.runtime_ms * 1e-3 | number:'1.3-3'}}</td>
+        <td align="center">
+          <a class="nou"
+            href="{{problem_ranklist_link(s.problem.id)}}"
+            target="_blank">
+              {{s.problem.best_runtime * 1e-3 | number:'1.3-3'}}
+          </a>
+        </td>
+        <td align="center">{{s.getRank()}}</td>
+        <td align="center">{{s.submit_time | elapsedTime:2}}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p>
+    <a [hidden]="!hide" (click)="hide=false"
+       style="cursor:pointer; text-decoration:none; color:blue">
+         View Live Submissions
+    </a>
+  </p>
+</div>

@@ -40,8 +40,13 @@
       <tr>
         <td valign="top">
           <div style="float:left; width:240px; height:315px;">
-            <canvas problem-progress-statistics="search_number" width="225" height="150"></canvas>
-            <canvas problem-submission-statistics="search_number" width="225" height="150" style="padding-top:5px"></canvas>
+            <canvas uhunt-problem-progress-stats="{{search_number}}"
+               show="progress" width="225" height="150">
+            </canvas>
+            <canvas uhunt-problem-submissions-stats="{{search_number}}"
+               show="submissions" width="225" height="150"
+               style="padding-top:5px">
+            </canvas>
           </div>
         </td>
         <td valign="top">
@@ -98,10 +103,10 @@
                         {{s.user.name + ' (' + s.user.username + ')' }}
                   </a>
                 </td>
-                <td style="font-weight:bold; color:{{s.getVerdictColor()}}">
-                  &nbsp;{{ s.getVerdict() }}
+                <td style="font-weight:bold; color:{{verdict_color(s.verdict)}}">
+                  &nbsp; {{ verdict_name(s.verdict) }}
                 </td>
-                <td align="center">{{s.getLanguage()}}</td>
+                <td align="center">{{language_name(s.language)}}</td>
                 <td align="center">{{s.runtime_ms * 1e-3 | number:'1.3-3'}}</td>
                 <td align="center">{{s.submit_time | elapsedTime:2}}</td>
               </tr>
@@ -156,7 +161,7 @@
                       {{s.user.name + ' (' + s.user.username + ')' }}
                   </a>
                 </td>
-                <td align="center">{{s.getLanguage()}}</td>
+                <td align="center">{{language_name(s.language)}}</td>
                 <td align="center">{{s.runtime_ms * 1e-3 | number:'1.3-3'}}</td>
                 <td align="center">{{s.submit_time | elapsedTime:2}}</td>
             </tbody>

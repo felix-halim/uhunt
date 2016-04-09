@@ -9,6 +9,7 @@ export class DatabaseService {
     'uhunt_prob_search_max_rank': 'int',
     'uhunt_prob_search_show_last': 'string',
     'uhunt_prob_search_subs_top': 'string',
+    'uhunt_prob_search_number': 'int',
     'uhunt_prob_show_search_result': 'bool',
     'show_last_submissions': 'int',
     'show_livesubs': 'bool',
@@ -43,7 +44,6 @@ export class DatabaseService {
     'ranklist-nabove': 'int',
     'ranklist-nbelow': 'int',
     'cmp_expr': 'string',
-    'uhunt_problem_search_number': 'int',
     'vcontest_picker_show_unsolved': 'bool',
     'uhunt_vcontest_uids': 'string',
   };

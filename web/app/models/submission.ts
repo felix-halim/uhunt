@@ -9,7 +9,7 @@ export class Submission {
   language: Language;
   runtime_ms: number;
   memory_mb: number;
-  rank: number;
+  private rank: number;
   submit_time: number;
 
   constructor(a: Array<any>) {
@@ -27,58 +27,28 @@ export class Submission {
   getRank() {
     return this.rank === -1 ? ' - ' : this.rank;
   }
-
-  getVerdict() {
-    return Verdict[this.verdict == 0 ? 20 : this.verdict];
-  }
-
-  getVerdictColor() {
-    switch (this.verdict) {
-      case Verdict.CompileError: return "#AAAA00";
-      case Verdict.RuntimeError: return "#00AAAA";
-      case Verdict.OutputLimit: return "#000066";
-      case Verdict.TimeLimit: return "#0000FF";
-      case Verdict.MemoryLimit: return "#0000AA";
-      case Verdict.WrongAnswer: return "#FF0000";
-      case Verdict.PresentationError: return "#666600";
-      case Verdict.Accepted: return "#00AA00";
-      default: return "#000000";
-    }
-  }
-
-  getLanguage() {
-    switch (this.language) {
-      case Language.ANSI_C: return 'ANSI C';
-      case Language.Java: return 'Java';
-      case Language.Cpp: return 'C++';
-      case Language.Pascal: return 'Pascal';
-      case Language.Cpp11: return 'C++11';
-      case Language.Go: return 'Go Lang';
-    }
-    return '- ? -';
-  }
 }
 
 export enum Verdict {
-  SubmissionError = 10,
-  CannotBeJudged = 15,
-  InQueue = 20,
-  CompileError = 30,
+  SubmissionError    = 10,
+  CannotBeJudged     = 15,
+  InQueue            = 20,
+  CompileError       = 30,
   RestrictedFunction = 35,
-  RuntimeError = 40,
-  OutputLimit = 45,
-  TimeLimit = 50,
-  MemoryLimit = 60,
-  WrongAnswer = 70,
-  PresentationError = 80,
-  Accepted = 90
+  RuntimeError       = 40,
+  OutputLimit        = 45,
+  TimeLimit          = 50,
+  MemoryLimit        = 60,
+  WrongAnswer        = 70,
+  PresentationError  = 80,
+  Accepted           = 90
 }
 
 export enum Language {
   ANSI_C = 1,
-  Java = 2,
-  Cpp = 3,
+  Java   = 2,
+  Cpp    = 3,
   Pascal = 4,
-  Cpp11 = 5,
-  Go = 6
+  Cpp11  = 5,
+  Go     = 6
 }

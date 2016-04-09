@@ -14,9 +14,16 @@ import {UserService}          from '../services/user';
 import {ElapsedTimePipe}      from '../pipes/elapsed-time';
 import {SortSubmissionsPipe}  from '../pipes/sort-submissions';
 
+import {ProblemProgressStatsDirective} from '../directives/problem-progress-stats';
+import {ProblemSubmissionsStatsDirective} from '../directives/problem-submissions-stats';
+
 @Component({
   selector: 'uhunt-problem-search',
   templateUrl: 'app/components/problem-search.html',
+  directives: [
+    ProblemProgressStatsDirective,
+    ProblemSubmissionsStatsDirective,
+  ],
   pipes: [
     ElapsedTimePipe,
     SortSubmissionsPipe
@@ -42,6 +49,10 @@ export class ProblemSearchComponent implements OnChanges {
   private problem_discussion_link = Config.PROBLEM_DISCUSSION_LINK;
   private problem_ranklist_link = Config.PROBLEM_RANKLIST_LINK;
 
+  private verdict_color = Config.verdict_color;
+  private verdict_name = Config.verdict_name;
+  private language_name = Config.language_name;
+
   constructor(
     private _databaseService: DatabaseService,
     private _httpService: HttpService,
@@ -51,7 +62,7 @@ export class ProblemSearchComponent implements OnChanges {
     this._problemService.ready.then(() => this.search());
 
     this.search_number =
-      this._databaseService.get('uhunt_problem_search_number') || '';
+      this._databaseService.get('uhunt_prob_search_number') || '';
 
     this.show_search_result =
       this._databaseService.get('uhunt_prob_show_search_result') || false;
@@ -110,7 +121,7 @@ export class ProblemSearchComponent implements OnChanges {
       return this.set_show_search_result(false);
     }
 
-    this._databaseService.set('uhunt_problem_search_number',
+    this._databaseService.set('uhunt_prob_search_number',
       this.searched_problem.number);
 
     this.set_show_search_result(true);

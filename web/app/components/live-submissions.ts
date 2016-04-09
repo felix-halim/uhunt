@@ -15,16 +15,21 @@ import {ElapsedTimePipe}  from '../pipes/elapsed-time';
 })
 export class LiveSubmissionsComponent {
   @Input() user: User;
-  live_submissions: Submission[] = [];
-  hide = false;
-  limit = 5;
 
-  host = Config.UVA_HOST;
-  live_submissions_link = Config.LIVE_SUBMISSIONS_LINK;
-  problem_full_link = Config.PROBLEM_FULL_LINK;
-  problem_pdf_link = Config.PROBLEM_PDF_LINK;
-  problem_discussion_link = Config.PROBLEM_DISCUSSION_LINK;
-  problem_ranklist_link = Config.PROBLEM_RANKLIST_LINK;
+  private live_submissions: Submission[] = [];
+  private hide = false;
+  private limit = 5;
+
+  private host = Config.UVA_HOST;
+  private live_submissions_link = Config.LIVE_SUBMISSIONS_LINK;
+  private problem_full_link = Config.PROBLEM_FULL_LINK;
+  private problem_pdf_link = Config.PROBLEM_PDF_LINK;
+  private problem_discussion_link = Config.PROBLEM_DISCUSSION_LINK;
+  private problem_ranklist_link = Config.PROBLEM_RANKLIST_LINK;
+
+  private verdict_color = Config.verdict_color;
+  private verdict_name = Config.verdict_name;
+  private language_name = Config.language_name;
 
   constructor(_pollingService: PollingService) {
     _pollingService.submissions.subscribe((subs: Submission[]) => {

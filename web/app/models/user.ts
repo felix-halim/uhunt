@@ -128,7 +128,7 @@ export class User {
   }
 
   // Loops through all problem ids contained in this user's submissions.
-  each_pid(pid, f: SubmissionCallback) {
+  each_pid(pid: number, f: SubmissionCallback) {
     var sids: HashMapOfSubmission = this.pid_key[pid];
     for (var sid in sids) {
       f(sids[sid]);

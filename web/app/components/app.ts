@@ -5,6 +5,7 @@ import {RouteConfig, ROUTER_DIRECTIVES, ROUTER_PROVIDERS} from 'angular2/router'
 import {MainComponent}           from './main';
 import {UserStatisticsComponent} from './user-statistics';
 
+import {DatabaseService}         from '../services/database';
 import {HttpService}             from '../services/http';
 import {PollingService}          from '../services/polling';
 import {ProblemService}          from '../services/problem';
@@ -15,6 +16,7 @@ import {UserService}             from '../services/user';
   template: `<router-outlet></router-outlet>`,
   directives: [ROUTER_DIRECTIVES],
   providers: [
+    DatabaseService,
     HttpService,
     PollingService,
     ProblemService,

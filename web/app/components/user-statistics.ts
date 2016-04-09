@@ -2,8 +2,9 @@ import {Component, OnInit}        from 'angular2/core';
 import {RouteParams}              from 'angular2/router';
 
 import {ChatBoxComponent}         from './chat-box';
-import {UsernameInputComponent}   from './username-input';
 import {LiveSubmissionsComponent} from './live-submissions';
+import {ProblemSearchComponent}   from './problem-search';
+import {UsernameInputComponent}   from './username-input';
 
 import {User}                     from '../models/user';
 
@@ -15,8 +16,9 @@ import {UserService}              from '../services/user';
   templateUrl: 'app/components/user-statistics.html',
   directives: [
     ChatBoxComponent,
+    LiveSubmissionsComponent,
+    ProblemSearchComponent,
     UsernameInputComponent,
-    LiveSubmissionsComponent
   ]
 })
 export class UserStatisticsComponent implements OnInit {

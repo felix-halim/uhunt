@@ -1,14 +1,23 @@
-<uhunt-chat-box width="550" height="250" [user]="user"
+<uhunt-chat-box width="550" height="245" [user]="user"
   style="float:right; padding-left:25px">
 </uhunt-chat-box>
 
 <!-- LOGO -->
 <table cellspacing="0" cellpadding="0">
 <tr>
-  <td><img border="0" src="images/uva.png" height="70" width="70" style="padding-right:15px"></td>
   <td>
-    <span style="font-size:40px; font-family:Arial; font-weight:bold;">uHunt</span><br>
-    <span style="font-size:12px; font-family: verdana; font-style: italic; ">hunt problems that matter</span><br>
+     <img border="0" src="images/uva.png" height="70" width="70"
+          style="padding-right:15px">
+  </td>
+  <td>
+    <span style="font-size:40px; font-family:Arial; font-weight:bold;">
+      uHunt
+    </span>
+    <br>
+    <span style="font-size:12px; font-family: verdana; font-style: italic; ">
+      hunt problems that matter
+    </span>
+    <br>
   </td>
   <td align=center style="padding-left:0px;" width="140">
     <!-- 
@@ -42,12 +51,11 @@
   <uhunt-username-input></uhunt-username-input>
 </p>
 
-<br>
-<br>
-<br>
+<uhunt-problem-search [user]="user"></uhunt-problem-search>
+
+<uhunt-live-submissions [user]="user"></uhunt-live-submissions>
 
 <hr style="clear:both" />
 
 <h1>{{user.name}} ({{user.username}}) statistics</h1>
 
-<uhunt-live-submissions [user]="user"></uhunt-live-submissions>

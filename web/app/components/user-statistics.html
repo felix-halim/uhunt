@@ -5,8 +5,12 @@
   </h2>
 
   <div style="float:left; width:240px; height:325px;">
-    <canvas progress-statistics="" width="225" height="150"></canvas>
-    <canvas submission-statistics="" width="225" height="150"></canvas>
+    <canvas uhunt-progress-graph="Progress over the Years"
+            [timestamps]="first_ac_sbt" [increments]="inc_amt"
+            width="225" height="150"></canvas>
+    <canvas uhunt-bar-graph=""
+            [frequencies]="verdict_counts"
+            width="225" height="150"></canvas>
   </div>
 
   <table style="border: 1px solid #AAA">

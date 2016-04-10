@@ -1,21 +1,17 @@
-import {Directive, ElementRef, Input, OnInit, OnChanges} from 'angular2/core';
+import {Directive, ElementRef,
+        Input, OnInit, OnChanges}  from 'angular2/core';
 
-import {Config}               from '../config';
-
-import {HttpService}          from '../services/http';
-import {ProblemService}       from '../services/problem';
+import {Config}  from '../config';
 
 @Directive({
-  selector: '[uhunt-problem-progress-stats]',
+  selector: '[uhunt-progress-graph]',
 })
-export class ProblemProgressStatsDirective implements OnChanges, OnInit {
-  @Input('uhunt-problem-progress-stats') problem_number: number;
+export class ProgressGraphDirective implements OnInit, OnChanges {
+  @Input('uhunt-progress-graph') title: string;
+  @Input() timestamps: number[] = [];
+  @Input() increments: number[] = [];
 
-  constructor(
-    private _el: ElementRef,
-    private _problemService: ProblemService,
-    private _httpService: HttpService) {
-  }
+  constructor(private _el: ElementRef) {}
 
   ngOnInit() {
     this.refresh();
@@ -25,28 +21,7 @@ export class ProblemProgressStatsDirective implements OnChanges, OnInit {
     this.refresh();
   }
 
-  refresh() {
-    this._problemService.ready.then(() => {
-      var p = this._problemService.getProblemByNumber(this.problem_number);
-      if (!p) return;
-
-      var sbt = Config.now, back = 50, jump = 3;
-      this._httpService.get(Config.API_PATH
-        + '/p/count/' + p.id + '/' + sbt + '/' + back + '/' + jump)
-        .then((inc_amt) => {
-          if (inc_amt.length != 51) {
-            console.error('Expected:' + back + ', got: ' + inc_amt.length);
-          }
-          var first_sbt = [], onemo = 60 * 60 * 24 * 30;
-          for (var i = 0; i <= back; i++) {
-            first_sbt.push(sbt - (back - i) * onemo * jump);
-          }
-          this.render('Submissions over the Years', first_sbt, inc_amt);
-        });
-    });
-  }
-
-  render(title, first_sbt, inc_amt) {
+  private refresh() {
     var canvas = this._el.nativeElement;
     if (!canvas.getContext) return false;
     var width = canvas.width, height = canvas.height;
@@ -58,14 +33,14 @@ export class ProblemProgressStatsDirective implements OnChanges, OnInit {
     var x1 = 15.5, x2 = width - 37, y1 = 30.5, y2 = height - 18.5;
     ctx.textAlign = 'center';
     var len = 0;
-    for (var i = 0; i < inc_amt.length; i++) len += inc_amt[i];
+    for (let amt of this.increments) len += amt;
     if (len == 0) {
       ctx.font = "bold 15px sans-serif";
       ctx.fillText("No Progress Yet", x1 + 30, y1 + 60);
       return false;
     }
 
-    var start = first_sbt[0], end = Config.now;
+    var start = this.timestamps[0], end = Config.now;
     var ylen = y2 - y1, ygap = ylen / len;
     var xlen = x2 - x1, tlen = Math.max(1, end - start);
 
@@ -81,9 +56,10 @@ export class ProblemProgressStatsDirective implements OnChanges, OnInit {
         ctx.moveTo(x, y1); ctx.lineTo(x, y2);
         ctx.moveTo(x, y1); ctx.lineTo(x, y2);
         var year = Y % 100;
-        if (year < 10) year = '0' + year;
-        ctx.fillText(year, x - 1, y2 + 11, 20);
-      } else if (time < start) break;
+        ctx.fillText((year < 10) ? ('0' + year) : year, x - 1, y2 + 11, 20);
+      } else if (time < start) {
+        break;
+      }
     }
     ctx.strokeStyle = "#CCCCCC";
     ctx.stroke();
@@ -104,19 +80,22 @@ export class ProblemProgressStatsDirective implements OnChanges, OnInit {
     ctx.stroke();
 
     ctx.beginPath();
-    var prevX = -1, prevY = -1, counter = 0, time = first_sbt[0];
+    var prevX = -1, prevY = -1, counter = 0, time = this.timestamps[0];
     for (var i = 0; i <= len; i++) {
       var nx = Math.floor(x1 + ((time - start) / tlen) * xlen) + 0.5;
       var ny = Math.floor(y2 - (ygap * counter)) + 0.5;
       if (prevX != nx) {
-        if (prevX == -1) ctx.moveTo(nx, ny);
-        else ctx.lineTo(nx, ny);
+        if (prevX == -1) {
+          ctx.moveTo(nx, ny);
+        } else {
+          ctx.lineTo(nx, ny);
+        }
       }
       prevX = nx;
       prevY = ny;
       if (i == len) break;
-      time = first_sbt[i];
-      counter += inc_amt[i];
+      time = this.timestamps[i];
+      counter += this.increments[i];
     }
     if (prevX != x2) ctx.lineTo(x2, prevY);
     ctx.strokeStyle = "#000";
@@ -130,7 +109,7 @@ export class ProblemProgressStatsDirective implements OnChanges, OnInit {
     ctx.textAlign = 'center';
     ctx.font = "bold 12px sans-serif";
     ctx.fillStyle = '#000';
-    ctx.fillText(title, (width) / 2, y1 - 12);
+    ctx.fillText(this.title, (width) / 2, y1 - 12);
   }
 
   rounded_rectangle(ctx, width, height, radius) {

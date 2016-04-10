@@ -1,20 +1,15 @@
 import {Directive, ElementRef, Input, OnInit, OnChanges} from 'angular2/core';
 
-import {Config}          from '../config';
-
-import {Problem}         from '../models/problem';
-
-import {ProblemService}  from '../services/problem';
+import {Config} from '../config';
 
 @Directive({
-  selector: '[uhunt-problem-submissions-stats]',
+  selector: '[uhunt-bar-graph]',
 })
-export class ProblemSubmissionsStatsDirective implements OnChanges, OnInit {
-  @Input('uhunt-problem-submissions-stats') problem_number: number;
+export class BarGraphDirective implements OnChanges, OnInit {
+  @Input('uhunt-bar-graph') title: string;
+  @Input() frequencies: any = {};
 
-  constructor(
-    private _el: ElementRef,
-    private _problemService: ProblemService) {}
+  constructor(private _el: ElementRef) {}
 
   ngOnInit() {
     this.refresh();
@@ -25,27 +20,6 @@ export class ProblemSubmissionsStatsDirective implements OnChanges, OnInit {
   }
 
   refresh() {
-    this._problemService.ready.then(() => {
-      var p = this._problemService.getProblemByNumber(this.problem_number);
-      if (!p) return;
-      this.render({
-        AC: p.accepted_count,
-        PE: p.presentation_error_count,
-        WA: p.wrong_answer_count,
-        TL: p.time_limit_exceeded_count,
-        ML: p.memory_limit_exceeded_count,
-        CE: p.compilation_error_count,
-        RE: p.runtime_error_count,
-        OT: p.submission_error_count
-          + p.cannot_be_judged_count
-          + p.in_queue_count
-          + p.output_limit_exceeded_count
-          + p.restricted_function_count,
-      });
-    });
-  }
-
-  render(cnt) {
     var canvas = this._el.nativeElement;
     if (!canvas.getContext) return false;
     var width = canvas.width, height = canvas.height;
@@ -70,10 +44,10 @@ export class ProblemSubmissionsStatsDirective implements OnChanges, OnInit {
       var code = Config.verdict_code(order[o]);
       var color = Config.verdict_color(code);
       fcolor.push(color);
-      if (!cnt[order[o]]) cnt[order[o]] = 0;
-      ncnt.push(cnt[order[o]]);
-      maxcnt = Math.max(maxcnt, cnt[order[o]]);
-      sumcnt += cnt[order[o]];
+      if (!this.frequencies[order[o]]) this.frequencies[order[o]] = 0;
+      ncnt.push(this.frequencies[order[o]]);
+      maxcnt = Math.max(maxcnt, this.frequencies[order[o]]);
+      sumcnt += this.frequencies[order[o]];
     }
     if (maxcnt == 0) {
       ctx.font = 'bold 15px sans-serif';
@@ -89,15 +63,16 @@ export class ProblemSubmissionsStatsDirective implements OnChanges, OnInit {
       ctx.fillStyle = fcolor[i];
       ctx.strokeStyle = fcolor[i];
       ctx.fillRect(x, y2 - h - 0.5, barsize, h);
-      var LO = cnt[order[i]] > 0 ? Math.log(cnt[order[i]]) : 0;
+      var LO = this.frequencies[order[i]] > 0
+        ? Math.log(this.frequencies[order[i]]) : 0;
       var d = Math.ceil(LO / Math.log(10));
       var a = (barsize - d * 5) / 2;
       ctx.font = '9px sans-serif';
-      ctx.fillText(cnt[order[i]], x + (barsize / 2), y2 - h - 6);
+      ctx.fillText(this.frequencies[order[i]], x + (barsize / 2), y2 - h - 6);
       ctx.fillText(order[i], x + (barsize / 2), y2 + 10);
     }
     ctx.font = 'bold 12px sans-serif';
-    ctx.fillText('Submissions Statistics', width / 2, y1 + 7);
+    ctx.fillText(this.title, width / 2, y1 + 7);
   }
 
   rounded_rectangle(ctx, width, height, radius) {

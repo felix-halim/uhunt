@@ -40,10 +40,12 @@
       <tr>
         <td valign="top">
           <div style="float:left; width:240px; height:315px;">
-            <canvas uhunt-problem-progress-stats="{{search_number}}"
+            <canvas uhunt-progress-graph="Submissions over the Years"
+               [timestamps]="first_sbt" [increments]="inc_amt"
                show="progress" width="225" height="150">
             </canvas>
-            <canvas uhunt-problem-submissions-stats="{{search_number}}"
+            <canvas uhunt-bar-graph="Submissions Statistics"
+               [frequencies]="frequencies"
                show="submissions" width="225" height="150"
                style="padding-top:5px">
             </canvas>

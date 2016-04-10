@@ -147,7 +147,7 @@ export class User {
   }
 
   // the histogram of various verdicts
-  substats_count() {
+  submissions_count_by_verdict() {
     var cnt = {};
     for (var problem_id in this.pid_key) {
       var p = this.pid_key[problem_id];

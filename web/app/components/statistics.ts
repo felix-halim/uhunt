@@ -2,10 +2,11 @@ import {Component, OnInit}        from 'angular2/core';
 import {RouteParams}              from 'angular2/router';
 
 import {ChatBoxComponent}         from './chat-box';
+import {CpBookExercisesComponent} from './cp-book-exercises';
 import {LiveSubmissionsComponent} from './live-submissions';
-import {UserStatisticsComponent}  from './user-statistics';
 import {ProblemSearchComponent}   from './problem-search';
 import {UsernameInputComponent}   from './username-input';
+import {UserStatisticsComponent}  from './user-statistics';
 
 import {User}                     from '../models/user';
 
@@ -17,10 +18,11 @@ import {UserService}              from '../services/user';
   templateUrl: 'app/components/statistics.html',
   directives: [
     ChatBoxComponent,
+    CpBookExercisesComponent,
     LiveSubmissionsComponent,
-    UserStatisticsComponent,
     ProblemSearchComponent,
     UsernameInputComponent,
+    UserStatisticsComponent,
   ]
 })
 export class StatisticsComponent implements OnInit {

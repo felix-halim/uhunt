@@ -34,33 +34,26 @@
       <tr style="height:18px" *ngFor="#s of live_submissions | slice:0:limit">
         <td>&nbsp;{{s.id}}</td>
         <td align="right">
-          <a class="{{s.problem.getClass(user)}}"
-             href="{{config.problem_pdf_link(s.problem)}}"
-             target="_blank">
+          <a class="{{s.problem.getClass(user)}}" target="_blank"
+             href="{{config.problem_pdf_link(s.problem)}}">
                {{s.problem.number}}
           </a>
         </td>
         <td>
           <span style="float:right; padding-right:5px">
             <!--span ng-bind-html-unsafe="s.p.num | algorithmist:'|'"></span-->
-            <a class="nou"
-              href="{{config.problem_discussion_link(s.problem)}}"
-              target="_blank">
-                discuss
-            </a>
+            <a class="nou" target="_blank"
+              href="{{config.problem_discussion_link(s.problem)}}">discuss</a>
           </span>
-          <a class="ellipsis"
+          <a class="ellipsis" target="_blank"
             style="margin-left:5px; width:{{130 - 10 - 0}}px; color:black;"
-            href="{{config.problem_full_link(s.problem)}}"
-            target="_blank">
+            href="{{config.problem_full_link(s.problem)}}">
               {{s.problem.title}}
           </a>
         </td>
         <td>
-          <a class="ellipsis"
-            style="margin-left:5px; width:{{205 - 10}}px"
-            href="/id/{{s.user.id}}"
-            target="_blank">
+          <a class="ellipsis" target="_blank" href="/id/{{s.user.id}}"
+            style="margin-left:5px; width:{{205 - 10}}px">
               {{s.user.name + ' (' + s.user.username + ')' }}
           </a>
         </td>
@@ -70,9 +63,8 @@
         <td align="center">{{config.language_name(s.language)}}</td>
         <td align="center">{{s.runtime_ms * 1e-3 | number:'1.3-3'}}</td>
         <td align="center">
-          <a class="nou"
-            href="{{config.problem_ranklist_link(s.problem)}}"
-            target="_blank">
+          <a class="nou" target="_blank"
+            href="{{config.problem_ranklist_link(s.problem)}}">
               {{s.problem.best_runtime * 1e-3 | number:'1.3-3'}}
           </a>
         </td>

@@ -1,11 +1,15 @@
 import {Component}               from 'angular2/core';
 import {HTTP_PROVIDERS}          from 'angular2/http';
-import {RouteConfig, ROUTER_DIRECTIVES, ROUTER_PROVIDERS} from 'angular2/router';
+import {RouteConfig,
+        ROUTER_DIRECTIVES,
+        ROUTER_PROVIDERS}        from 'angular2/router';
 
 import {MainComponent}           from './main';
 import {StatisticsComponent}     from './statistics';
 
+import {AlgorithmistService}     from '../services/algorithmist';
 import {DatabaseService}         from '../services/database';
+import {UdebugService}           from '../services/udebug';
 import {HttpService}             from '../services/http';
 import {PollingService}          from '../services/polling';
 import {ProblemService}          from '../services/problem';
@@ -16,6 +20,8 @@ import {UserService}             from '../services/user';
   template: `<router-outlet></router-outlet>`,
   directives: [ROUTER_DIRECTIVES],
   providers: [
+    AlgorithmistService,
+    UdebugService,
     DatabaseService,
     HttpService,
     PollingService,

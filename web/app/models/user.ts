@@ -142,7 +142,7 @@ export class User {
       this.submissions_is_sorted = true;
     }
     for (var i = 0; i < n && i < this.submissions.length; i++) {
-      f(i, this.submissions[this.submissions.length - 1 - i]);
+      f(this.submissions[this.submissions.length - 1 - i]);
     }
   }
 

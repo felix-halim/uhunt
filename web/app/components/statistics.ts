@@ -3,6 +3,7 @@ import {RouteParams}              from 'angular2/router';
 
 import {ChatBoxComponent}         from './chat-box';
 import {LiveSubmissionsComponent} from './live-submissions';
+import {UserStatisticsComponent}  from './user-statistics';
 import {ProblemSearchComponent}   from './problem-search';
 import {UsernameInputComponent}   from './username-input';
 
@@ -12,11 +13,12 @@ import {ProblemService}           from '../services/problem';
 import {UserService}              from '../services/user';
 
 @Component({
-  selector: 'uhunt-user-statistics',
+  selector: 'uhunt-statistics',
   templateUrl: 'app/components/statistics.html',
   directives: [
     ChatBoxComponent,
     LiveSubmissionsComponent,
+    UserStatisticsComponent,
     ProblemSearchComponent,
     UsernameInputComponent,
   ]

@@ -9,7 +9,7 @@ export class Submission {
   language: Language;
   runtime_ms: number;
   memory_mb: number;
-  private rank: number;
+  rank: number;
   submit_time: number;
 
   constructor(a: Array<any>) {

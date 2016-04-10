@@ -83,28 +83,33 @@ export class Config {
     return e ? e.color : '#000000';
   }
 
-  public static LIVE_SUBMISSIONS_LINK(): string {
+  public static live_submissions_link(): string {
     return Config.UVA_HOST + '/index.php?option=com_onlinejudge&Itemid=19';
   }
 
-  public static PROBLEM_PDF_LINK(p: Problem): string {
+  public static last_submissions_link(userid: number): string {
+    return Config.UVA_HOST + 'index.php?option=com_onlinejudge&Itemid=19'
+      + '&page=show_authorstats&userid=' + userid;
+  }
+
+  public static problem_pdf_link(p: Problem): string {
     if (!p) return '#';
     var v = Math.floor(p.number / 100);
     return Config.UVA_HOST + '/external/' + v + '/' + p.number + '.pdf';
   }
 
-  public static PROBLEM_FULL_LINK(p: Problem): string {
+  public static problem_full_link(p: Problem): string {
     if (!p) return '#';
     return Config.UVA_HOST + '/index.php?option=com_onlinejudge'
       + '&Itemid=8&category=24&page=show_problem&problem=' + p.id;
   }
 
-  public static PROBLEM_DISCUSSION_LINK(p: Problem): string {
+  public static problem_discussion_link(p: Problem): string {
     if (!p) return '#';
     return Config.UVA_HOST + '/board/search.php?keywords=' + p.number;
   }
 
-  public static PROBLEM_RANKLIST_LINK(p: Problem): string {
+  public static problem_ranklist_link(p: Problem): string {
     if (!p) return '#';
     return Config.UVA_HOST + '/index.php?option=com_onlinejudge'
       + '&Itemid=8&page=problem_stats&category=24&problemid=' + p.id;

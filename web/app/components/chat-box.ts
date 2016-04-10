@@ -16,20 +16,18 @@ import {ElapsedTimePipe}          from '../pipes/elapsed-time';
   selector: 'uhunt-chat-problem',
   template:
 `<span *ngFor="#t of text_links">{{t[0]}}<span *ngIf="t[1]"><a class="{{t[1].getClass(user)}}"
-  href="{{problem_pdf_link(t[1].number)}}" target="_blank">{{t[1].number}}</a>
-(<a class="nou" href="{{problem_ranklist_link(t[1].id)}}" target="_blank">r</a>|<a class="nou"
-  href="{{problem_discussion_link(t[1].number)}}" target="_blank">d</a>)</span></span>`
+  href="{{config.problem_pdf_link(t[1].number)}}" target="_blank">{{t[1].number}}</a>
+(<a class="nou" href="{{config.problem_ranklist_link(t[1].id)}}" target="_blank">r</a>|<a class="nou"
+  href="{{config.problem_discussion_link(t[1].number)}}" target="_blank">d</a>)</span></span>`
 })
 export class ChatProblemComponent implements OnInit {
   @Input() user: User;
   @Input() text: string;
 
   // Array of pairs <string, problem>.
-  text_links: any[] = [];
+  private text_links: any[] = [];
 
-  problem_pdf_link = Config.PROBLEM_PDF_LINK;
-  problem_discussion_link = Config.PROBLEM_DISCUSSION_LINK;
-  problem_ranklist_link = Config.PROBLEM_RANKLIST_LINK;
+  private config = Config;
 
   constructor(private _problemService: ProblemService) {}
 

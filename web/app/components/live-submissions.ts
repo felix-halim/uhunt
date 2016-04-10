@@ -21,15 +21,7 @@ export class LiveSubmissionsComponent {
   private limit = 5;
 
   private host = Config.UVA_HOST;
-  private live_submissions_link = Config.LIVE_SUBMISSIONS_LINK;
-  private problem_full_link = Config.PROBLEM_FULL_LINK;
-  private problem_pdf_link = Config.PROBLEM_PDF_LINK;
-  private problem_discussion_link = Config.PROBLEM_DISCUSSION_LINK;
-  private problem_ranklist_link = Config.PROBLEM_RANKLIST_LINK;
-
-  private verdict_color = Config.verdict_color;
-  private verdict_name = Config.verdict_name;
-  private language_name = Config.language_name;
+  private config = Config;
 
   constructor(_pollingService: PollingService) {
     _pollingService.submissions.subscribe((subs: Submission[]) => {

@@ -12,7 +12,6 @@ import {ProblemService}       from '../services/problem';
 import {UserService}          from '../services/user';
 
 import {ElapsedTimePipe}      from '../pipes/elapsed-time';
-import {SortSubmissionsPipe}  from '../pipes/sort-submissions';
 
 import {ProblemProgressStatsDirective} from '../directives/problem-progress-stats';
 import {ProblemSubmissionsStatsDirective} from '../directives/problem-submissions-stats';
@@ -24,10 +23,7 @@ import {ProblemSubmissionsStatsDirective} from '../directives/problem-submission
     ProblemProgressStatsDirective,
     ProblemSubmissionsStatsDirective,
   ],
-  pipes: [
-    ElapsedTimePipe,
-    SortSubmissionsPipe
-  ]
+  pipes: [ElapsedTimePipe]
 })
 export class ProblemSearchComponent implements OnChanges {
   @Input() user: User;
@@ -44,22 +40,13 @@ export class ProblemSearchComponent implements OnChanges {
   private show_search_result: boolean;
   private show_top: string;
 
-  private problem_full_link = Config.PROBLEM_FULL_LINK;
-  private problem_pdf_link = Config.PROBLEM_PDF_LINK;
-  private problem_discussion_link = Config.PROBLEM_DISCUSSION_LINK;
-  private problem_ranklist_link = Config.PROBLEM_RANKLIST_LINK;
-
-  private verdict_color = Config.verdict_color;
-  private verdict_name = Config.verdict_name;
-  private language_name = Config.language_name;
+  private config = Config;
 
   constructor(
     private _databaseService: DatabaseService,
     private _httpService: HttpService,
     private _problemService: ProblemService,
     private _userService: UserService) {
-
-    this._problemService.ready.then(() => this.search());
 
     this.search_number =
       this._databaseService.get('uhunt_prob_search_number') || '';
@@ -81,7 +68,9 @@ export class ProblemSearchComponent implements OnChanges {
   }
 
   ngOnChanges(changes: { [propName: string]: SimpleChange }) {
-    this.search();
+    if (this.show_search_result) {
+      this._problemService.ready.then(() => this.search());
+    }
   }
 
   private set_show_search_result(show: boolean) {
@@ -114,15 +103,14 @@ export class ProblemSearchComponent implements OnChanges {
   };
 
   private search() {
+    this._databaseService.set('uhunt_prob_search_number', this.search_number);
+
     var num = parseInt(this.search_number, 10);
     this.searched_problem = this._problemService.getProblemByNumber(num);
 
     if (!this.searched_problem) {
       return this.set_show_search_result(false);
     }
-
-    this._databaseService.set('uhunt_prob_search_number',
-      this.searched_problem.number);
 
     this.set_show_search_result(true);
 
@@ -131,7 +119,7 @@ export class ProblemSearchComponent implements OnChanges {
       this.my_submissions.push(sub);
     });
 
-    if (this.show_last == 'last') {
+    if (this.show_last == 'last' || this.my_submissions.length == 0) {
       this._httpService.get(Config.API_PATH + '/p/subs/'
         + this.searched_problem.id + '/' + 0 + '/'
         + Config.now + 60 * 60 * 24 * 30 + '/' 
@@ -139,9 +127,10 @@ export class ProblemSearchComponent implements OnChanges {
       .then((arr) => this.update_submissions(arr));
     } else {
       this.submissions = this.my_submissions;
+      this.submissions.sort(this.submit_time_cmp);
     }
 
-    if (this.show_top == 'top') {
+    if (this.show_top == 'top' || this.my_submissions.length == 0) {
       this._httpService.get(Config.API_PATH + '/p/rank/'
         + this.searched_problem.id + '/' + 1 + '/' + this.max_rank)
       .then((arr) => this.update_ranklist(arr));
@@ -169,6 +158,7 @@ export class ProblemSearchComponent implements OnChanges {
         s.sbt
       ]));
     }
+    this.submissions.sort(this.submit_time_cmp);
   }
 
   private update_ranklist(arr) {
@@ -186,5 +176,9 @@ export class ProblemSearchComponent implements OnChanges {
         s.sbt
       ]));
     }
+  }
+
+  private submit_time_cmp(a: Submission, b: Submission) {
+    return b.submit_time - a.submit_time;
   }
 }

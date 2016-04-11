@@ -73,7 +73,7 @@ export class Problem {
     if (this.status == ProblemStatus.Unavailable) {
       return 'prob prob_x';
     }
-    var st = u.getProblemStats(this.id);
+    var st = u.getProblemStats(this);
     var ago = (Config.now - st.last_sbt) / 60 / 60 / 24;
     var c = 'prob';
     c += st.ac ? ' sub_ac' : st.ntry ? ' sub_wa' : ' sub_none';

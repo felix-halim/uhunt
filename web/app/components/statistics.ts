@@ -7,6 +7,7 @@ import {LiveSubmissionsComponent} from './live-submissions';
 import {ProblemSearchComponent}   from './problem-search';
 import {UsernameInputComponent}   from './username-input';
 import {UserStatisticsComponent}  from './user-statistics';
+import {NextProblemsComponent}   from './next-problems';
 
 import {User}                     from '../models/user';
 
@@ -22,6 +23,7 @@ import {UserService}              from '../services/user';
     LiveSubmissionsComponent,
     ProblemSearchComponent,
     UsernameInputComponent,
+    NextProblemsComponent,
     UserStatisticsComponent,
   ]
 })

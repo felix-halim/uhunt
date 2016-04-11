@@ -94,7 +94,7 @@ export class CpBookExercisesComponent implements OnChanges {
           if (show == 'Starred' && ssc[k] > 0) continue;
           var p = this._problemService.getProblemByNumber(Math.abs(ssc[k]));
           if (!p) continue;
-          if (this.user.getProblemStats(p.id).ac) solved++;
+          if (this.user.getProblemStats(p).ac) solved++;
           total++;
         }
       }
@@ -116,7 +116,7 @@ export class CpBookExercisesComponent implements OnChanges {
             if (this.show == 'Starred' && ssc[k] > 0) continue;
             var p = this._problemService.getProblemByNumber(Math.abs(ssc[k]));
             if (!p) continue;
-            var st = this.user.getProblemStats(p.id);
+            var st = this.user.getProblemStats(p);
             if (st.ac) {
               nsolved++;
               sub_solved++;

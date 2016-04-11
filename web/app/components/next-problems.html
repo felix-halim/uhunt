@@ -1,0 +1,154 @@
+<h2 align="center">Next Problems to Solve</h2>
+
+<p>You can view your unsolved/solved problems, sort them, filter by volume, etc.
+If you just want to solve as many problems as quickly as possible,
+it's convinient to pick problems according to the <b>dacu</b> (distinct accepted users) in descending order.
+The bigger the <b>dacu</b> the easier the problem should be and the more probable
+it will appear in the <a target="_blank" href="http://uva.onlinejudge.org/board/">UVa discussion board</a>.
+</p>
+
+<!--p>Nowdays, algorithms must be designed not only correct, but it has to be fast!
+The table below provides the problems you have solved ordered by the difference
+in the runtime with the fastest solution.
+It will be fun tweaking your code. Sometimes it requires a whole different
+algorithm to make a big runtime improvement.
+</p-->
+
+<table align="center">
+  <tr>
+    <td valign="top">
+      <table border="0" cellspacing="0" cellpadding="0"
+             style="border: 1px solid #AAA">
+        <thead>
+          <tr class="tablebar" height="25" style="color:white">
+            <th align="left" [attr.colspan]="colspan" style="padding-left:10px">
+              <tt style="float:right">Show : [
+                <a style="cursor:pointer;"
+                  [class.lightgreen-color]="max_next_problems==25"
+                  [class.white-color]="max_next_problems!=25"
+                  (click)="set_max_next_problems(25)">25</a> |
+                <a style="cursor:pointer;"
+                  [class.lightgreen-color]="max_next_problems==50"
+                  [class.white-color]="max_next_problems!=50"
+                  (click)="set_max_next_problems(50)">50</a> |
+                <a style="cursor:pointer;"
+                  [class.lightgreen-color]="max_next_problems==100"
+                  [class.white-color]="max_next_problems!=100"
+                  (click)="set_max_next_problems(100)">100</a>
+              ]&nbsp;</tt>
+              <tt style="float:right">View : [
+                <span class="np_view" (click)="set_which(0)"
+                     [class.lightgreen-color]="view_which==0"
+                     [class.white-color]="view_which!=0"
+                      style="cursor:pointer">unsolved</span> |
+                <span class="np_view" (click)="set_which(1)"
+                     [class.lightgreen-color]="view_which==1"
+                     [class.white-color]="view_which!=1"
+                      style="cursor:pointer">solved</span> |
+                <span class="np_view" (click)="set_which(2)"
+                     [class.lightgreen-color]="view_which==2"
+                     [class.white-color]="view_which!=2"
+                      style="cursor:pointer">both</span>
+              ] &nbsp;</tt>
+              Volume : {{volume_name}}
+            </th>
+          </tr>
+          <tr class="tablesubar" height="22">
+            <th width="35">No</th>
+            <th width="65" (click)="sort_next_by('number')"
+              style="cursor:pointer">Number</th>
+            <th width="280" (click)="sort_next_by('title')"
+              style="cursor:pointer" align="left">&nbsp; Problem Title</th>
+            <th width="55" (click)="sort_next_by('submissions_count')"
+              style="cursor:pointer">nos</th>
+            <th width="55" (click)="sort_next_by('accepted_count')"
+              style="cursor:pointer">anos</th>
+            <th width="55" (click)="sort_next_by('panos')"
+              style="cursor:pointer">%anos</th>
+            <th width="55" (click)="sort_next_by('distinct_accepted_user')"
+              style="cursor:pointer">dacu</th>
+            <th width="55" (click)="sort_next_by('best_runtime')"
+              style="cursor:pointer">best</th>
+            <th [hidden]="view_which==0" width="55"
+              (click)="sort_next_by('run')" style="cursor:pointer">yours</th>
+            <th [hidden]="view_which==0" width="55"
+              (click)="sort_next_by('diff')" style="cursor:pointer">diff</th>
+            <th [hidden]="view_which==0" width="55"
+              (click)="sort_next_by('rank')" style="cursor:pointer">rank</th>
+          </tr>
+        </thead>
+        <tbody class="alt_colors">
+          <tr *ngFor="#p of next_problems | slice:0:max_next_problems; #i = index" height="17">
+            <td align="center">{{i + 1}}</td>
+            <td align="center"
+                style="background-color:{{column_color('number',i)}}">
+              <a class="{{p.problem.getClass(user)}}" target="_blank"
+                 href="{{config.problem_pdf_link(p.problem)}}">
+                   {{p.problem.number}}</a>
+            </td>
+            <td style="background-color:{{column_color('title',i)}}">
+              <span style="float:right; padding-right:8px;">
+                <!-- <span "p.num | algorithmist:'|' "></span> -->
+                <a class="nou" target="_blank" href="{{
+                  config.problem_discussion_link(p.problem)}}">discuss</a>
+              </span>
+              <a class="ellipsis" target="_blank"
+                 style="margin-left:5px; width:{{170 - 10}}px; color:black;"
+                 href="{{config.problem_full_link(p.problem)}}">
+                  {{p.problem.title}}</a>
+            </td>
+            <td align="center" style="background-color:{{column_color(
+              'submissions_count',i)}}">{{p.problem.submissions_count}}</td>
+            <td align="center" style="background-color:{{column_color(
+              'accepted_count',i)}}">{{p.problem.accepted_count}}</td>
+            <td align="center" style="background-color:{{column_color(
+              'panos',i)}}">{{p.problem.getPercentAccepted() + '%'}}</td>
+            <td align="center" style="background-color:{{column_color(
+              'distinct_accepted_user',i)}}">
+                {{p.problem.distinct_accepted_user}}</td>
+            <td align="center" style="background-color:{{column_color(
+              'best_runtime',i)}}">
+              <a class="nou" target="_blank"
+                 href="{{config.problem_ranklist_link(p.problem)}}">
+                  {{p.problem.best_runtime * 1e-3 | number:'1.3-3'}}
+              </a>
+            </td>
+            <td [hidden]="view_which==0" align="center"
+                style="background-color:{{column_color('run','#000')}}">
+                  {{p.run * 1e-3 | number:'1.3-3'}}</td>
+            <td [hidden]="view_which==0" align="center"
+                style="background-color:{{column_color('diff','#000')}}">
+                  {{p.diff * 1e-3 | number:'1.3-3'}}</td>
+            <td [hidden]="view_which==0" align="center"
+                style="background-color:{{column_color('rank','#000')}}">
+                  {{p.rank}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </td>
+    <td valign="top" style="padding-left:15px; margin:0px; padding-top:0">
+      <table cellspacing="0" cellpadding="0"
+             style="width:120px; border: 1px solid #AAA;">
+        <thead>
+          <tr class="tablebar" height="25" style="color:white">
+            <th colspan="3">Volumes</th>
+          </tr>
+        </thead>
+        <tbody class="selectable-table">
+          <tr *ngFor="#v of volume_bars" style="cursor:pointer"
+              (click)="show_table(v.index)"
+              [class.volume-selected]="v.index==volume">
+            <td width="55" align="center">{{v.name}}</td>
+            <td width="35">
+              <uhunt-bar [percent]="v.percentage" color="green"
+                          width="30" height="10"></uhunt-bar>
+            </td>
+            <td width="30" align="right">
+              <tt style="margin-right:5px">{{v.percentage}}%</tt>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </td>
+  </tr>
+</table>

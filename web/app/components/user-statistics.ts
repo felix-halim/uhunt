@@ -98,7 +98,7 @@ export class UserStatisticsComponent implements OnChanges {
     this.solved_problems = [];
     this.tried_problems = [];
     this._problemService.each((p) => {
-      var st = this.user.getProblemStats(p.id);
+      var st = this.user.getProblemStats(p);
       if (st.ac) {
         this.solved_problems.push(p);
       } else if (st.ntry > 0) {
@@ -117,7 +117,7 @@ export class UserStatisticsComponent implements OnChanges {
     this.first_ac_sbt = [];
     this.inc_amt = [];
     this._problemService.each((p) => {
-      var s = this.user.getProblemStats(p.id);
+      var s = this.user.getProblemStats(p);
       if (s.ac) {
         this.first_ac_sbt.push(s.first_ac_sbt);
         this.inc_amt.push(1);

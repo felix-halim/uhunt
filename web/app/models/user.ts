@@ -1,3 +1,4 @@
+import {Problem}             from './problem';
 import {Submission, Verdict} from './submission';
 
 interface HashMapOfSubmissions {
@@ -89,14 +90,14 @@ export class User {
     }
   }
 
-  // Returns the problem statistics of the problem_id submitted by this user.
-  getProblemStats(problem_id: number): ProblemStatistics {
-    if (this.problem_stats_cache[problem_id]) {
-      return this.problem_stats_cache[problem_id];
+  // Returns the problem statistics of the problem.id submitted by this user.
+  getProblemStats(problem: Problem): ProblemStatistics {
+    if (this.problem_stats_cache[problem.id]) {
+      return this.problem_stats_cache[problem.id];
     }
 
-    var ps = new ProblemStatistics();
-    var p = this.pid_key[problem_id];
+    var p = this.pid_key[problem.id];
+    var ps = new ProblemStatistics(problem);
     if (!p) { return ps; }
 
     for (var sid in p) {
@@ -117,14 +118,14 @@ export class User {
       ps.ntry = ps.nos;
     } else {
       // Count the number of submissions before the first Accepted.
-      this.each_pid(problem_id, function(s) {
+      this.each_pid(problem.id, function(s) {
         if (s.submit_time < ps.first_ac_sbt) {
           ps.ntry++;
         }
       });
     }
 
-    return this.problem_stats_cache[problem_id] = ps;
+    return this.problem_stats_cache[problem.id] = ps;
   }
 
   // Loops through all problem ids contained in this user's submissions.
@@ -177,7 +178,7 @@ export class ProblemStatistics {
   mrun: number;
   mmem: number;
 
-  constructor() {
+  constructor(public problem: Problem) {
     this.ac = false;
     this.nos = 0;
     this.ntry = 0;

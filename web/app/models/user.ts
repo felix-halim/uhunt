@@ -179,6 +179,7 @@ export class ProblemStatistics {
   mmem: number;
 
   constructor(public problem: Problem) {
+    if (!problem) throw 'null problem';
     this.ac = false;
     this.nos = 0;
     this.ntry = 0;
@@ -187,5 +188,13 @@ export class ProblemStatistics {
     this.first_ac_sbt = 1e100;
     this.mrun = 1e100;
     this.mmem = 1e100;
+  }
+
+  best_runtime() {
+    return Math.min(this.mrun, this.problem.best_runtime);
+  }
+
+  diff_with_best_runtime() {
+    return this.mrun > 1e50 ? -1 : (this.mrun - this.best_runtime());
   }
 }

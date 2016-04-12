@@ -1,0 +1,80 @@
+<h2 align="center">World Ranklist</h2>
+
+<p>
+Below is the
+<a href="http://uva.onlinejudge.org/index.php?option=com_onlinejudge&Itemid=20">
+Author Ranklist</a> ordered by number of accepted and then number of
+submissions. The additional columns: "2d, 7d, 31d" represents the number of
+(distinct) solved problems in the past 2 days, 7 days, 31 days.
+</p>
+
+<table border="0" align="center" cellspacing="0" cellpadding="0"
+       style="border:1px solid #AAA">
+  <thead>
+    <tr class="tablebar" height="25" style="color:white">
+      <th colspan="10" align="left"> &nbsp; &nbsp; World Ranklist
+        <span style="float:right; font-weight:normal">Show: above [
+          <a style="cursor:pointer" (click)="set_nabove(10)"
+            [class.lightgreen-color]="nabove==10"
+            [class.white-color]="nabove!=10">10</a> |
+          <a style="cursor:pointer" (click)="set_nabove(20)"
+            [class.lightgreen-color]="nabove==20"
+            [class.white-color]="nabove!=20">20</a> |
+          <a style="cursor:pointer" (click)="set_nabove(50)"
+            [class.lightgreen-color]="nabove==50"
+            [class.white-color]="nabove!=50">50</a> |
+          <a style="cursor:pointer" (click)="set_nabove(100)"
+            [class.lightgreen-color]="nabove==100"
+            [class.white-color]="nabove!=100">100</a>
+          ]; below [
+          <a style="cursor:pointer" (click)="set_nbelow(10)"
+            [class.lightgreen-color]="nbelow==10"
+            [class.white-color]="nbelow!=10">10</a> |
+          <a style="cursor:pointer" (click)="set_nbelow(20)"
+            [class.lightgreen-color]="nbelow==20"
+            [class.white-color]="nbelow!=20">20</a> |
+          <a style="cursor:pointer" (click)="set_nbelow(50)"
+            [class.lightgreen-color]="nbelow==50"
+            [class.white-color]="nbelow!=50">50</a> |
+          <a style="cursor:pointer" (click)="set_nbelow(100)"
+            [class.lightgreen-color]="nbelow==100"
+            [class.white-color]="nbelow!=100">100</a>
+          ] &nbsp;
+        </span>
+      </th>
+    </tr>
+    <tr class="tablesubar" height="20">
+      <th width="70">Rank</th>
+      <th width="210" align="left">Name</th>
+      <th width="110" align="left">Username</th>
+      <th width="80">AC</th>
+      <th width="80">Subs</th>
+      <th width="50">2d</th>
+      <th width="50">7d</th>
+      <th width="50">31d</th>
+      <th width="50">3m</th>
+      <th width="50">1y</th>
+    </tr>
+  </thead>
+  <tbody class="alt_colors">
+    <tr *ngFor="#u of ranklist" height="17"
+        style="font-weight:{{u.userid == user.id ? 'bold' : ''}};">
+      <td align=center>{{u.rank}}</td>
+      <td>
+        <a class='ellipsis' style='margin-left:5px; width:{{200 - 10}}px'
+          target='_blank'>{{u.name}}</a>
+        </td>
+      <td>
+        <a class='ellipsis' style='margin-left:5px; width:{{100 - 10}}px'
+          target='_blank' href='/id/{{u.userid}}'>{{u.username}}</a>
+      </td>
+      <td align=center>{{u.ac}}</td>
+      <td align=center>{{u.nos}}</td>
+      <td align=center>{{u.activity[0] || '-'}}</td>
+      <td align=center>{{u.activity[1] || '-'}}</td>
+      <td align=center>{{u.activity[2] || '-'}}</td>
+      <td align=center>{{u.activity[3] || '-'}}</td>
+      <td align=center>{{u.activity[4] || '-'}}</td>
+    </tr>
+  </tbody>
+</table>

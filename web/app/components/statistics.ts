@@ -9,6 +9,7 @@ import {UsernameInputComponent}   from './username-input';
 import {UserStatisticsComponent}  from './user-statistics';
 import {NextProblemsComponent}    from './next-problems';
 import {WorldRanklistComponent}   from './world-ranklist';
+import {StatsComparerComponent}   from './statistics-comparer';
 
 import {User}                     from '../models/user';
 
@@ -26,6 +27,7 @@ import {UserService}              from '../services/user';
     UsernameInputComponent,
     NextProblemsComponent,
     UserStatisticsComponent,
+    StatsComparerComponent,
     WorldRanklistComponent,
   ]
 })

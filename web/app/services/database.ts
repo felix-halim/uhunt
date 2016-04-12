@@ -20,6 +20,7 @@ export class DatabaseService {
     'uhunt_next_probs_volume': 'int',
     'uhunt_ranklist_nabove': 'int',
     'uhunt_ranklist_nbelow': 'int',
+    'uhunt_statscmp_expr': 'string',
     'show_livesubs': 'bool',
     'livesubs_table_display': 'bool',
     'last_problem_reload': 'int',
@@ -43,7 +44,6 @@ export class DatabaseService {
     'vcshadow-sortby': 'string',
     'vcshadow-sortasc': 'bool',
     'vcshadow-n': 'int',
-    'cmp_expr': 'string',
     'vcontest_picker_show_unsolved': 'bool',
     'uhunt_vcontest_uids': 'string',
   };

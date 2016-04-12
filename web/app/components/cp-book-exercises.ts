@@ -38,6 +38,8 @@ export class CpBookExercisesComponent implements OnChanges {
 
   private config = Config;
 
+  private static cp_numbers: number[][] = [];
+
   constructor(
     private _databaseService: DatabaseService,
     private _httpService: HttpService,
@@ -55,6 +57,23 @@ export class CpBookExercisesComponent implements OnChanges {
 
   ngOnChanges(changes) {
     this.refresh();
+  }
+
+  static get_cp_numbers(ed) {
+    if (!CpBookExercisesComponent.cp_numbers[ed]) {
+      var arr = [];
+      for (let c of CpBookExercisesComponent.cpbooks[ed].chapters) {
+        for (let sc of c.arr) {
+          for (let ssc of sc.arr) {
+            for (var k = 1; k < ssc.length; k++) {
+              arr.push(ssc[k]);
+            }
+          }
+        }
+      }
+      CpBookExercisesComponent.cp_numbers[ed] = arr;
+    }
+    return CpBookExercisesComponent.cp_numbers[ed];
   }
 
   set_chapter(chapter, type) {
@@ -158,7 +177,7 @@ export class CpBookExercisesComponent implements OnChanges {
 
   // Details of the exercises in the three books:
 
-  private cpbooks = [
+  private static cpbooks = [
     {
       nth: '1st',
       color: 'blue',

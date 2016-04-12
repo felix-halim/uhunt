@@ -42,6 +42,10 @@ export class ProblemService {
     return this.problem_by_id[id];
   }
 
+  getProblemById(id: number): Problem {
+    return this.problem_by_id[id] ? this.problem_by_id[id] : null;
+  }
+
   getProblemByNumber(num: number): Problem {
     return this.problem_by_number[num] ? this.problem_by_number[num] : null;
   }

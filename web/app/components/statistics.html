@@ -1,4 +1,5 @@
 <!-- 
+-->
 <uhunt-chat-box width="550" height="245" [user]="user"
   style="float:right; padding-left:25px">
 </uhunt-chat-box>
@@ -30,7 +31,8 @@
     UVa online-judge
   </a>
   that keeps statistics, provide selections of problems to solve, and exposes a
-  web API for other web developers to build upon it. 
+  <a href="/api" target="_blank">web API</a> for other web developers to build
+  upon it. 
   See <a href="/">a brief history of uHunt</a>.
 </p>
 
@@ -58,7 +60,6 @@
 
 <uhunt-cp-book-exercises [user]="user"></uhunt-cp-book-exercises>
 
-
 <hr style="clear:both" />
 
 <uhunt-next-problems [user]="user"></uhunt-next-problems>
@@ -69,6 +70,9 @@
 
 <hr style="clear:both" />
 
--->
-
 <uhunt-statistics-comparer [user]="user"></uhunt-statistics-comparer>
+
+<hr style="clear:both" />
+
+<uhunt-web-api></uhunt-web-api>
+

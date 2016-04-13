@@ -1,4 +1,4 @@
-import {Component, Input, OnChanges, SimpleChange} from 'angular2/core';
+import {Component, Input, OnChanges} from 'angular2/core';
 
 import {Config}               from '../config';
 
@@ -74,7 +74,7 @@ export class ProblemSearchComponent implements OnChanges {
       this._databaseService.get('uhunt_prob_search_subs_top') || 'top';
   }
 
-  ngOnChanges(changes: { [propName: string]: SimpleChange }) {
+  ngOnChanges(changes) {
     if (this.show_search_result) {
       this._problemService.ready.then(() => this.search());
     }

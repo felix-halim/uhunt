@@ -11,9 +11,12 @@
   <a target="_blank" href="{{cpbooks[edition].link}}">Buy</a><br>
   <span style="line-height:20px">
   Edition:
-  <a (click)="switch_edition(0)" style="font-weight:bold; color:{{cpbooks[0].color}}; cursor:pointer">1st</a>, 
-  <a (click)="switch_edition(1)" style="font-weight:bold; color:{{cpbooks[1].color}}; cursor:pointer">2nd</a>, 
-  <a (click)="switch_edition(2)" style="font-weight:bold; color:{{cpbooks[2].color}}; cursor:pointer">3rd</a>
+  <a (click)="switch_edition(0)" style="font-weight:bold;
+     color:{{cpbooks[0].color}}; cursor:pointer">1st</a>, 
+  <a (click)="switch_edition(1)" style="font-weight:bold;
+     color:{{cpbooks[1].color}}; cursor:pointer">2nd</a>, 
+  <a (click)="switch_edition(2)" style="font-weight:bold;
+     color:{{cpbooks[2].color}}; cursor:pointer">3rd</a>
   </span>
 </p>
 
@@ -22,11 +25,15 @@
   <thead>
     <tr class="tablebar cpbook-ed{{edition+1}}" style="height:30px">
     <!-- // #97683E -->
-      <th style="border:0; color:white" colspan="3">{{cpbooks[edition].nth}} Edition's Exercises
+      <th style="border:0; color:white" colspan="3">
+        {{cpbooks[edition].nth}} Edition's Exercises
         <span style="font-weight:normal">(switch to: 
-        <a (click)="switch_edition(0)" style="font-weight:bold; color:{{cpbooks[0].color}}; cursor:pointer">1st</a>,
-        <a (click)="switch_edition(1)" style="font-weight:bold; color:{{cpbooks[1].color}}; cursor:pointer">2nd</a>,
-        <a (click)="switch_edition(2)" style="font-weight:bold; color:{{cpbooks[2].color}}; cursor:pointer">3rd</a>)
+        <a (click)="switch_edition(0)" style="font-weight:bold;
+           color:{{cpbooks[0].color}}; cursor:pointer">1st</a>,
+        <a (click)="switch_edition(1)" style="font-weight:bold;
+           color:{{cpbooks[1].color}}; cursor:pointer">2nd</a>,
+        <a (click)="switch_edition(2)" style="font-weight:bold;
+           color:{{cpbooks[2].color}}; cursor:pointer">3rd</a>)
         </span>
       </th>
     </tr>

@@ -75,11 +75,21 @@
                     </a>
                   ] &nbsp; &nbsp;
                   Show : [
-                    <a class="white" style="cursor:pointer" (click)="set_max_last_subs(5)">5</a> |
-                    <a class="white" style="cursor:pointer" (click)="set_max_last_subs(10)">10</a> |
-                    <a class="white" style="cursor:pointer" (click)="set_max_last_subs(50)">50</a> |
-                    <a class="white" style="cursor:pointer" (click)="set_max_last_subs(100)">100</a> |
-                    <a class="white" style="cursor:pointer" (click)="set_max_last_subs(500)">500</a> &nbsp;
+                    <a style="cursor:pointer" (click)="set_max_last_subs(5)"
+                      [class.lightgreen-color]="max_last_subs==5"
+                      [class.white-color]="max_last_subs!=5">5</a> |
+                    <a style="cursor:pointer" (click)="set_max_last_subs(10)"
+                      [class.lightgreen-color]="max_last_subs==10"
+                      [class.white-color]="max_last_subs!=10">10</a> |
+                    <a style="cursor:pointer" (click)="set_max_last_subs(50)"
+                      [class.lightgreen-color]="max_last_subs==50"
+                      [class.white-color]="max_last_subs!=50">50</a> |
+                    <a style="cursor:pointer" (click)="set_max_last_subs(100)"
+                      [class.lightgreen-color]="max_last_subs==100"
+                      [class.white-color]="max_last_subs!=100">100</a> |
+                    <a style="cursor:pointer" (click)="set_max_last_subs(500)"
+                      [class.lightgreen-color]="max_last_subs==500"
+                      [class.white-color]="max_last_subs!=500">500</a> &nbsp;
                   </span>
                   Submissions
                 </th>
@@ -137,11 +147,21 @@
                          nearby
                     </a> ] &nbsp; &nbsp; 
                   Show : [ 
-                    <a class="white" style="cursor:pointer" (click)="set_max_rank(5)">5</a> |
-                    <a class="white" style="cursor:pointer" (click)="set_max_rank(10)">10</a> |
-                    <a class="white" style="cursor:pointer" (click)="set_max_rank(50)">50</a> |
-                    <a class="white" style="cursor:pointer" (click)="set_max_rank(100)">100</a> |
-                    <a class="white" style="cursor:pointer" (click)="set_max_rank(500)">500</a> &nbsp;
+                    <a style="cursor:pointer" (click)="set_max_rank(5)"
+                      [class.lightgreen-color]="max_rank==5"
+                      [class.white-color]="max_rank!=5">5</a> |
+                    <a style="cursor:pointer" (click)="set_max_rank(10)"
+                      [class.lightgreen-color]="max_rank==10"
+                      [class.white-color]="max_rank!=10">10</a> |
+                    <a style="cursor:pointer" (click)="set_max_rank(50)"
+                      [class.lightgreen-color]="max_rank==50"
+                      [class.white-color]="max_rank!=50">50</a> |
+                    <a style="cursor:pointer" (click)="set_max_rank(100)"
+                      [class.lightgreen-color]="max_rank==100"
+                      [class.white-color]="max_rank!=100">100</a> |
+                    <a style="cursor:pointer" (click)="set_max_rank(500)"
+                      [class.lightgreen-color]="max_rank==500"
+                      [class.white-color]="max_rank!=500">500</a> &nbsp;
                   </span>
                   Ranklist
                 </th>

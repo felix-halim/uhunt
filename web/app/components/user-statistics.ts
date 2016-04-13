@@ -90,7 +90,7 @@ export class UserStatisticsComponent implements OnChanges {
 
   private populate_last_submissions() {
     var subs = [];
-    this.user.each_last_subs(this.num_last_subs, (sub) => subs.push(sub));
+    this.user.each_last_subs(10000, (sub) => subs.push(sub));
     this.last_submissions = subs;
   }
 

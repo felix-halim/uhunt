@@ -10,6 +10,7 @@ import {UserStatisticsComponent}  from './user-statistics';
 import {NextProblemsComponent}    from './next-problems';
 import {WorldRanklistComponent}   from './world-ranklist';
 import {StatsComparerComponent}   from './statistics-comparer';
+import {WebApiComponent}          from './web-api';
 
 import {User}                     from '../models/user';
 
@@ -29,6 +30,7 @@ import {UserService}              from '../services/user';
     UserStatisticsComponent,
     StatsComparerComponent,
     WorldRanklistComponent,
+    WebApiComponent,
   ]
 })
 export class StatisticsComponent implements OnInit {

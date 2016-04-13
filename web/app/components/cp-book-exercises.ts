@@ -35,6 +35,7 @@ export class CpBookExercisesComponent implements OnChanges {
   private chapter: number;
   private show: string;
   private sections: any;
+  private cpbooks: any;
 
   private config = Config;
 
@@ -49,6 +50,7 @@ export class CpBookExercisesComponent implements OnChanges {
     this.edition = this._databaseService.get('cpbook_edition') || 2;
     this.chapter = this._databaseService.get('cpbook_chapter') || -1;
     this.show = this._databaseService.get('cpbook_show') || 'Starred';
+    this.cpbooks = CpBookExercisesComponent._cpbooks;
   }
 
   ngOnInit() {
@@ -62,7 +64,7 @@ export class CpBookExercisesComponent implements OnChanges {
   static get_cp_numbers(ed) {
     if (!CpBookExercisesComponent.cp_numbers[ed]) {
       var arr = [];
-      for (let c of CpBookExercisesComponent.cpbooks[ed].chapters) {
+      for (let c of CpBookExercisesComponent._cpbooks[ed].chapters) {
         for (let sc of c.arr) {
           for (let ssc of sc.arr) {
             for (var k = 1; k < ssc.length; k++) {
@@ -177,7 +179,7 @@ export class CpBookExercisesComponent implements OnChanges {
 
   // Details of the exercises in the three books:
 
-  private static cpbooks = [
+  private static _cpbooks = [
     {
       nth: '1st',
       color: 'blue',

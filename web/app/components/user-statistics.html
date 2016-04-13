@@ -18,12 +18,24 @@
       <tr class="tablebar">
         <th align="left" colspan="7" height="25" valign="middle">
           <span style="float:right; font-weight:normal">Show :
-            <a class="white" style="cursor:pointer" (click)="set_num_last_subs(5)">5</a> |
-            <a class="white" style="cursor:pointer" (click)="set_num_last_subs(10)">10</a> |
-            <a class="white" style="cursor:pointer" (click)="set_num_last_subs(50)">50</a> |
-            <a class="white" style="cursor:pointer" (click)="set_num_last_subs(100)">100</a> |
-            <a class="white" style="cursor:pointer" (click)="set_num_last_subs(500)">500</a> |
-            <a class="white" style="cursor:pointer" (click)="set_num_last_subs(1000000)">ALL</a> &nbsp;
+            <a style="cursor:pointer" (click)="set_num_last_subs(5)"
+              [class.lightgreen-color]="num_last_subs==5"
+              [class.white-color]="num_last_subs!=5">5</a> |
+            <a style="cursor:pointer" (click)="set_num_last_subs(10)"
+              [class.lightgreen-color]="num_last_subs==10"
+              [class.white-color]="num_last_subs!=10">10</a> |
+            <a style="cursor:pointer" (click)="set_num_last_subs(50)"
+              [class.lightgreen-color]="num_last_subs==50"
+              [class.white-color]="num_last_subs!=50">50</a> |
+            <a style="cursor:pointer" (click)="set_num_last_subs(100)"
+              [class.lightgreen-color]="num_last_subs==100"
+              [class.white-color]="num_last_subs!=100">100</a> |
+            <a style="cursor:pointer" (click)="set_num_last_subs(500)"
+              [class.lightgreen-color]="num_last_subs==500"
+              [class.white-color]="num_last_subs!=500">500</a> |
+            <a style="cursor:pointer" (click)="set_num_last_subs(1000)"
+              [class.lightgreen-color]="num_last_subs==1000"
+              [class.white-color]="num_last_subs!=1000">1000</a> &nbsp;
           </span>
           &nbsp; <a target="_blank" class="white"
           href="{{config.last_submissions_link(user && user.id)}}">Last Submissions</a>
@@ -40,7 +52,8 @@
     </thead>
 
     <tbody class="alt_colors">
-      <tr style="height:18px" *ngFor="#s of last_submissions">
+      <tr style="height:18px"
+         *ngFor="#s of last_submissions | slice:0:num_last_subs">
         <td>
           <span style="float:right; padding-right:5px">
             <span ng-bind-html-unsafe="s.p.num | algorithmist:'|'"></span>

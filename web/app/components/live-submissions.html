@@ -4,11 +4,21 @@
       <tr class="tablebar" height="25">
       <th align="left" colspan="10" height="25">
         <span style="float:right; font-weight:normal; color:white; padding-right:10px">Show :
-          <a class="white" style="cursor:pointer" (click)="limit=5"> 5 </a> |
-          <a class="white" style="cursor:pointer" (click)="limit=10"> 10 </a> |
-          <a class="white" style="cursor:pointer" (click)="limit=25"> 25 </a> |
-          <a class="white" style="cursor:pointer" (click)="limit=50"> 50 </a> |
-          <a class="white" style="cursor:pointer" (click)="limit=100"> 100 </a>
+          <a style="cursor:pointer" (click)="limit=5"
+            [class.lightgreen-color]="limit==5"
+            [class.white-color]="limit!=5"> 5 </a> |
+          <a style="cursor:pointer" (click)="limit=10"
+            [class.lightgreen-color]="limit==10"
+            [class.white-color]="limit!=10"> 10 </a> |
+          <a style="cursor:pointer" (click)="limit=25"
+            [class.lightgreen-color]="limit==25"
+            [class.white-color]="limit!=25"> 25 </a> |
+          <a style="cursor:pointer" (click)="limit=50"
+            [class.lightgreen-color]="limit==50"
+            [class.white-color]="limit!=50"> 50 </a> |
+          <a style="cursor:pointer" (click)="limit=100"
+            [class.lightgreen-color]="limit==100"
+            [class.white-color]="limit!=100"> 100 </a>
         </span>
         &nbsp;
         <a target="_blank" class="white" href="{{config.live_submissions_link()}}">

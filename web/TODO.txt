@@ -1,3 +1,6 @@
-ICPC LA:
+uHunt:
+* past contests section, there's a problem ID 0 in contest ID 362 to 364.
+
+uHunt LA:
 * Fix formating of the "Next Problems to Solve and Virtual Contests".
   Error on firefox's webconsole: "no element found1 ngx_pagespeed_beacon:1:1"

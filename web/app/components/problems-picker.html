@@ -1,0 +1,41 @@
+<table width="100%" border="0"
+       style="border: 1px solid #AAA; margin-bottom:15px">
+  <thead>
+    <tr class="tablebar">
+      <th align="left" colspan="2" style="padding-left:10px">
+        <tt style="float:right">
+        Pick7 : [ 
+        <a style="cursor:pointer;" (click)="set_difficulty(1)"
+          [class.lightgreen-color]="difficulty==1">Easy</a> |
+        <a style="cursor:pointer;" (click)="set_difficulty(2)"
+          [class.lightgreen-color]="difficulty==2">Medium</a> |
+        <a style="cursor:pointer;" (click)="set_difficulty(3)"
+          [class.lightgreen-color]="difficulty==3">Uniform</a>
+        ] &nbsp; 
+        Show : [ 
+        <a style="cursor:pointer;" (click)="set_show_unsolved(true)"
+          [class.lightgreen-color]="show_unsolved">unsolved</a> |
+        <a style="cursor:pointer;" (click)="set_show_unsolved(false)"
+          [class.lightgreen-color]="!show_unsolved">all</a> ] &nbsp;</tt>
+        Problems Picker ({{n_selected()}} Selected)
+       </th>
+    </tr>
+    <tr class="tablesubar">
+      <td width="70" align="center">Difficulty</td>
+      <td>Problem Numbers</td>
+    </tr>
+  </thead>
+  <tbody class="alt_colors" (click)="toggle_problem($event)">
+    <tr *ngFor="#problems of show_unsolved ? levels : all_levels; #i = index">
+      <template [ngIf]="problems && problems.length > 0">
+        <td align=center>Level {{i + 1}}</td>
+        <td>
+          <template ngFor #p [ngForOf]="problems">
+            <span style="font-size:10px; cursor:pointer"
+                 [class.hilite]="selected[p.number]">{{p.number}}</span>
+          </template>
+        </td>
+      </template>
+    </tr>
+  </tbody>
+</table>

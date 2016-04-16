@@ -51,7 +51,7 @@ export class ProblemService {
   }
 
   // Loop through all the problems.
-  each(f) {
+  each(f: (p: Problem) => void) {
     for (let problem_id in this.problem_by_id) {
       f(this.problem_by_id[problem_id]);
     }

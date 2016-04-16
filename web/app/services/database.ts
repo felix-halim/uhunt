@@ -21,6 +21,13 @@ export class DatabaseService {
     'uhunt_ranklist_nabove': 'int',
     'uhunt_ranklist_nbelow': 'int',
     'uhunt_statscmp_expr': 'string',
+    'uhunt_vcontest_contestants': 'string',
+    'uhunt_picker_show_unsolved': 'bool',
+    'uhunt_picker_difficulty': 'int',
+    'uhunt_past_contest_view': 'string',
+    'uhunt_past_contest_sort_by': 'string',
+    'uhunt_past_contest_sort_asc': 'bool',
+    'uhunt_past_contest_show': 'int',
     'show_livesubs': 'bool',
     'livesubs_table_display': 'bool',
     'last_problem_reload': 'int',
@@ -40,12 +47,6 @@ export class DatabaseService {
     'cpbook_chapter': 'int',
     'cpbook_edition': 'int',
     'show_live_submissions': 'int',
-    'vcshadow-view': 'string',
-    'vcshadow-sortby': 'string',
-    'vcshadow-sortasc': 'bool',
-    'vcshadow-n': 'int',
-    'vcontest_picker_show_unsolved': 'bool',
-    'uhunt_vcontest_uids': 'string',
   };
 
   constructor() { }

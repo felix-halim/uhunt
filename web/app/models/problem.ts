@@ -66,7 +66,9 @@ export class Problem {
   }
 
   getLevel() {
-    return 10 - Math.floor(Math.min(10, Math.log(this.distinct_accepted_user)));
+    if (this.distinct_accepted_user == 0) return 10;
+    var log_dacu = Math.log(this.distinct_accepted_user);
+    return Math.max(1, 10 - Math.floor(Math.min(10, log_dacu)));
   }
 
   getClass(u: User): string {

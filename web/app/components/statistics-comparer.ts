@@ -245,31 +245,29 @@ export class StatsComparerComponent implements OnChanges {
   };
 
   fetch(unames) {
-    var prefix_url = Config.API_PATH + '/solved-bits';
-    var promise = (parseInt(unames[0], 10) === unames[0])
-      ? this._httpService.get(prefix_url + '/' + unames.join(','))
-      : this._httpService.get(prefix_url, { unames: JSON.stringify(unames) });
-
-    return Promise.all([promise, this._problemService.ready]).then((z) => {
-      var res = z[0];
-      var invalids = '';
-      for (var i = 0; i < res.length; i++) {
-        if (res[i].solved === false) {
-          invalids += res[i].username + "\n";
-        } else {
-          var s = res[i].solved, arr = [];
-          for (var j = 0; j < s.length; j++) {
-            for (var k = 0; k < (1 << 5); k++) {
-              var p = this._problemService.getProblemById((j << 5) + k);
-              if ((s[j] & (1 << k)) && p) arr.push(p.number);
+    return Promise.all([
+      this._httpService.get(Config.API_PATH + '/solved-bits',
+        { unames: JSON.stringify(unames) }),
+      this._problemService.ready]).then((z) => {
+        var res = z[0];
+        var invalids = '';
+        for (var i = 0; i < res.length; i++) {
+          if (res[i].solved === false) {
+            invalids += res[i].username + "\n";
+          } else {
+            var s = res[i].solved, arr = [];
+            for (var j = 0; j < s.length; j++) {
+              for (var k = 0; k < (1 << 5); k++) {
+                var p = this._problemService.getProblemById((j << 5) + k);
+                if ((s[j] & (1 << k)) && p) arr.push(p.number);
+              }
             }
+            arr.sort(this.intcmp);
+            this.cmp_users[res[i].username] = arr;
           }
-          arr.sort(this.intcmp);
-          this.cmp_users[res[i].username] = arr;
         }
-      }
-      if (invalids.length > 0) alert("Invalid username(s) :\n" + invalids);
-    });
+        if (invalids.length > 0) alert("Invalid username(s) :\n" + invalids);
+      });
   }
 
   colored_terms() {

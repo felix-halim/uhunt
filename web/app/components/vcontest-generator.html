@@ -1,0 +1,137 @@
+<h2 align="center">Virtual Contests Generator</h2>
+
+<p>It is important to measure your performance under contest settings.
+If you want to solve 5 problems in 3 hours, this tool can help you measure it.
+First, using the <b>problem picker</b>, pick a set of unsolved problems
+(categorized by the difficulty levels).
+Then set the start date and duration and create a virtual contest using the
+following generator.
+If you want compete against shadow contestants from the past UVa contests, 
+you can click the <b>past contests</b> and select from one of the past UVa
+contests. The link to the virtual contest will appear after you generate it
+(only people that know the link are able to view it).
+</p>
+
+<table width="900" cellpadding="5">
+<tr>
+  <td width="175" style="font-size:12px">Contestants UVa IDs</td>
+  <td style="font-size:12px">
+    <input type="text" class="pickerclass" style="width:450px"
+         [(ngModel)]="contestants" [(ngFormControl)]="contestantsControl">
+    <!-- <input type="checkbox"> Public Contest (anyone can join) -->
+  </td>
+</tr>
+<tr>
+  <td style="font-size:12px">UVa Problem Numbers</td>
+  <td style="font-size:12px">
+    <input type="text" class="pickerclass" style="width:450px"
+         [(ngModel)]="problemset" [(ngFormControl)]="problemsetControl">
+    <a style="font-weight:bold; color:blue; cursor:pointer;"
+       [class.lightgreen-bg]="view_picker=='pick'"
+       (click)="view_picker=view_picker=='pick'?'':'pick'">
+       &nbsp;Problem Picker&nbsp;</a> |
+    <a style="font-weight:bold; color:blue; cursor:pointer;"
+       [class.lightgreen-bg]="view_picker=='past'"
+       (click)="view_picker=view_picker=='past'?'':'past'">
+       &nbsp;Past Contests&nbsp;</a>
+  </td>
+</tr>
+<tr *ngIf="view_picker=='pick'">
+  <td colspan="2">
+    <uhunt-problems-picker
+      [(problemset)]="problemset" [problemsetControl]="problemsetControl"
+      [issolved]="issolved" [issolvedChanged]="issolvedChanged">
+    </uhunt-problems-picker>
+  </td>
+</tr>
+<tr *ngIf="view_picker=='past'">
+  <td colspan="2">
+    <uhunt-past-contests-picker
+      [(contestid)]="contestid"
+      [(problemset)]="problemset" [problemsetControl]="problemsetControl"
+      [issolved]="issolved" [issolvedChanged]="issolvedChanged">
+    </uhunt-past-contests-picker>
+  </td>
+</tr>
+<tr>
+  <td style="font-size:12px">Contest Date and Duration</td>
+  <td style="font-size:12px">
+    <input type="text" size="14" [(ngModel)]="contest_date"
+           placeholder="yyyy/mm/dd">&nbsp; hh:mm 
+    <input type="text" size="5" [(ngModel)]="contest_time"
+           placeholder="hh:mm">
+    &nbsp; Duration 
+    <input type="text" size="3" [(ngModel)]="duration" value="5h"> 
+    (suffix: <b>h</b>=hours, <b>d</b>=days, <b>w</b>=week)
+  </td>
+</tr>
+<tr>
+  <td>&nbsp;</td>
+  <td>
+    <button [disabled]="is_generating || problemset==''"
+            (click)="generate_vcontest()">
+      Generate Virtual Contest
+    </button>
+    <button (click)="vcontest_link = ''">
+      Clear
+    </button>
+  </td>
+</tr>
+<tr *ngIf="vcontest_link.length > 0">
+  <td>&nbsp;</td>
+  <td>
+    <p>
+      Here is the virtual contest link (the problem list is hidden until the
+      contest starts):
+    </p>
+    <p>&nbsp;&nbsp;&nbsp;&nbsp;
+      <b style="font-size:14px">
+        <a href="{{vcontest_link_href}}" target="_blank">{{vcontest_link}}</a>
+      </b>
+    </p>
+
+    <p>
+      To host the virtual contest in your own website, copy paste the following
+      scripts to your web page.<br>
+      <b style="color:red">Note</b>: you must hide your web page (containing the
+      scripts) <b>before</b> the contest start, otherwise the contestants can
+      see the problem numbers of the contest in advance.<br>
+    </p>
+    <textarea rows="28" cols="100"><!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>UVa Virtual Contest</title>
+<link rel="shortcut icon" href="{{config.UHUNT_HOST}}/images/uva-rounded.png" />
+<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.17/themes/cupertino/jquery-ui.css" />
+<link rel="stylesheet" href="{{config.UHUNT_HOST}}/css/uhunt-vcontest-1.0.css" />
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.17/jquery-ui.min.js"></script>
+<script type="text/javascript" src="{{config.UHUNT_HOST}}/js/uhunt-vcontest-1.1.js"></script>
+<script>
+vcontest.start({
+  user_ids: [{{contestants}}],
+  problem_numbers: [{{problemset}}],
+  start_sbt: {{start_sbt}},
+  end_sbt: {{end_sbt}},
+  contest_id: {{contestid}},
+  ranklist_container: "ranklist_container",
+  livesubs_container: "livesubs_container",
+});
+</script>
+</head>
+<body>
+<div style="width:970px; margin:0 0 0 10px">
+<h1><a style="float:right" target="_blank"
+  href="http://uva.onlinejudge.org/index.php?option=com_onlinejudge&Itemid=25&page=submit_problem">
+  Quick Submit</a>
+UVa Virtual Contest</h1>
+<div id="livesubs_container"></div>
+<div id="ranklist_container"></div>
+</div>
+</body>
+</html></textarea>
+  </td>
+</tr>
+</table>
+<br>

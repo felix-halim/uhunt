@@ -1,0 +1,78 @@
+<p>
+  Select the contest title to get the list of problems from that past
+  contest.
+  The solved column denotes how many problems solved by the contestants
+  listed in the above field.
+  The problems column denotes the number of problems in that past contest.
+  The dacu column shows the total of distinct accepted users on the unsolved
+  problems.
+  The duration column denotes the contest duration.
+</p>
+<table width="100%" border="0" cellspacing="0" cellpadding="0"
+       style="border: 1px solid #AAA">
+  <thead>
+    <tr class="tablebar" height="25">
+      <th align="left" colspan="11" style="padding-left:10px">
+        <tt style="float:right">Show : [
+          <a style="cursor:pointer;" (click)="set_show(25)"
+            [class.lightgreen-color]="show==25">25</a> |
+          <a style="cursor:pointer;" (click)="set_show(50)"
+            [class.lightgreen-color]="show==50">50</a> |
+          <a style="cursor:pointer;" (click)="set_show(100)"
+            [class.lightgreen-color]="show==100">100</a> |
+          <a style="cursor:pointer;" (click)="set_show(1000)"
+            [class.lightgreen-color]="show==1000">ALL</a>
+        ]&nbsp;</tt>
+        <tt style="float:right">View : [
+          <span [class.lightgreen-color]="view=='unsolved'"
+                (click)="set_view('unsolved')"
+                style="cursor:pointer">unsolved</span> |
+          <span [class.lightgreen-color]="view=='solved'"
+                (click)="set_view('solved')"
+                style="cursor:pointer">solved</span> |
+          <span [class.lightgreen-color]="view=='both'"
+                (click)="set_view('both')"
+                style="cursor:pointer">both</span>
+        ] &nbsp;</tt>
+        Past Contests
+      </th>
+    </tr>
+    <tr class="tablesubar" height="22">
+      <th width="60" (click)="set_sort_by('id')" style="cursor:pointer">ID</th>
+      <th width="360" (click)="set_sort_by('title')" style="cursor:pointer"
+          align="left">&nbsp; Contest Title</th>
+      <th width="80" (click)="set_sort_by('solved')" style="cursor:pointer">
+          Solved</th>
+      <th width="80" (click)="set_sort_by('nprobs')" style="cursor:pointer">
+          # Problems</th>
+      <th width="80" (click)="set_sort_by('dacu')" style="cursor:pointer">
+          Dacu</th>
+      <th width="80" (click)="set_sort_by('duration')" style="cursor:pointer">
+          Duration</th>
+    </tr>
+  </thead>
+  <tbody class="alt_colors">
+    <template ngFor #c [ngForOf]="arr.slice(0, show)" #i="index">
+      <tr *ngIf="c.problems.length > 0
+             && (view != 'unsolved' || c.solved != c.problems.length)
+             && (view != 'solved' || c.solved == c.problems.length)"
+           height="17" style="{{c.id == contestid ? 'font-weight:bold' : ''}}">
+        <td style="background-color: {{sort_by == 'id' ? color(i) : ''}}"
+            align="center">{{c.id}}
+        <td style="background-color: {{sort_by == 'title' ? color(i) : ''}}">
+          <a class="ellipsis" (click)="set_contest_id(c)"
+             style="width:350px; text-decoration:none; cursor:pointer">
+              &nbsp;{{c.name}}
+          </a>
+        <td style="background-color: {{sort_by == 'solved' ? color(i) : ''}}"
+            align="center">{{c.solved}}
+        <td style="background-color: {{sort_by == 'nprobs' ? color(i) : ''}}"
+            align="center">{{c.problems.length}}
+        <td style="background-color: {{sort_by == 'dacu' ? color(i) : ''}}"
+            align="center">{{c.dacu}}
+        <td style="background-color: {{sort_by == 'duration' ? color(i) : ''}}"
+            align="center">{{c.duration}}
+      </tr>
+    </template>
+  </tbody>
+</table>

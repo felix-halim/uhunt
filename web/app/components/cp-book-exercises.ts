@@ -53,10 +53,6 @@ export class CpBookExercisesComponent implements OnChanges {
     this.cpbooks = CpBookExercisesComponent._cpbooks;
   }
 
-  ngOnInit() {
-    this.refresh();
-  }
-
   ngOnChanges(changes) {
     this.refresh();
   }
@@ -114,7 +110,7 @@ export class CpBookExercisesComponent implements OnChanges {
         for (var k = 1; k < ssc.length; k++) {
           if (show == 'Starred' && ssc[k] > 0) continue;
           var p = this._problemService.getProblemByNumber(Math.abs(ssc[k]));
-          if (!p) continue;
+          if (!p.id) continue;
           if (this.user.getProblemStats(p).ac) solved++;
           total++;
         }
@@ -136,7 +132,7 @@ export class CpBookExercisesComponent implements OnChanges {
           for (var k = 1; k < ssc.length; k++) {
             if (this.show == 'Starred' && ssc[k] > 0) continue;
             var p = this._problemService.getProblemByNumber(Math.abs(ssc[k]));
-            if (!p) continue;
+            if (!p.id) continue;
             var st = this.user.getProblemStats(p);
             if (st.ac) {
               nsolved++;

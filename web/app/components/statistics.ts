@@ -40,15 +40,10 @@ export class StatisticsComponent implements OnInit {
 
   constructor(
     private _routeParams: RouteParams,
-    private _userService: UserService,
-    private _problemService: ProblemService) {}
+    private _userService: UserService) {}
 
   ngOnInit() {
     var currentUserId = parseInt(this._routeParams.get('id'), 10);
-    Promise.all<any>([
-      this._problemService.ready,
-      this._userService.getUser(currentUserId)
-    ])
-    .then(values => this.user = values[1]);
+    this._userService.getUser(currentUserId).then(user => this.user = user);
   }
 }

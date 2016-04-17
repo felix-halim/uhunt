@@ -101,7 +101,7 @@ export class PastContestsPickerComponent implements OnInit {
       c.dacu = c.solved = 0;
       for (let problem_number of c.problems) {
         var p = this._problemService.getProblemByNumber(problem_number);
-        if (p) {
+        if (p.id) {
           if (is_solved(p.id)) {
             c.solved++;
           } else {

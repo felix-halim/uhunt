@@ -58,7 +58,7 @@ export class UserStatisticsComponent implements OnChanges {
   }
 
   ngOnChanges(changes) {
-    this.refresh();
+    this._problemService.ready.then(() => this.refresh());
   }
 
   limit_solved_problems() {

@@ -43,7 +43,7 @@ export class ChatProblemComponent implements OnInit {
       }
       this.text_links.push([' ', null]);
       var p = this._problemService.getProblemByNumber(parseInt(prefix, 10));
-      if (p) {
+      if (p.id) {
         this.text_links.push(['', p]);
         this.text_links.push([suffix, null]);
       } else {

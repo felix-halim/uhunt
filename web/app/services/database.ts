@@ -5,6 +5,8 @@ export class DatabaseService {
 
   // List of valid keys to store and its type.
   private keys = {
+    'uhunt_problems': 'json',
+    'uhunt_problems_last_sync': 'int',
     'uhunt_prob_search_max_subs': 'int',
     'uhunt_prob_search_max_rank': 'int',
     'uhunt_prob_search_show_last': 'string',
@@ -30,9 +32,7 @@ export class DatabaseService {
     'uhunt_past_contest_show': 'int',
     'show_livesubs': 'bool',
     'livesubs_table_display': 'bool',
-    'last_problem_reload': 'int',
     'last_udebug_reload': 'int',
-    'probs': 'json',
     'udebug': 'json',
     'username': 'string',
     'chat_invisible': 'bool',
@@ -79,7 +79,7 @@ export class DatabaseService {
       case 'json':
         let val = localStorage[key];
         return val ? JSON.parse(localStorage[key]) : null;
-      default: alert('Undefined database key: ' + key); break;
+      default: console.error('Undefined database key: ' + key); break;
     }
   }
 

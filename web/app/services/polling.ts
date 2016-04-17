@@ -35,8 +35,8 @@ export class PollingService {
   }
 
   poll() {
-    this._httpService.get(
-        Config.UHUNT_HOST + '/poll/' + this.session_id + '/' + JSON.stringify(this.ids)).then(res => {
+    this._httpService.get(Config.UHUNT_HOST + '/poll/' + this.session_id + '/'
+      + JSON.stringify(this.ids)).then(res => {
       this._problemService.ready.then(() => {
         if (this.session_id != res.sesid) {
           this.session_id = res.sesid;
@@ -69,7 +69,7 @@ export class PollingService {
           name: s.name,
           username: s.uname
         }),
-        this._problemService.getProblem(s.pid),
+        this._problemService.getProblemById(s.pid),
         s.ver,
         s.lan,
         s.run,
@@ -90,8 +90,10 @@ export class PollingService {
       if (chat.userid == 14031984) {
         var v = JSON.parse(chat.message);
         if (v.rank1pid) {
-          v.problem = this._problemService.getProblem(v.rank1pid);
-          chats.push(new ChatMessage(v, true));
+          v.problem = this._problemService.getProblemById(v.rank1pid);
+          if (v.problem.id) {
+            chats.push(new ChatMessage(v, true));
+          }
         } else {
           console.error('Unknown chat format ', chat);
         }

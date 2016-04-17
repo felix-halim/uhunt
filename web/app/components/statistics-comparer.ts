@@ -1,4 +1,6 @@
 import {Component, Input, OnChanges} from 'angular2/core';
+import {Observable}       from 'rxjs/Observable';
+import {Observer}         from 'rxjs/Observer';
 
 import {CpBookExercisesComponent}    from './cp-book-exercises'
 import {Config}                      from '../config';
@@ -17,7 +19,7 @@ import {ProblemService}              from '../services/problem';
 export class StatsComparerComponent implements OnChanges {
   @Input() user: User;
 
-  input_expr: string;
+  input_expr: string = '';
   cmp_expr: string;
   pos: number;
   error_parsing: boolean;
@@ -33,7 +35,10 @@ export class StatsComparerComponent implements OnChanges {
   constructor(
     private _databaseService: DatabaseService,
     private _problemService: ProblemService,
-    private _httpService: HttpService) {}
+    private _httpService: HttpService) {
+
+    this._problemService.subscribe(() => this.refresh());
+  }
 
   ngOnChanges(changes) {
     this.refresh();
@@ -48,11 +53,9 @@ export class StatsComparerComponent implements OnChanges {
     var CP3 = [];
     var CP3S = [];
 
-    this._problemService.ready.then(() => {
-      this._problemService.each((p) => { S.push(p.number); });
-      S.sort(this.intcmp);
-      this.cmp_users['S'] = S;
-    });
+    this._problemService.each((p) => { S.push(p.number); });
+    S.sort(this.intcmp);
+    this.cmp_users['S'] = S;
 
     for (let num of CpBookExercisesComponent.get_cp_numbers(0)) {
       CP1.push(Math.abs(num));
@@ -92,7 +95,7 @@ export class StatsComparerComponent implements OnChanges {
 
   private intcmp(a, b) { return a - b; }
 
-  intersect(x, y):any {
+  private intersect(x, y): any {
     if (this.unames_gathering) return false;
     var xi = 0, yi = 0, ret = [];
     while (xi < x.length && yi < y.length) {
@@ -103,7 +106,7 @@ export class StatsComparerComponent implements OnChanges {
     return ret;
   }
 
-  union(x, y): any {
+  private union(x, y): any {
     if (this.unames_gathering) return false;
     var xi = 0, yi = 0, ret = [];
     while (xi < x.length && yi < y.length) {
@@ -116,7 +119,7 @@ export class StatsComparerComponent implements OnChanges {
     return ret;
   }
 
-  subtract(x, y): any {
+  private subtract(x, y): any {
     if (this.unames_gathering) return false;
     var xi = 0, yi = 0, ret = [];
     while (xi < x.length && yi < y.length) {
@@ -128,7 +131,7 @@ export class StatsComparerComponent implements OnChanges {
     return ret;
   }
 
-  next_token(): any {
+  private next_token(): any {
     if (this.error_parsing) return 0;
     if (this.pos >= this.input_expr.length) return this.look = -1;
     var token = this.input_expr.charAt(this.pos++);
@@ -149,13 +152,13 @@ export class StatsComparerComponent implements OnChanges {
     return this.look = token.trim();
   }
 
-  match(x) {
+  private match(x) {
     if (this.error_parsing) return 0;
     if (x != this.look) this.error_parsing = true;
     this.next_token();
   }
 
-  eval_var(v) {
+  private eval_var(v) {
     if (this.unames_gathering) {
       if (typeof this.cmp_users[v] == 'undefined') {
         this.cmp_users[v] = 'unset';
@@ -166,7 +169,7 @@ export class StatsComparerComponent implements OnChanges {
     return this.cmp_users[v];
   }
 
-  bracket() {
+  private bracket() {
     if (this.error_parsing) return 0;
     if (this.look == '(') {
       this.match('(');
@@ -177,7 +180,7 @@ export class StatsComparerComponent implements OnChanges {
     return this.eval_var(this.look);
   }
 
-  term() {
+  private term() {
     if (this.error_parsing) return 0;
     var ret = this.bracket();
     while (!this.error_parsing && this.look != -1) {
@@ -199,7 +202,7 @@ export class StatsComparerComponent implements OnChanges {
     return ret;
   }
 
-  parse() {
+  private parse() {
     this.pos = 0;
     this.error_parsing = false;
     this.look = this.next_token();
@@ -209,7 +212,7 @@ export class StatsComparerComponent implements OnChanges {
     return !this.error_parsing;
   }
 
-  clear() {
+  private clear() {
     this.cur_users = {};
     this.cmp_users = {};
     this.cmp_expr = '';
@@ -238,18 +241,19 @@ export class StatsComparerComponent implements OnChanges {
         this.parse();
         this.problems = [];
         for (let num of this.result) {
-          this.problems.push(this._problemService.getProblemByNumber(num));
+          var p = this._problemService.getProblemByNumber(num);
+          if (p.id) {
+            this.problems.push(p);
+          }
         }
       });
     }
   };
 
-  fetch(unames) {
-    return Promise.all([
-      this._httpService.get(Config.API_PATH + '/solved-bits',
-        { unames: JSON.stringify(unames) }),
-      this._problemService.ready]).then((z) => {
-        var res = z[0];
+  private fetch(unames) {
+    return this._httpService.get(Config.API_PATH + '/solved-bits',
+        { unames: JSON.stringify(unames) })
+      .then(res => {
         var invalids = '';
         for (var i = 0; i < res.length; i++) {
           if (res[i].solved === false) {
@@ -259,7 +263,7 @@ export class StatsComparerComponent implements OnChanges {
             for (var j = 0; j < s.length; j++) {
               for (var k = 0; k < (1 << 5); k++) {
                 var p = this._problemService.getProblemById((j << 5) + k);
-                if ((s[j] & (1 << k)) && p) arr.push(p.number);
+                if ((s[j] & (1 << k)) && p.id) arr.push(p.number);
               }
             }
             arr.sort(this.intcmp);

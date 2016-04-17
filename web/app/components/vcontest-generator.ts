@@ -127,7 +127,8 @@ export class VcontestGenComponent implements OnChanges {
       for (var j = 0; j < s.length; j++) {
         for (var k = 0; k < (1 << 5); k++) {
           var pid = (j << 5) + k;
-          if ((s[j] & (1 << k)) && this._problemService.getProblemById(pid)) {
+          if ((s[j] & (1 << k))
+              && this._problemService.getProblemById(pid).id) {
             solved[pid] = true;
           }
         }

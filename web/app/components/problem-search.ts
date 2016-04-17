@@ -115,7 +115,7 @@ export class ProblemSearchComponent implements OnChanges {
     var num = parseInt(this.search_number, 10);
     this.searched_problem = this._problemService.getProblemByNumber(num);
 
-    if (!this.searched_problem) {
+    if (!this.searched_problem.id) {
       return this.set_show_search_result(false);
     }
 
@@ -150,7 +150,7 @@ export class ProblemSearchComponent implements OnChanges {
       this.submissions.push(new Submission([
         s.sid,
         new User({ userid: s.uid, username: s.uname, name: s.name }),
-        this._problemService.getProblem(s.pid),
+        this._problemService.getProblemById(s.pid),
         s.ver,
         s.lan,
         s.run,
@@ -182,7 +182,7 @@ export class ProblemSearchComponent implements OnChanges {
       this.ranklist.push(new Submission([
         s.sid,
         new User({ userid: s.uid, username: s.uname, name: s.name }),
-        this._problemService.getProblem(s.pid),
+        this._problemService.getProblemById(s.pid),
         s.ver,
         s.lan,
         s.run,

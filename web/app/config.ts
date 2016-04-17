@@ -1,6 +1,10 @@
 import {Problem}             from './models/problem';
 
 export class Config {
+  public static get MAX_PROBLEMS_STALENESS_SECONDS(): number {
+    return 24 * 60 * 60;
+  }
+
   private static verdict_map = {
      0: { name: "- In queue -",        short_name: "QU", color: "#000000" }, // OT
     10: { name: "SubmissionErr",       short_name: "SE", color: "#000000" }, // OT

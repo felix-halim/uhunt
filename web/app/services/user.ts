@@ -41,7 +41,7 @@ export class UserService {
         user.insertOrUpdate(new Submission([
           s[0],
           user,
-          this._problemService.getProblem(s[1]),
+          this._problemService.getProblemById(s[1]),
           s[2],
           s[5],
           s[3],

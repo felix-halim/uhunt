@@ -118,4 +118,10 @@ export class Config {
     return Config.UVA_HOST + '/index.php?option=com_onlinejudge'
       + '&Itemid=8&page=problem_stats&category=24&problemid=' + p.id;
   }
+
+  public static format_ms(ms: number): string {
+    if ((!ms && ms !== 0) || ms > 100000) return '-';
+    var sec = Math.floor(ms / 1000); ms %= 1000;
+    return sec + '.' + (ms < 10 ? '00' : (ms < 100 ? '0' : '')) + ms;
+  }
 }

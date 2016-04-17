@@ -78,7 +78,7 @@ it may requires a whole different algorithm to make a big runtime improvement.
           </tr>
         </thead>
         <tbody class="alt_colors">
-          <tr *ngFor="#p of ((volume == 0) ? volume_all : volumes[v])
+          <tr *ngFor="#p of ((volume == 0) ? volume_all : volumes[volume])
                       | filterByView:view_which
                       | sortByColumn:sort_column:sort_desc
                       | slice:0:max_next_problems;
@@ -118,18 +118,18 @@ it may requires a whole different algorithm to make a big runtime improvement.
                     | number:'1.3-3'}}
               </a>
             </td>
-            <td [hidden]="view_which==0" align="center"
+             <td *ngIf="view_which!=0" align="center"
                 style="background-color:{{column_color('run',i)}}">
-                  {{!p.ac ? '-' : (p.mrun * 1e-3 | number:'1.3-3')}}
+                  {{!p.ac ? '-' : config.format_ms(p.mrun)}}
             </td>
-            <td [hidden]="view_which==0" align="center"
+            <td *ngIf="view_which!=0" align="center"
                 style="background-color:{{column_color('diff',i)}}">
-                  {{!p.ac ? '-' : (p.diff_with_best_runtime() * 1e-3
-                    | number:'1.3-3')}}</td>
-            <td [hidden]="view_which==0" align="center"
+                  {{!p.ac ? '-' : config.format_ms(
+                  p.diff_with_best_runtime())}}</td>
+            <td *ngIf="view_which!=0" align="center"
                 style="background-color:{{column_color('rank',i)}}">
                   {{!p.ac ? '-' : p.rank}}</td>
-          </tr>
+           </tr>
         </tbody>
       </table>
     </td>

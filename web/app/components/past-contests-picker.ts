@@ -107,6 +107,8 @@ export class PastContestsPickerComponent implements OnInit {
           } else {
             c.dacu += p.distinct_accepted_user;
           }
+        } else {
+          console.error("Unknown problem number: " + problem_number, c);
         }
       }
       this.arr.push(c);

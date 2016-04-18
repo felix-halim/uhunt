@@ -1,22 +1,22 @@
 <div>
-  <table [hidden]="hide" width="970" style="border: 1px solid #AAA" cellpadding="1">
+  <table *ngIf="show" width="970" style="border: 1px solid #AAA" cellpadding="1">
     <thead>
       <tr class="tablebar" height="25">
       <th align="left" colspan="10" height="25">
         <span style="float:right; font-weight:normal; color:white; padding-right:10px">Show :
-          <a style="cursor:pointer" (click)="limit=5"
+          <a style="cursor:pointer" (click)="set_limit(5)"
             [class.lightgreen-color]="limit==5"
             [class.white-color]="limit!=5"> 5 </a> |
-          <a style="cursor:pointer" (click)="limit=10"
+          <a style="cursor:pointer" (click)="set_limit(10)"
             [class.lightgreen-color]="limit==10"
             [class.white-color]="limit!=10"> 10 </a> |
-          <a style="cursor:pointer" (click)="limit=25"
+          <a style="cursor:pointer" (click)="set_limit(25)"
             [class.lightgreen-color]="limit==25"
             [class.white-color]="limit!=25"> 25 </a> |
-          <a style="cursor:pointer" (click)="limit=50"
+          <a style="cursor:pointer" (click)="set_limit(50)"
             [class.lightgreen-color]="limit==50"
             [class.white-color]="limit!=50"> 50 </a> |
-          <a style="cursor:pointer" (click)="limit=100"
+          <a style="cursor:pointer" (click)="set_limit(100)"
             [class.lightgreen-color]="limit==100"
             [class.white-color]="limit!=100"> 100 </a>
         </span>
@@ -24,7 +24,7 @@
         <a target="_blank" class="white" href="{{config.live_submissions_link()}}">
           <b>Live Submissions</b>
         </a>
-        <a class="white" style="cursor:pointer" (click)="hide=true">(hide)</a>
+        <a class="white" style="cursor:pointer" (click)="set_show(false)">(hide)</a>
       </th>
       <tr class="tablesubar" height="20">
         <th width="65" align="left">&nbsp; &nbsp; #</th>
@@ -85,7 +85,7 @@
   </table>
 
   <p>
-    <a [hidden]="!hide" (click)="hide=false"
+    <a *ngIf="!show" (click)="set_show(true)"
        style="cursor:pointer; text-decoration:none; color:blue">
          View Live Submissions
     </a>

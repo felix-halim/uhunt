@@ -7,6 +7,8 @@ export class DatabaseService {
   private keys = {
     'uhunt_problems': 'json',
     'uhunt_problems_last_sync': 'int',
+    'uhunt_livesubs_show': 'bool',
+    'uhunt_livesubs_limit': 'int',
     'uhunt_prob_search_max_subs': 'int',
     'uhunt_prob_search_max_rank': 'int',
     'uhunt_prob_search_show_last': 'string',
@@ -30,8 +32,6 @@ export class DatabaseService {
     'uhunt_past_contest_sort_by': 'string',
     'uhunt_past_contest_sort_asc': 'bool',
     'uhunt_past_contest_show': 'int',
-    'show_livesubs': 'bool',
-    'livesubs_table_display': 'bool',
     'last_udebug_reload': 'int',
     'udebug': 'json',
     'username': 'string',
@@ -41,12 +41,10 @@ export class DatabaseService {
     'uhunt_widget_highlight_uids_chk': 'bool',
     'uhunt-code': 'string',
     'logged-in': 'bool',
-    'livesub-nshow': 'int',
     'series_index': 'int',
     'cpbook_show': 'string',
     'cpbook_chapter': 'int',
     'cpbook_edition': 'int',
-    'show_live_submissions': 'int',
   };
 
   constructor() { }

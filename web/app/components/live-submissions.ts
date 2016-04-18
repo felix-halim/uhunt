@@ -5,6 +5,7 @@ import {Submission}       from '../models/submission';
 import {User}             from '../models/user';
 
 import {PollingService}   from '../services/polling';
+import {DatabaseService}  from '../services/database';
 
 import {ElapsedTimePipe}  from '../pipes/elapsed-time';
 
@@ -17,19 +18,33 @@ export class LiveSubmissionsComponent {
   @Input() user: User;
 
   private live_submissions: Submission[] = [];
-  private hide = false;
-  private limit = 5;
+  private show;
+  private limit;
 
   private host = Config.UVA_HOST;
   private config = Config;
 
-  constructor(_pollingService: PollingService) {
-    _pollingService.submissions.subscribe((subs: Submission[]) => {
+  constructor(
+      private _pollingService: PollingService,
+      private _databaseService: DatabaseService) {
+
+    this.limit = this._databaseService.get('uhunt_livesubs_limit') || 5;
+    this.show = this._databaseService.get('uhunt_livesubs_show');
+
+    this._pollingService.submissions.subscribe((subs: Submission[]) => {
       for (var s of subs) {
         this.update(s);
       }
     });
     this.refresh();
+  }
+
+  set_limit(n) {
+    this._databaseService.set('uhunt_livesubs_limit', this.limit = n);
+  }
+
+  set_show(show) {
+    this._databaseService.set('uhunt_livesubs_show', this.show = show);
   }
 
   private update(sub) {

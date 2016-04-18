@@ -119,6 +119,14 @@ export class Config {
       + '&Itemid=8&page=problem_stats&category=24&problemid=' + p.id;
   }
 
+  public static algorithmist_link(p: Problem): string {
+    return 'http://www.algorithmist.com/index.php/UVa_' + p.number;
+  }
+
+  public static udebug_link(p: Problem): string {
+    return 'https://www.udebug.com/UVa/' + p.number;
+  }
+
   public static format_ms(ms: number): string {
     if ((!ms && ms !== 0) || ms > 100000) return '-';
     var sec = Math.floor(ms / 1000); ms %= 1000;

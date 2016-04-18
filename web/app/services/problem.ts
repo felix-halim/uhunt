@@ -27,15 +27,11 @@ export class ProblemService {
       this.problems$.subscribe((length) => resolve(length));
     });
 
-    try {
+    var problems = this._databaseService.get('uhunt_problems');
+    if (problems) {
       console.log('Loading problems from localStorage ...');
-      var problems = this._databaseService.get('uhunt_problems');
-      if (problems) {
-        this.parse(problems);
-        this.observer.next(problems.length);
-      }
-    } catch (e) {
-      console.error(e);
+      this.parse(problems);
+      this.observer.next(problems.length);
     }
 
     this.schedule_sync();

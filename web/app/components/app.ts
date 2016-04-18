@@ -8,8 +8,9 @@ import {MainComponent}           from './main';
 import {StatisticsComponent}     from './statistics';
 
 import {AlgorithmistService}     from '../services/algorithmist';
+import {CpBookExercisesService}  from '../services/cp-book-exercises';
 import {DatabaseService}         from '../services/database';
-import {UdebugService}           from '../services/udebug';
+import {UDebugService}           from '../services/udebug';
 import {HttpService}             from '../services/http';
 import {PollingService}          from '../services/polling';
 import {ProblemService}          from '../services/problem';
@@ -21,7 +22,8 @@ import {UserService}             from '../services/user';
   directives: [ROUTER_DIRECTIVES],
   providers: [
     AlgorithmistService,
-    UdebugService,
+    CpBookExercisesService,
+    UDebugService,
     DatabaseService,
     HttpService,
     PollingService,

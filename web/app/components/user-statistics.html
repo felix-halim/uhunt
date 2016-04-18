@@ -55,26 +55,12 @@
       <tr style="height:18px"
          *ngFor="#s of last_submissions | slice:0:num_last_subs">
         <td>
-          <span style="float:right; padding-right:5px">
-            <span ng-bind-html-unsafe="s.p.num | algorithmist:'|'"></span>
-            <a class="nou"
-              href="{{config.problem_discussion_link(s.problem)}}"
-              target="_blank">
-                discuss
-            </a>
-          </span>
           <a class="{{s.problem.getClass(user)}}"
              style="text-decoration:none;"
              href="{{config.problem_pdf_link(s.problem)}}"
              target="_blank">{{s.problem.number}}</a>
           -
-          <a class="ellipsis"
-            style="margin-left:5px; color:black;
-                   width:{{150 - algorithmist_width(s.problem)}}px;"
-            href="{{config.problem_full_link(s.problem)}}"
-            target="_blank">
-              {{s.problem.title}}
-          </a>
+          <uhunt-problem [problem]="s.problem" width="215"></uhunt-problem>
         </td>
         <td style="font-weight:bold; color:{{config.verdict_color(s.verdict)}}">
           &nbsp;{{ config.verdict_name(s.verdict) }}

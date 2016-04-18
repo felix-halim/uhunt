@@ -30,7 +30,7 @@ export class PastContestsPickerComponent implements OnInit {
   arr: any[] = [];
   sort_by: string;
   sort_asc: boolean;
-  show: number:
+  show: number;
   view: string;
 
   constructor(

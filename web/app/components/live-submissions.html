@@ -1,5 +1,5 @@
 <div>
-  <table *ngIf="show" width="970" style="border: 1px solid #AAA" cellpadding="1">
+  <table *ngIf="show" style="border: 1px solid #AAA" cellpadding="1">
     <thead>
       <tr class="tablebar" height="25">
       <th align="left" colspan="10" height="25">
@@ -29,14 +29,14 @@
       <tr class="tablesubar" height="20">
         <th width="65" align="left">&nbsp; &nbsp; #</th>
         <th width="40" align="left"></th>
-        <th width="185" align="left">&nbsp; Problem Title</th>
-        <th width="205" align="left">&nbsp; User (username)</th>
+        <th width="195" align="left">&nbsp; Problem Title</th>
+        <th width="180" align="left">&nbsp; User (username)</th>
         <th width="110" align="left">&nbsp; Verdict</th>
         <th width="60" align="center">Lang</th>
         <th width="55" align="center">Time</th>
         <th width="55" align="center">Best</th>
         <th width="55" align="center">Rank</th>
-        <th width="120" align="center">Submit Time</th>
+        <th width="110" align="center">Submit Time</th>
       </tr>
     </thead>
 
@@ -50,20 +50,11 @@
           </a>
         </td>
         <td>
-          <span style="float:right; padding-right:5px">
-            <!--span ng-bind-html-unsafe="s.p.num | algorithmist:'|'"></span-->
-            <a class="nou" target="_blank"
-              href="{{config.problem_discussion_link(s.problem)}}">discuss</a>
-          </span>
-          <a class="ellipsis" target="_blank"
-            style="margin-left:5px; width:{{130 - 10 - 0}}px; color:black;"
-            href="{{config.problem_full_link(s.problem)}}">
-              {{s.problem.title}}
-          </a>
+          <uhunt-problem [problem]="s.problem" width="195"></uhunt-problem>
         </td>
         <td>
           <a class="ellipsis" target="_blank" href="/id/{{s.user.id}}"
-            style="margin-left:5px; width:{{205 - 10}}px">
+            style="margin-left:5px; width:{{180 - 10}}px">
               {{s.user.name + ' (' + s.user.username + ')' }}
           </a>
         </td>

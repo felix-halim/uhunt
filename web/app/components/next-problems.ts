@@ -3,6 +3,7 @@ import {Component, Input,
         Pipe, PipeTransform}     from 'angular2/core';
 
 import {BarComponent}            from './bar';
+import {ProblemComponent}        from './problem';
 
 import {Config}                  from '../config';
 
@@ -59,7 +60,7 @@ export class SortByColumnPipe implements PipeTransform {
 @Component({
   selector: 'uhunt-next-problems',
   templateUrl: 'app/components/next-problems.html',
-  directives: [BarComponent],
+  directives: [BarComponent, ProblemComponent],
   pipes: [FilterByViewPipe, SortByColumnPipe]
 })
 export class NextProblemsComponent implements OnChanges {

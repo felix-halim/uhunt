@@ -1,17 +1,19 @@
 import {Component, Input, OnChanges} from 'angular2/core';
 
-import {Config}               from '../config';
+import {Config}                  from '../config';
 
-import {User}                 from '../models/user';
-import {Problem}              from '../models/problem';
-import {Submission, Verdict}  from '../models/submission';
+import {ProblemComponent}        from './problem'
 
-import {AlgorithmistService}  from '../services/algorithmist';
-import {DatabaseService}      from '../services/database';
-import {ProblemService}       from '../services/problem';
-import {UdebugService}        from '../services/udebug';
+import {User}                    from '../models/user';
+import {Problem}                 from '../models/problem';
+import {Submission, Verdict}     from '../models/submission';
 
-import {ElapsedTimePipe}      from '../pipes/elapsed-time';
+import {AlgorithmistService}     from '../services/algorithmist';
+import {DatabaseService}         from '../services/database';
+import {ProblemService}          from '../services/problem';
+import {UDebugService}           from '../services/udebug';
+
+import {ElapsedTimePipe}         from '../pipes/elapsed-time';
 
 import {ProgressGraphDirective}  from '../directives/progress-graph';
 import {BarGraphDirective}       from '../directives/bar-graph';
@@ -20,6 +22,7 @@ import {BarGraphDirective}       from '../directives/bar-graph';
   selector: 'uhunt-user-statistics',
   templateUrl: 'app/components/user-statistics.html',
   directives: [
+    ProblemComponent,
     ProgressGraphDirective,
     BarGraphDirective,
   ],
@@ -48,7 +51,7 @@ export class UserStatisticsComponent implements OnChanges {
     private _algorithmistService: AlgorithmistService,
     private _databaseService: DatabaseService,
     private _problemService: ProblemService,
-    private _udebugService: UdebugService) {
+    private _udebugService: UDebugService) {
 
     this.show_solved =
       this._databaseService.get('uhunt_user_statistics_show_solved') || 'less';
@@ -64,11 +67,6 @@ export class UserStatisticsComponent implements OnChanges {
   limit_solved_problems() {
     return Math.min((this.show_solved == 'less')
       ? 500 : 1e10, this.solved_problems.length);
-  }
-
-  algorithmist_width(p: Problem) {
-    return (this._algorithmistService.exists(p.number) ? 15 : 0)
-         + (this._udebugService.exists(p.number) ? 20 : 0);
   }
 
   set_num_last_subs(n) {

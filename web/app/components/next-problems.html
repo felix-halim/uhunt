@@ -91,15 +91,7 @@ it may requires a whole different algorithm to make a big runtime improvement.
                    {{p.problem.number}}</a>
             </td>
             <td style="background-color:{{column_color('title',i)}}">
-              <span style="float:right; padding-right:8px;">
-                <!-- <span "p.num | algorithmist:'|' "></span> -->
-                <a class="nou" target="_blank" href="{{
-                  config.problem_discussion_link(p.problem)}}">discuss</a>
-              </span>
-              <a class="ellipsis" target="_blank"
-                 style="margin-left:5px; width:{{170 - 10}}px; color:black;"
-                 href="{{config.problem_full_link(p.problem)}}">
-                  {{p.problem.title}}</a>
+              <uhunt-problem [problem]="p.problem" width="280"></uhunt-problem>
             </td>
             <td align="center" style="background-color:{{column_color(
               'submissions_count',i)}}">{{p.problem.submissions_count}}</td>

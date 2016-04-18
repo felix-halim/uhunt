@@ -33,7 +33,7 @@ export class DatabaseService {
     'uhunt_past_contest_sort_asc': 'bool',
     'uhunt_past_contest_show': 'int',
     'last_udebug_reload': 'int',
-    'udebug': 'json',
+    'uhunt_udebug': 'json',
     'username': 'string',
     'chat_invisible': 'bool',
     'uhunt_series_user_filter': 'json',
@@ -42,8 +42,8 @@ export class DatabaseService {
     'uhunt-code': 'string',
     'logged-in': 'bool',
     'series_index': 'int',
-    'cpbook_show': 'string',
-    'cpbook_chapter': 'int',
+    'uhunt_cp_book_show': 'string',
+    'uhunt_cp_book_chapter': 'int',
     'cpbook_edition': 'int',
   };
 

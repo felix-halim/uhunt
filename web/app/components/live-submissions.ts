@@ -1,6 +1,9 @@
 import {Component, Input} from 'angular2/core';
 
 import {Config}           from '../config';
+
+import {ProblemComponent} from '../components/problem';
+
 import {Submission}       from '../models/submission';
 import {User}             from '../models/user';
 
@@ -12,6 +15,7 @@ import {ElapsedTimePipe}  from '../pipes/elapsed-time';
 @Component({
   selector: 'uhunt-live-submissions',
   templateUrl: 'app/components/live-submissions.html', 
+  directives: [ProblemComponent],
   pipes: [ElapsedTimePipe]
 })
 export class LiveSubmissionsComponent {

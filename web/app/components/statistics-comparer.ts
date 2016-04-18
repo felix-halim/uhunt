@@ -2,12 +2,12 @@ import {Component, Input, OnChanges} from 'angular2/core';
 import {Observable}       from 'rxjs/Observable';
 import {Observer}         from 'rxjs/Observer';
 
-import {CpBookExercisesComponent}    from './cp-book-exercises'
 import {Config}                      from '../config';
 
 import {User}                        from '../models/user';
 import {Problem}                     from '../models/problem';
 
+import {CpBookExercisesService}      from '../services/cp-book-exercises'
 import {DatabaseService}             from '../services/database';
 import {HttpService}                 from '../services/http';
 import {ProblemService}              from '../services/problem';
@@ -57,15 +57,15 @@ export class StatsComparerComponent implements OnChanges {
     S.sort(this.intcmp);
     this.cmp_users['S'] = S;
 
-    for (let num of CpBookExercisesComponent.get_cp_numbers(0)) {
+    for (let num of CpBookExercisesService.get_cp_numbers(0)) {
       CP1.push(Math.abs(num));
       if (num < 0) CP1S.push(-num);
     }
-    for (var num of CpBookExercisesComponent.get_cp_numbers(1)) {
+    for (var num of CpBookExercisesService.get_cp_numbers(1)) {
       CP2.push(Math.abs(num));
       if (num < 0) CP2S.push(-num);
     }
-    for (let num of CpBookExercisesComponent.get_cp_numbers(2)) {
+    for (let num of CpBookExercisesService.get_cp_numbers(2)) {
       CP3.push(Math.abs(num));
       if (num < 0) CP3S.push(-num);
     }

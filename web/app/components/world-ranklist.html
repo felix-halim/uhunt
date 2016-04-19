@@ -1,19 +1,20 @@
-<h2 align="center">World Ranklist</h2>
-
-<p>
-Below is the
-<a href="http://uva.onlinejudge.org/index.php?option=com_onlinejudge&Itemid=20">
-Author Ranklist</a> ordered by number of accepted and then number of
-submissions. The additional columns: "2d, 7d, 31d" represents the number of
-(distinct) solved problems in the past 2 days, 7 days, 31 days.
-</p>
-
-<table border="0" align="center" cellspacing="0" cellpadding="0"
-       style="border:1px solid #AAA">
+<table style="border: 1px solid #AAA">
   <thead>
     <tr class="tablebar" height="25" style="color:white">
-      <th colspan="10" align="left"> &nbsp; &nbsp; World Ranklist
+      <th colspan="10" align="left"> &nbsp; &nbsp;
+        <a class="white" style="cursor: pointer; font-weight: normal"
+          (click)="lastSubmissionsClicked.emit(true)">
+          Last Submissions
+        </a>
+        &nbsp;|&nbsp;
+        <a class="lightgreen-color nou" target="_blank"
+           href="https://uva.onlinejudge.org/index.php?option=com_onlinejudge&Itemid=20">
+          World Rank: {{user.rank}}
+        </a>
         <span style="float:right; font-weight:normal">Show: above [
+          <a style="cursor:pointer" (click)="set_nabove(5)"
+            [class.lightgreen-color]="nabove==5"
+            [class.white-color]="nabove!=5">5</a> |
           <a style="cursor:pointer" (click)="set_nabove(10)"
             [class.lightgreen-color]="nabove==10"
             [class.white-color]="nabove!=10">10</a> |
@@ -22,11 +23,11 @@ submissions. The additional columns: "2d, 7d, 31d" represents the number of
             [class.white-color]="nabove!=20">20</a> |
           <a style="cursor:pointer" (click)="set_nabove(50)"
             [class.lightgreen-color]="nabove==50"
-            [class.white-color]="nabove!=50">50</a> |
-          <a style="cursor:pointer" (click)="set_nabove(100)"
-            [class.lightgreen-color]="nabove==100"
-            [class.white-color]="nabove!=100">100</a>
-          ]; below [
+            [class.white-color]="nabove!=50">50</a>
+          ] &nbsp; below [
+          <a style="cursor:pointer" (click)="set_nbelow(5)"
+            [class.lightgreen-color]="nbelow==5"
+            [class.white-color]="nbelow!=5">5</a> |
           <a style="cursor:pointer" (click)="set_nbelow(10)"
             [class.lightgreen-color]="nbelow==10"
             [class.white-color]="nbelow!=10">10</a> |
@@ -35,25 +36,22 @@ submissions. The additional columns: "2d, 7d, 31d" represents the number of
             [class.white-color]="nbelow!=20">20</a> |
           <a style="cursor:pointer" (click)="set_nbelow(50)"
             [class.lightgreen-color]="nbelow==50"
-            [class.white-color]="nbelow!=50">50</a> |
-          <a style="cursor:pointer" (click)="set_nbelow(100)"
-            [class.lightgreen-color]="nbelow==100"
-            [class.white-color]="nbelow!=100">100</a>
+            [class.white-color]="nbelow!=50">50</a>
           ] &nbsp;
         </span>
       </th>
     </tr>
     <tr class="tablesubar" height="20">
-      <th width="70">Rank</th>
-      <th width="210" align="left">Name</th>
-      <th width="110" align="left">Username</th>
-      <th width="80">AC</th>
-      <th width="80">Subs</th>
-      <th width="50">2d</th>
-      <th width="50">7d</th>
-      <th width="50">31d</th>
-      <th width="50">3m</th>
-      <th width="50">1y</th>
+      <th width="60">Rank</th>
+      <th width="200" align="left">Name</th>
+      <th width="100" align="left">Username</th>
+      <th width="62">AC</th>
+      <th width="62">Subs</th>
+      <th width="40">2d</th>
+      <th width="40">7d</th>
+      <th width="40">31d</th>
+      <th width="40">3m</th>
+      <th width="40">1y</th>
     </tr>
   </thead>
   <tbody class="alt_colors">
@@ -78,4 +76,3 @@ submissions. The additional columns: "2d, 7d, 31d" represents the number of
     </tr>
   </tbody>
 </table>
-<br>

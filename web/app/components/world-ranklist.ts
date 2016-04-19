@@ -1,4 +1,4 @@
-import {Component, Input, OnChanges} from 'angular2/core';
+import {Component, Input, Output, EventEmitter, OnChanges} from 'angular2/core';
 
 import {Config}               from '../config';
 
@@ -17,6 +17,8 @@ import {UserService}          from '../services/user';
 })
 export class WorldRanklistComponent implements OnChanges {
   @Input() user: User;
+  @Output('last-submissions') lastSubmissionsClicked: EventEmitter<boolean> =
+    new EventEmitter();
 
   nabove: number = 10;
   nbelow: number = 10;
@@ -26,7 +28,11 @@ export class WorldRanklistComponent implements OnChanges {
 
   constructor(
     private _databaseService: DatabaseService,
-    private _httpService: HttpService) {}
+    private _httpService: HttpService) {
+
+    this.nabove = this._databaseService.get('uhunt_ranklist_nabove') || 5;
+    this.nbelow = this._databaseService.get('uhunt_ranklist_nbelow') || 5;
+  }
 
   ngOnChanges(changes) {
     this.refresh();
@@ -44,11 +50,16 @@ export class WorldRanklistComponent implements OnChanges {
 
   refresh() {
     this._httpService.get(Config.API_PATH + '/ranklist/' + this.user.id + '/'
-      + (this._databaseService.get('uhunt_ranklist_nabove') || 10) + '/' 
-      + (this._databaseService.get('uhunt_ranklist_nbelow') || 10))
+      + (this.nabove) + '/' + (this.nbelow))
     .then((arr) => {
       arr.sort(this.rank_cmp);
       this.ranklist = arr;
+      for (let u of arr) {
+        if (u.userid == this.user.id) {
+          this.user.rank = u.rank;
+          console.log(this.user);
+        }
+      }
     });
   }
 

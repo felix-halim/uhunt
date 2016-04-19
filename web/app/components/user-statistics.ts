@@ -1,37 +1,37 @@
 import {Component, Input, OnChanges} from 'angular2/core';
 
-import {Config}                  from '../config';
+import {Config}                      from '../config';
 
-import {ProblemComponent}        from './problem'
+import {ProblemComponent}            from './problem'
+import {LastSubmissionsComponent}    from './last-submissions'
+import {WorldRanklistComponent}      from './world-ranklist'
 
-import {User}                    from '../models/user';
-import {Problem}                 from '../models/problem';
-import {Submission, Verdict}     from '../models/submission';
+import {User}                        from '../models/user';
+import {Problem}                     from '../models/problem';
+import {Submission, Verdict}         from '../models/submission';
 
-import {AlgorithmistService}     from '../services/algorithmist';
-import {DatabaseService}         from '../services/database';
-import {ProblemService}          from '../services/problem';
-import {UDebugService}           from '../services/udebug';
+import {AlgorithmistService}         from '../services/algorithmist';
+import {DatabaseService}             from '../services/database';
+import {ProblemService}              from '../services/problem';
+import {UDebugService}               from '../services/udebug';
 
-import {ElapsedTimePipe}         from '../pipes/elapsed-time';
-
-import {ProgressGraphDirective}  from '../directives/progress-graph';
-import {BarGraphDirective}       from '../directives/bar-graph';
+import {ProgressGraphDirective}      from '../directives/progress-graph';
+import {BarGraphDirective}           from '../directives/bar-graph';
 
 @Component({
   selector: 'uhunt-user-statistics',
   templateUrl: 'app/components/user-statistics.html',
   directives: [
+    BarGraphDirective,
+    LastSubmissionsComponent,
     ProblemComponent,
     ProgressGraphDirective,
-    BarGraphDirective,
-  ],
-  pipes: [ElapsedTimePipe]
+    WorldRanklistComponent,
+  ]
 })
 export class UserStatisticsComponent implements OnChanges {
   @Input() user: User;
 
-  private last_submissions: Submission[] = [];
   private solved_problems: Problem[] = [];
   private tried_problems: Problem[] = [];
 
@@ -43,21 +43,19 @@ export class UserStatisticsComponent implements OnChanges {
   private verdict_counts = {};
 
   private show_solved: string;
-  private num_last_subs: number;
+  private show_last_subs: boolean;
 
   private config = Config;
 
   constructor(
-    private _algorithmistService: AlgorithmistService,
     private _databaseService: DatabaseService,
-    private _problemService: ProblemService,
-    private _udebugService: UDebugService) {
+    private _problemService: ProblemService) {
 
     this.show_solved =
       this._databaseService.get('uhunt_user_statistics_show_solved') || 'less';
 
-    this.num_last_subs =
-      this._databaseService.get('uhunt_user_statistics_num_last_subs') || 5;
+    this.show_last_subs =
+      this._databaseService.get('uhunt_user_statistics_show_last_subs');
   }
 
   ngOnChanges(changes) {
@@ -69,9 +67,9 @@ export class UserStatisticsComponent implements OnChanges {
       ? 500 : 1e10, this.solved_problems.length);
   }
 
-  set_num_last_subs(n) {
-    this._databaseService.set('uhunt_user_statistics_num_last_subs',
-      this.num_last_subs = n);
+  set_show_last_subs(show) {
+    this._databaseService.set('uhunt_user_statistics_show_last_subs',
+      this.show_last_subs = show);
   }
 
   set_show_solved(show_solved) {
@@ -80,16 +78,9 @@ export class UserStatisticsComponent implements OnChanges {
   }
 
   refresh() {
-    this.populate_last_submissions();
     this.populate_solved_and_tried_problems();
     this.populate_progress_over_the_years_graph();
     this.populate_submissions_by_verdict_graph();
-  }
-
-  private populate_last_submissions() {
-    var subs = [];
-    this.user.each_last_subs(10000, (sub) => subs.push(sub));
-    this.last_submissions = subs;
   }
 
   private populate_solved_and_tried_problems() {

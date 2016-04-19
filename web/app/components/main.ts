@@ -6,6 +6,6 @@ import {Router}     from 'angular2/router';
 })
 export class MainComponent {
   constructor(router: Router) {
-    router.navigate(['UserStatistics', { id: 339 }]);
+    router.navigateByUrl('/id/339');
   }
 }

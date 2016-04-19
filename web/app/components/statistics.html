@@ -64,19 +64,15 @@
 
 <hr style="clear:both" />
 
-<uhunt-world-ranklist [user]="user"></uhunt-world-ranklist>
-
-<hr style="clear:both" />
-
 <uhunt-statistics-comparer [user]="user"></uhunt-statistics-comparer>
 
 <hr style="clear:both" />
 
-<uhunt-web-api></uhunt-web-api>
+<uhunt-vcontest-generator [user]="user"></uhunt-vcontest-generator>
 
 <hr style="clear:both" />
 
-<uhunt-vcontest-generator [user]="user"></uhunt-vcontest-generator>
+<uhunt-web-api></uhunt-web-api>
 
 <hr style="clear:both" />
 
@@ -95,6 +91,9 @@ In the ChatBox and in the Live Submissions, some problem numbers will be
 The <b>bold problem numbers</b> in the statistics denotes that the runtime of
 your submission is equal to the best runtime (rank 1 of that problem).
 </li>
+<li>Q: What are the "2d, 7d, 31d" in the world ranklist table?<br>
+A: They represents the number of (distinct) solved problems in the past 2 days,
+7 days, and 31 days respectively.
 </ul>
 
 <br><br>

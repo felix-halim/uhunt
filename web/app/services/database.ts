@@ -16,6 +16,7 @@ export class DatabaseService {
     'uhunt_prob_search_number': 'int',
     'uhunt_prob_show_search_result': 'bool',
     'uhunt_user_statistics_num_last_subs': 'int',
+    'uhunt_user_statistics_show_last_subs': 'bool',
     'uhunt_user_statistics_show_solved': 'string',
     'uhunt_next_probs_sort_desc': 'bool',
     'uhunt_next_probs_sort_column': 'string',

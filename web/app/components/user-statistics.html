@@ -13,72 +13,17 @@
             width="225" height="150"></canvas>
   </div>
 
-  <table style="border: 1px solid #AAA">
-    <thead>
-      <tr class="tablebar">
-        <th align="left" colspan="7" height="25" valign="middle">
-          <span style="float:right; font-weight:normal">Show :
-            <a style="cursor:pointer" (click)="set_num_last_subs(5)"
-              [class.lightgreen-color]="num_last_subs==5"
-              [class.white-color]="num_last_subs!=5">5</a> |
-            <a style="cursor:pointer" (click)="set_num_last_subs(10)"
-              [class.lightgreen-color]="num_last_subs==10"
-              [class.white-color]="num_last_subs!=10">10</a> |
-            <a style="cursor:pointer" (click)="set_num_last_subs(50)"
-              [class.lightgreen-color]="num_last_subs==50"
-              [class.white-color]="num_last_subs!=50">50</a> |
-            <a style="cursor:pointer" (click)="set_num_last_subs(100)"
-              [class.lightgreen-color]="num_last_subs==100"
-              [class.white-color]="num_last_subs!=100">100</a> |
-            <a style="cursor:pointer" (click)="set_num_last_subs(500)"
-              [class.lightgreen-color]="num_last_subs==500"
-              [class.white-color]="num_last_subs!=500">500</a> |
-            <a style="cursor:pointer" (click)="set_num_last_subs(1000)"
-              [class.lightgreen-color]="num_last_subs==1000"
-              [class.white-color]="num_last_subs!=1000">1000</a> &nbsp;
-          </span>
-          &nbsp; <a target="_blank" class="white"
-          href="{{config.last_submissions_link(user && user.id)}}">Last Submissions</a>
-      </tr>
-      <tr class="tablesubar">
-        <th width="260" align="left">&nbsp; Problem
-        <th width="110" align="left">&nbsp; Verdict
-        <th width="60">Lang
-        <th width="50">Time
-        <th width="50">Best
-        <th width="50">Rank
-        <th width="120">Submit Time
-      </tr>
-    </thead>
-
-    <tbody class="alt_colors">
-      <tr style="height:18px"
-         *ngFor="#s of last_submissions | slice:0:num_last_subs">
-        <td>
-          <a class="{{s.problem.getClass(user)}}"
-             style="text-decoration:none;"
-             href="{{config.problem_pdf_link(s.problem)}}"
-             target="_blank">{{s.problem.number}}</a>
-          -
-          <uhunt-problem [problem]="s.problem" width="215"></uhunt-problem>
-        </td>
-        <td style="font-weight:bold; color:{{config.verdict_color(s.verdict)}}">
-          &nbsp;{{ config.verdict_name(s.verdict) }}
-        </td>
-        <td align="center">{{config.language_name(s.language)}}</td>
-        <td align="center">{{s.runtime_ms * 1e-3 | number:'1.3-3'}}</td>
-        <td align="center">
-          <a target="_blank" class="nou"
-             href="{{config.problem_ranklist_link(s.problem)}}">
-               {{s.problem.best_runtime * 1e-3 | number:'1.3-3'}}
-          </a>
-        </td>
-        <td align="center">{{s.getRank() }}</td>
-        <td align="center">{{s.submit_time | elapsedTime:2}}</td>
-      </tr>
-    </tbody>
-  </table>
-
+   <uhunt-last-submissions
+    [user]="user"
+    (world-ranklist)="set_show_last_subs(false)"
+    [hidden]="!show_last_subs">
+  </uhunt-last-submissions>
+  <uhunt-world-ranklist
+    [user]="user"
+    (last-submissions)="set_show_last_subs(true)"
+    (rank)="rank=$event"
+    [hidden]="show_last_subs">
+  </uhunt-world-ranklist>
   <p>
     <b style="color:blue">Solved</b> : <b>{{solved_problems.length}}</b>,
     <b style="color:blue">Submissions</b> : <b>{{user.submissions.length}}</b>

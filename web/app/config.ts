@@ -92,7 +92,7 @@ export class Config {
   }
 
   public static last_submissions_link(userid: number): string {
-    return Config.UVA_HOST + 'index.php?option=com_onlinejudge&Itemid=19'
+    return Config.UVA_HOST + '/index.php?option=com_onlinejudge&Itemid=19'
       + '&page=show_authorstats&userid=' + userid;
   }
 

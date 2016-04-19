@@ -57,7 +57,6 @@ export class WorldRanklistComponent implements OnChanges {
       for (let u of arr) {
         if (u.userid == this.user.id) {
           this.user.rank = u.rank;
-          console.log(this.user);
         }
       }
     });

@@ -13,7 +13,7 @@ export class WhosHere {
 
   add_user(user: User) {
     for (let u of this.users) {
-      if (u.id == user.id) {
+      if (u.username == user.username) {
         return;
       }
     }
@@ -22,7 +22,7 @@ export class WhosHere {
 
   remove_user(user: User) {
     for (let i = 0; i < this.users.length; i++) {
-      if (this.users[i].id == user.id) {
+      if (this.users[i].username == user.username) {
         if (i + 1 < this.users.length) {
           this.users[i] = this.users[this.users.length - 1];
         }

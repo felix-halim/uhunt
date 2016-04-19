@@ -8,12 +8,17 @@ export class HttpService {
 
   get(uri: string, params?: {[prop: string]: string}): Promise<any> {
     return new Promise<any>((resolve) =>
-      this.load('get', uri, this.parse(params), resolve));
+      this.load_json('get', uri, this.parse(params), resolve));
   }
 
   post(uri: string, params?: { [prop: string]: string }): Promise<any> {
     return new Promise<any>((resolve) =>
-      this.load('post', uri, this.parse(params), resolve));
+      this.load_json('post', uri, this.parse(params), resolve));
+  }
+
+  post_text(uri: string, params?: { [prop: string]: string }): Promise<any> {
+    return new Promise<any>((resolve) =>
+      this.load_text('post', uri, this.parse(params), resolve));
   }
 
   private parse(params?: { [prop: string]: string }) {
@@ -26,12 +31,16 @@ export class HttpService {
     return p;
   }
 
-  private load(method, uri, params, resolve) {
+  private load_json(method, uri, params, resolve) {
     this._http[method](uri, { search: params })
       .map(res => res.json())
-      .subscribe(
-        res => resolve(res),
-        error => setTimeout(() =>
-          this.load(method, uri, params, resolve), 1000));
+      .subscribe(res => resolve(res), error => setTimeout(() =>
+        this.load_json(method, uri, params, resolve), 1000));
+  }
+
+  private load_text(method, uri, params, resolve) {
+    this._http[method](uri, { search: params })
+      .subscribe(res => resolve(res), error => setTimeout(() =>
+        this.load_text(method, uri, params, resolve), 1000));
   }
 }

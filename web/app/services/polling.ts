@@ -30,7 +30,7 @@ export class PollingService {
     this.poll();
   }
 
-  set_logged_in_user_id(uid) {
+  set_uid(uid) {
     this.ids['uid'] = uid;
   }
 

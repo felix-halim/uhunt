@@ -1,29 +1,30 @@
-import {Component, Input, Output, OnInit, OnChanges, EventEmitter} from 'angular2/core';
-import {Control}              from 'angular2/common';
+import {Component, EventEmitter,
+        Input, Output, OnInit, OnChanges}  from 'angular2/core';
+import {Control}                           from 'angular2/common';
 
-import {Config}               from '../config';
+import {Config}                            from '../../config';
 
-import {User}                 from '../models/user';
-import {Problem}              from '../models/problem';
-import {Submission}           from '../models/submission';
+import {User}                              from '../../models/user';
+import {Problem}                           from '../../models/problem';
+import {Submission}                        from '../../models/submission';
 
-import {DatabaseService}      from '../services/database';
-import {HttpService}          from '../services/http';
-import {ProblemService}       from '../services/problem';
-import {UserService}          from '../services/user';
+import {DatabaseService}                   from '../../services/database';
+import {HttpService}                       from '../../services/http';
+import {ProblemService}                    from '../../services/problem';
+import {UserService}                       from '../../services/user';
 
-import {ProblemsPickerComponent} from './problems-picker';
-import {PastContestsPickerComponent} from './past-contests-picker';
+import {ProblemsPickerComponent}           from '../problems-picker';
+import {PastContestsPickerComponent}       from '../past-contests-picker';
 
 @Component({
   selector: 'uhunt-vcontest-generator',
-  templateUrl: 'app/components/vcontest-generator.html',
+  templateUrl: 'app/components/vcontest/generator.html',
   directives: [
     ProblemsPickerComponent,
     PastContestsPickerComponent,
   ],
 })
-export class VcontestGenComponent implements OnChanges {
+export class VContestGenComponent implements OnChanges {
   @Input() user: User;
 
   // Comma separated user ids of the contestants.

@@ -4,12 +4,12 @@ import {RouteParams}              from 'angular2/router';
 import {ChatBoxComponent}         from './chat-box';
 import {CpBookExercisesComponent} from './cp-book-exercises';
 import {LiveSubmissionsComponent} from './live-submissions';
+import {LogoComponent}            from './logo';
 import {NextProblemsComponent}    from './next-problems';
 import {ProblemSearchComponent}   from './problem-search';
 import {StatsComparerComponent}   from './statistics-comparer';
 import {UsernameInputComponent}   from './username-input';
 import {UserStatisticsComponent}  from './user-statistics';
-import {VcontestGenComponent}     from './vcontest-generator';
 import {WebApiComponent}          from './web-api';
 import {WorldRanklistComponent}   from './world-ranklist';
 
@@ -25,12 +25,12 @@ import {UserService}              from '../services/user';
     ChatBoxComponent,
     CpBookExercisesComponent,
     LiveSubmissionsComponent,
+    LogoComponent,
     NextProblemsComponent,
     ProblemSearchComponent,
     StatsComparerComponent,
     UsernameInputComponent,
     UserStatisticsComponent,
-    VcontestGenComponent,
     WebApiComponent,
     WorldRanklistComponent,
   ]

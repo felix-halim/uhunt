@@ -40,6 +40,9 @@ export class User {
   submissions_count: number;
   activity: Activity;
 
+  // 0 means not logged in, otherwise timestamp since last login.
+  since: number;
+
   // Index by pid, then by sid : pid_key[pid][sid] = {ver,run,mem,sbt,lan}.
   pid_key: HashMapOfSubmissions;
 
@@ -61,6 +64,7 @@ export class User {
     this.accepted_count = a.ac;
     this.submissions_count = a.nos;
     this.activity = a.activity;
+    this.since = a.since;
 
     this.pid_key = {};
     this.problem_stats_cache = {};

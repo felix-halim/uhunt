@@ -7,8 +7,8 @@
           whos_here.server_start_ts | elapsedTime:'duration'}}<br>
         <span *ngFor="#u of whos_here.users">
           <a target="_blank" style="text-decoration:none"
-            href="/id/{{u.uid}}">{{u.uname || u.username}}</a>:{{u.since
-            | elapsedTime:'duration'}}<br>
+            href="/id/{{u.id}}">{{u.username}}</a>:{{
+            u.since | elapsedTime:'duration'}}<br>
         </span>
       </div>
     </td>
@@ -26,7 +26,8 @@
               </a>
               gets <b>Rank 1</b> for
               <uhunt-chat-problem text="v.problem.number"
-                [user]="signed_in_user || user"></uhunt-chat-problem>
+                [user]="_loginService.logged_in_user || user">
+              </uhunt-chat-problem>
               at {{msg.message.run * 1e-3 | number:'1.3-3'}}  s
             </tt>
             <div *ngIf="!msg.is_system">
@@ -36,29 +37,33 @@
                    {{msg.message.uname}}
               </a>&gt;
               <uhunt-chat-problem text="{{msg.message.message}}"
-                [user]="signed_in_user || user"></uhunt-chat-problem>
+                [user]="_loginService.logged_in_user || user">
+              </uhunt-chat-problem>
             </div>
           </div>
         </div>
         <div [hidden]="!show_login_dialog"
               style="background-color:#CCCCFF; padding:15px 15px 5px 15px;
                      margin:0 auto 0 auto; border:1px solid #EEEEFF;">
-          <div [hidden]="!signed_in_user">
+          <div [hidden]="!_loginService.logged_in_user.since">
             <div style="width:300px; margin:auto auto auto auto;">
               <p align="right" style="font-size:14px">
                 You are signed in as
-                <b>{{(signed_in_user && signed_in_user.username)}}</b>.<br>
+                <b>{{(_loginService.logged_in_user.username)}}</b>.<br>
                 <span [hidden]="!is_invisible">
                   you are currently invisible<br>
                 </span><br>
-                <button (click)="sign_out()">Sign Out</button>
-                <button (click)="show_login_dialog=false">Close</button>
+                <button (click)="_loginService.sign_out()"
+                     [disabled]="_loginService.logging_in">Sign Out</button>
+                <button (click)="show_login_dialog=false;
+                                 scroll_to_bottom(true)">Close</button>
               </p>
             </div>
           </div>
-          <div [hidden]="signed_in_user">
+          <div [hidden]="_loginService.logged_in_user.since">
             <br>
-            <form autocomplete="on" (submit)="sign_in()">
+            <form autocomplete="on" (submit)="
+                _loginService.sign_in(uname, ucode, is_invisible)">
               <table align="center" cellspacing="5"
                      style="border:1px dotted #6666FF; padding:0 15px 0 15px">
                 <tr>
@@ -79,7 +84,7 @@
                             type="checkbox"> Invisible</td>
                   <td align="right">
                     <input type="submit" value="Sign In"
-                          [disabled]="logging_in">
+                          [disabled]="_loginService.logging_in">
                     <input type="button" (click)="show_login_dialog=false"
                            value="Cancel">
                   </td>
@@ -101,7 +106,8 @@
           scroll_to_bottom(true)"
          style="color:blue; width:135px; cursor:pointer; text-decoration:none;
          font-weight:bold; font-size:13px">
-           [ {{(signed_in_user && signed_in_user.username) || 'Sign In'}} ]
+          [ {{(_loginService.logged_in_user.since &&
+               _loginService.logged_in_user.username) || 'Sign In'}} ]
       </a>
     </td>
     <td>

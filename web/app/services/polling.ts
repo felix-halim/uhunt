@@ -19,6 +19,8 @@ export class PollingService {
   session_id: number = 0;
   ids: any = {};
 
+  live_submissions: Submission[] = [];
+
   constructor(
     private _httpService: HttpService,
     private _problemService: ProblemService) {
@@ -27,7 +29,33 @@ export class PollingService {
     this.ids['lastsubs'] = 0;
     this.ids['uid'] = 0;
 
+    this.submissions.subscribe(subs => {
+      for (var s of subs) {
+        this.update(s);
+      }
+    });
+
     this.poll();
+  }
+
+  private update(sub) {
+    for (let i = 0; i < this.live_submissions.length; i++) {
+      var s = this.live_submissions[i];
+      if (s.id == sub.id) {
+        this.live_submissions[i] = sub;
+        return;
+      }
+      if (sub.id > s.id) {
+        this.live_submissions.splice(i, 0, sub);
+        if (this.live_submissions.length > 100) {
+          this.live_submissions.pop();
+        }
+        return;
+      }
+    }
+    if (this.live_submissions.length < 100) {
+      this.live_submissions.push(sub);
+    }
   }
 
   set_uid(uid) {

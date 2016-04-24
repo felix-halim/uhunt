@@ -1,4 +1,6 @@
-import {Component, Input, OnInit, OnChanges} from 'angular2/core';
+import {Component, Input,
+        OnInit, OnChanges,
+        Pipe, PipeTransform}      from 'angular2/core';
 import {CanDeactivate}            from 'angular2/router';
 
 import {Config}                   from '../config';
@@ -12,7 +14,20 @@ import {LoginService}             from '../services/login';
 import {PollingService}           from '../services/polling';
 import {ProblemService}           from '../services/problem';
 
-import {ElapsedTimePipe}          from '../pipes/elapsed-time';
+import {ElapsedTimeDirective}     from '../directives/elapsed-time';
+
+@Pipe({ name: 'elapsedTime', pure: false })
+export class ElapsedTimePipe implements PipeTransform {
+  transform(value: number, [format]): string {
+    var delta = new Date().getTime() - value;
+    var dur = Math.max(0, Math.floor(delta / 1000 / 60));
+    if (dur < 60) { return dur + 'm'; }
+    dur = Math.floor(dur / 60);
+    if (dur < 24) { return dur + 'h'; }
+    if (dur < 24 * 30) { return Math.floor(dur / 24) + 'd'; }
+    return Math.floor(dur / 24 / 30) + 'M';
+  }
+}
 
 @Component({
   selector: 'uhunt-chat-problem',
@@ -76,6 +91,7 @@ export class ChatBoxComponent implements OnChanges, CanDeactivate {
   private show_login_dialog = false;
   private is_posting = false;
   private msg_value = "";
+  private etd = ElapsedTimeDirective;
 
   constructor(
       private _databaseService: DatabaseService,

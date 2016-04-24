@@ -4,11 +4,10 @@
       <div class="scroll-down-able"
            style="height:{{height - 30}}px; width:135px">
         -- Users({{whos_here.users.length}}/{{whos_here.total_users}}):{{
-          whos_here.server_start_ts | elapsedTime:'duration'}}<br>
+          whos_here.server_start_ts | elapsedTime}}<br>
         <span *ngFor="#u of whos_here.users">
           <a target="_blank" style="text-decoration:none"
-            href="/id/{{u.id}}">{{u.username}}</a>:{{
-            u.since | elapsedTime:'duration'}}<br>
+            href="/id/{{u.id}}">{{u.username}}</a>:{{u.since | elapsedTime}}<br>
         </span>
       </div>
     </td>
@@ -33,7 +32,7 @@
             <div *ngIf="!msg.is_system">
               <a target="_blank" href="/id/{{msg.message.userid}}"
                style="text-decoration:none; font-weight:bold; font-style:italic"
-               title="Posted: {{msg.message.post_ts / 1000 | elapsedTime:3}}">
+               title="Posted: {{etd.full_date(msg.message.post_ts / 1000)}}">
                    {{msg.message.uname}}
               </a>&gt;
               <uhunt-chat-problem text="{{msg.message.message}}"

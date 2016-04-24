@@ -3,7 +3,8 @@
     <thead>
       <tr class="tablebar" height="25">
       <th align="left" colspan="10" height="25">
-        <span style="float:right; font-weight:normal; color:white; padding-right:10px">Show :
+        <span style="float:right; font-weight:normal; color:white;
+                     padding-right:10px">Show :
           <a style="cursor:pointer" (click)="set_limit(5)"
             [class.lightgreen-color]="limit==5"
             [class.white-color]="limit!=5"> 5 </a> |
@@ -21,10 +22,12 @@
             [class.white-color]="limit!=100"> 100 </a>
         </span>
         &nbsp;
-        <a target="_blank" class="white" href="{{config.live_submissions_link()}}">
+        <a target="_blank" class="white"
+           href="{{config.live_submissions_link()}}">
           <b>Live Submissions</b>
         </a>
-        <a class="white" style="cursor:pointer" (click)="set_show(false)">(hide)</a>
+        <a class="white" style="cursor:pointer"
+          (click)="set_show(false)">(hide)</a>
       </th>
       <tr class="tablesubar" height="20">
         <th width="65" align="left">&nbsp; &nbsp; #</th>
@@ -41,7 +44,8 @@
     </thead>
 
     <tbody class="alt_colors" style="font-family:verdana; font-size:11px">
-      <tr style="height:18px" *ngFor="#s of live_submissions | slice:0:limit">
+      <tr style="height:18px" *ngFor="
+          #s of _pollingService.live_submissions | slice:0:limit">
         <td>&nbsp;{{s.id}}</td>
         <td align="right">
           <a class="{{s.problem.getClass(user)}}" target="_blank"
@@ -70,7 +74,8 @@
           </a>
         </td>
         <td align="center">{{s.getRank()}}</td>
-        <td align="center">{{s.submit_time | elapsedTime:2}}</td>
+        <td align="center" uhunt-elapsed-time
+            [attr.data-timestamp]="s.submit_time"></td>
       </tr>
     </tbody>
   </table>

@@ -1,200 +1,202 @@
-<div>
-  <form (submit)="search()">
-    <p>Search Problem Number:
-    <input [(ngModel)]="search_number" (keyup)="search()" value="123" style="width:60px">&nbsp;
-    <input type="submit" value="Search">
-    <button (click)="search_number=''; search()">Clear</button></p>
-  </form>
+<form (submit)="search()">
+  <p>Search Problem Number:
+  <input [(ngModel)]="search_number" (keyup)="search()" value="123" style="width:60px">&nbsp;
+  <input type="submit" value="Search">
+  <button (click)="search_number=''; search()">Clear</button></p>
+</form>
 
-  <div [hidden]="!show_search_result" style="clear:both; width:920px; margin: 0 auto 0 auto;">
-    <table>
-      <caption>
-        <h2 style="color:#3030FF; padding-top:20px; padding-bottom:15px" align="center">
-          <i>
-            <a target="_blank" style="text-decoration:none"
-               href="{{config.problem_pdf_link(searched_problem)}}">
-                 {{search_number}}
-            </a> - 
-            <a target="_blank" style="text-decoration:none"
-               href="{{config.problem_full_link(searched_problem)}}">
-                 {{searched_problem && searched_problem.title}}
-            </a>
-          </i>
-          <span style="font-weight:normal">&nbsp;[
-            <a target="_blank" style="text-decoration:none"
-               href="{{config.problem_ranklist_link(searched_problem)}}">
-                 statistics
-            </a> /
-            <a class="nou" target="_blank"
-               href="{{config.problem_discussion_link(searched_problem)}}">
-                 discuss
-            </a>]
-            &nbsp;
-            <a (click)="set_show_search_result(false)"
-                style="cursor:pointer; font-size:18px">
-                  (hide)
-            </a>
-          </span>
-        </h2>
-      </caption>
-      <tr>
-        <td valign="top">
-          <div style="float:left; width:240px; height:315px;">
-            <canvas uhunt-progress-graph="Submissions over the Years"
-               [timestamps]="first_sbt" [increments]="inc_amt"
-               show="progress" width="225" height="150">
-            </canvas>
-            <canvas uhunt-bar-graph="Submissions Statistics"
-               [frequencies]="frequencies"
-               show="submissions" width="225" height="150"
-               style="padding-top:5px">
-            </canvas>
-          </div>
-        </td>
-        <td valign="top">
-          <table border="0" style="border: 1px solid #AAA; margin-bottom:12px;">
-            <thead>
-              <tr class="tablebar" height="25">
-                <th align="left" colspan="10"
-                    style="padding-left:10px; color:white">
-                  <span style="float:right; font-weight:normal">
-                  View : [ 
-                    <a style="cursor:pointer"
-                      [class.lightgreen-color]="show_last=='last'"
-                      [class.white-color]="show_last!='last'"
-                      (click)="set_show_last('last')">
-                        last
-                    </a>
-                    <span [hidden]="my_submissions.length == 0">|</span>
-                    <a [hidden]="my_submissions.length == 0"
-                        style="cursor:pointer"
-                      [class.lightgreen-color]="show_last=='yours'"
-                      [class.white-color]="show_last!='yours'"
-                      (click)="set_show_last('yours')">
-                        yours({{my_submissions.length}})
-                    </a>
-                  ] &nbsp; &nbsp;
-                  Show : [
-                    <a style="cursor:pointer" (click)="set_max_last_subs(5)"
-                      [class.lightgreen-color]="max_last_subs==5"
-                      [class.white-color]="max_last_subs!=5">5</a> |
-                    <a style="cursor:pointer" (click)="set_max_last_subs(10)"
-                      [class.lightgreen-color]="max_last_subs==10"
-                      [class.white-color]="max_last_subs!=10">10</a> |
-                    <a style="cursor:pointer" (click)="set_max_last_subs(50)"
-                      [class.lightgreen-color]="max_last_subs==50"
-                      [class.white-color]="max_last_subs!=50">50</a> |
-                    <a style="cursor:pointer" (click)="set_max_last_subs(100)"
-                      [class.lightgreen-color]="max_last_subs==100"
-                      [class.white-color]="max_last_subs!=100">100</a> |
-                    <a style="cursor:pointer" (click)="set_max_last_subs(500)"
-                      [class.lightgreen-color]="max_last_subs==500"
-                      [class.white-color]="max_last_subs!=500">500</a> &nbsp;
-                  </span>
-                  Submissions
-                </th>
-              </tr>
-              <tr class="tablesubar">
-                <th width="65" align="left">&nbsp; #</th>
-                <th width="50">Rank</th>
-                <th width="180" align="left">&nbsp; User (username)</th>
-                <th width="110" align="left">&nbsp; Verdict</th>
-                <th width="60">Lang</th>
-                <th width="50">Time</th>
-                <th width="120">Submit Time</th>
-              </tr>
-            </thead>
-            <tbody class="alt_colors">
-              <tr *ngFor="#s of submissions | slice:0:max_last_subs"
-                   style="height:18px">
-                <td align=right>{{s.id}}&nbsp;</td>
-                <td align=center>{{s.getRank() }}</td>
-                <td>
-                  <a class="ellipsis" target="_blank"
-                     style="margin-left:5px; width:{{170 - 10}}px"
-                     href="/id/{{s.user.id}}">
-                        {{s.user.name + ' (' + s.user.username + ')' }}
+<div *ngIf="show_search_result"
+     style="clear:both; width:920px; margin: 0 auto 0 auto;">
+  <table>
+    <caption>
+      <h2 style="color:#3030FF; padding-top:20px; padding-bottom:15px" align="center">
+        <i>
+          <a target="_blank" style="text-decoration:none"
+             href="{{config.problem_pdf_link(searched_problem)}}">
+               {{search_number}}
+          </a> - 
+          <a target="_blank" style="text-decoration:none"
+             href="{{config.problem_full_link(searched_problem)}}">
+               {{searched_problem && searched_problem.title}}
+          </a>
+        </i>
+        <span style="font-weight:normal">&nbsp;[
+          <a target="_blank" style="text-decoration:none"
+             href="{{config.problem_ranklist_link(searched_problem)}}">
+               statistics
+          </a> /
+          <a class="nou" target="_blank"
+             href="{{config.problem_discussion_link(searched_problem)}}">
+               discuss
+          </a>]
+          &nbsp;
+          <a (click)="set_show_search_result(false)"
+              style="cursor:pointer; font-size:18px">
+                (hide)
+          </a>
+        </span>
+      </h2>
+    </caption>
+    <tr>
+      <td valign="top">
+        <div style="float:left; width:240px; height:315px;">
+          <canvas uhunt-progress-graph="Submissions over the Years"
+             [timestamps]="first_sbt" [increments]="inc_amt"
+             show="progress" width="225" height="150">
+          </canvas>
+          <canvas uhunt-bar-graph="Submissions Statistics"
+             [frequencies]="frequencies"
+             show="submissions" width="225" height="150"
+             style="padding-top:5px">
+          </canvas>
+        </div>
+      </td>
+      <td valign="top">
+        <table border="0" style="border: 1px solid #AAA; margin-bottom:12px;">
+          <thead>
+            <tr class="tablebar" height="25">
+              <th align="left" colspan="10"
+                  style="padding-left:10px; color:white">
+                <span style="float:right; font-weight:normal">
+                View : [ 
+                  <a style="cursor:pointer"
+                    [class.lightgreen-color]="show_last=='last'"
+                    [class.white-color]="show_last!='last'"
+                    (click)="set_show_last('last')">
+                      last
                   </a>
-                </td>
-                <td style="font-weight:bold;
-                           color:{{config.verdict_color(s.verdict)}}">
-                  &nbsp; {{ config.verdict_name(s.verdict) }}
-                </td>
-                <td align="center">{{config.language_name(s.language)}}</td>
-                <td align="center">{{s.runtime_ms * 1e-3 | number:'1.3-3'}}</td>
-                <td align="center">{{s.submit_time | elapsedTime:2}}</td>
-              </tr>
-            </tbody>
-          </table>
-
-          <table border="0" style="border: 1px solid #AAA; ">
-            <thead>
-              <tr class="tablebar" height="25">
-                <th align="left" colspan="10"
-                     style="padding-left:10px; color:white">
-                  <span style="float:right; font-weight:normal">
-                  View : [ 
-                    <a (click)="set_show_top('top')" style="cursor:pointer"
-                       [class.lightgreen-color]="show_top=='top'"
-                       [class.white-color]="show_top!='top'">
-                         the-top
-                    </a>
-                    <span [hidden]="my_submissions.length == 0">|</span>
-                    <a [hidden]="my_submissions.length == 0"
-                       (click)="set_show_top('nearby')" style="cursor:pointer"
-                       [class.lightgreen-color]="show_top=='nearby'"
-                       [class.white-color]="show_top!='nearby'">
-                         nearby
-                    </a> ] &nbsp; &nbsp; 
-                  Show : [ 
-                    <a style="cursor:pointer" (click)="set_max_rank(5)"
-                      [class.lightgreen-color]="max_rank==5"
-                      [class.white-color]="max_rank!=5">5</a> |
-                    <a style="cursor:pointer" (click)="set_max_rank(10)"
-                      [class.lightgreen-color]="max_rank==10"
-                      [class.white-color]="max_rank!=10">10</a> |
-                    <a style="cursor:pointer" (click)="set_max_rank(50)"
-                      [class.lightgreen-color]="max_rank==50"
-                      [class.white-color]="max_rank!=50">50</a> |
-                    <a style="cursor:pointer" (click)="set_max_rank(100)"
-                      [class.lightgreen-color]="max_rank==100"
-                      [class.white-color]="max_rank!=100">100</a> |
-                    <a style="cursor:pointer" (click)="set_max_rank(500)"
-                      [class.lightgreen-color]="max_rank==500"
-                      [class.white-color]="max_rank!=500">500</a> &nbsp;
-                  </span>
-                  Ranklist
-                </th>
-              </tr>
-              <tr class="tablesubar">
-                <th width="75" align="left">&nbsp; #</th>
-                <th width="55">Rank</th>
-                <th width="220" align="left">&nbsp; User (username)</th>
-                <th width="75">Lang</th>
-                <th width="75">Time</th>
-                <th width="140">Submit Time</th>
-              </tr>
-            </thead>
-            <tbody class="alt_colors">
-              <tr *ngFor="#s of ranklist | slice:0:max_rank"
-                   style="height:18px; font-weight:{{s.user.id == user.id ? 'bold' : ''}}">
-                <td align=right>{{s.id}}&nbsp;</td>
-                <td align=center>{{s.getRank()}}</td>
-                <td>
-                  <a class="ellipsis" target="_blank"
-                     style="margin-left:5px; width:{{190 - 10}}px"
-                     href="/id/{{s.uid}}">
+                  <span *ngIf="my_submissions.length > 0">|</span>
+                  <a *ngIf="my_submissions.length > 0"
+                      style="cursor:pointer"
+                    [class.lightgreen-color]="show_last=='yours'"
+                    [class.white-color]="show_last!='yours'"
+                    (click)="set_show_last('yours')">
+                      yours({{my_submissions.length}})
+                  </a>
+                ] &nbsp; &nbsp;
+                Show : [
+                  <a style="cursor:pointer" (click)="set_max_last_subs(5)"
+                    [class.lightgreen-color]="max_last_subs==5"
+                    [class.white-color]="max_last_subs!=5">5</a> |
+                  <a style="cursor:pointer" (click)="set_max_last_subs(10)"
+                    [class.lightgreen-color]="max_last_subs==10"
+                    [class.white-color]="max_last_subs!=10">10</a> |
+                  <a style="cursor:pointer" (click)="set_max_last_subs(50)"
+                    [class.lightgreen-color]="max_last_subs==50"
+                    [class.white-color]="max_last_subs!=50">50</a> |
+                  <a style="cursor:pointer" (click)="set_max_last_subs(100)"
+                    [class.lightgreen-color]="max_last_subs==100"
+                    [class.white-color]="max_last_subs!=100">100</a> |
+                  <a style="cursor:pointer" (click)="set_max_last_subs(500)"
+                    [class.lightgreen-color]="max_last_subs==500"
+                    [class.white-color]="max_last_subs!=500">500</a> &nbsp;
+                </span>
+                Submissions
+              </th>
+            </tr>
+            <tr class="tablesubar">
+              <th width="65" align="left">&nbsp; #</th>
+              <th width="50">Rank</th>
+              <th width="180" align="left">&nbsp; User (username)</th>
+              <th width="110" align="left">&nbsp; Verdict</th>
+              <th width="60">Lang</th>
+              <th width="50">Time</th>
+              <th width="120">Submit Time</th>
+            </tr>
+          </thead>
+          <tbody class="alt_colors">
+            <tr *ngFor="#s of submissions | slice:0:max_last_subs"
+                 style="height:18px">
+              <td align=right>{{s.id}}&nbsp;</td>
+              <td align=center>{{s.getRank() }}</td>
+              <td>
+                <a class="ellipsis" target="_blank"
+                   style="margin-left:5px; width:{{170 - 10}}px"
+                   href="/id/{{s.user.id}}">
                       {{s.user.name + ' (' + s.user.username + ')' }}
+                </a>
+              </td>
+              <td style="font-weight:bold;
+                         color:{{config.verdict_color(s.verdict)}}">
+                &nbsp; {{ config.verdict_name(s.verdict) }}
+              </td>
+              <td align="center">{{config.language_name(s.language)}}</td>
+              <td align="center">{{s.runtime_ms * 1e-3 | number:'1.3-3'}}</td>
+              <td align="center" uhunt-elapsed-time
+                  [attr.data-timestamp]="s.submit_time"></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <table border="0" style="border: 1px solid #AAA; ">
+          <thead>
+            <tr class="tablebar" height="25">
+              <th align="left" colspan="10"
+                   style="padding-left:10px; color:white">
+                <span style="float:right; font-weight:normal">
+                View : [ 
+                  <a (click)="set_show_top('top')" style="cursor:pointer"
+                     [class.lightgreen-color]="show_top=='top'"
+                     [class.white-color]="show_top!='top'">
+                       the-top
                   </a>
-                </td>
-                <td align="center">{{config.language_name(s.language)}}</td>
-                <td align="center">{{s.runtime_ms * 1e-3 | number:'1.3-3'}}</td>
-                <td align="center">{{s.submit_time | elapsedTime:2}}</td>
-            </tbody>
-          </table>
-        </td>
-      </tr>
-    </table>
-    <hr style="clear:both"><br>
-  </div>
+                  <span *ngIf="my_submissions.length > 0">|</span>
+                  <a *ngIf="my_submissions.length > 0"
+                     (click)="set_show_top('nearby')" style="cursor:pointer"
+                     [class.lightgreen-color]="show_top=='nearby'"
+                     [class.white-color]="show_top!='nearby'">
+                       nearby
+                  </a> ] &nbsp; &nbsp; 
+                Show : [ 
+                  <a style="cursor:pointer" (click)="set_max_rank(5)"
+                    [class.lightgreen-color]="max_rank==5"
+                    [class.white-color]="max_rank!=5">5</a> |
+                  <a style="cursor:pointer" (click)="set_max_rank(10)"
+                    [class.lightgreen-color]="max_rank==10"
+                    [class.white-color]="max_rank!=10">10</a> |
+                  <a style="cursor:pointer" (click)="set_max_rank(50)"
+                    [class.lightgreen-color]="max_rank==50"
+                    [class.white-color]="max_rank!=50">50</a> |
+                  <a style="cursor:pointer" (click)="set_max_rank(100)"
+                    [class.lightgreen-color]="max_rank==100"
+                    [class.white-color]="max_rank!=100">100</a> |
+                  <a style="cursor:pointer" (click)="set_max_rank(500)"
+                    [class.lightgreen-color]="max_rank==500"
+                    [class.white-color]="max_rank!=500">500</a> &nbsp;
+                </span>
+                Ranklist
+              </th>
+            </tr>
+            <tr class="tablesubar">
+              <th width="75" align="left">&nbsp; #</th>
+              <th width="55">Rank</th>
+              <th width="220" align="left">&nbsp; User (username)</th>
+              <th width="75">Lang</th>
+              <th width="75">Time</th>
+              <th width="140">Submit Time</th>
+            </tr>
+          </thead>
+          <tbody class="alt_colors">
+            <tr *ngFor="#s of ranklist | slice:0:max_rank"
+                 style="height:18px; font-weight:{{
+                    s.user.id == user.id ? 'bold' : ''}}">
+              <td align=right>{{s.id}}&nbsp;</td>
+              <td align=center>{{s.getRank()}}</td>
+              <td>
+                <a class="ellipsis" target="_blank"
+                   style="margin-left:5px; width:{{190 - 10}}px"
+                   href="/id/{{s.uid}}">
+                    {{s.user.name + ' (' + s.user.username + ')' }}
+                </a>
+              </td>
+              <td align="center">{{config.language_name(s.language)}}</td>
+              <td align="center">{{s.runtime_ms * 1e-3 | number:'1.3-3'}}</td>
+              <td align="center" uhunt-elapsed-time
+                  [attr.data-timestamp]="s.submit_time"></td>
+          </tbody>
+        </table>
+      </td>
+    </tr>
+  </table>
+  <hr style="clear:both"><br>
 </div>

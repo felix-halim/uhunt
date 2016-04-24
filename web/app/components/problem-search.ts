@@ -1,17 +1,17 @@
 import {Component, Input, OnChanges} from 'angular2/core';
 
-import {Config}               from '../config';
+import {Config}                  from '../config';
 
-import {User}                 from '../models/user';
-import {Problem}              from '../models/problem';
-import {Submission}           from '../models/submission';
+import {User}                    from '../models/user';
+import {Problem}                 from '../models/problem';
+import {Submission}              from '../models/submission';
 
-import {DatabaseService}      from '../services/database';
-import {HttpService}          from '../services/http';
-import {ProblemService}       from '../services/problem';
-import {UserService}          from '../services/user';
+import {DatabaseService}         from '../services/database';
+import {HttpService}             from '../services/http';
+import {ProblemService}          from '../services/problem';
+import {UserService}             from '../services/user';
 
-import {ElapsedTimePipe}      from '../pipes/elapsed-time';
+import {ElapsedTimeDirective}    from '../directives/elapsed-time';
 
 import {ProgressGraphDirective}  from '../directives/progress-graph';
 import {BarGraphDirective}       from '../directives/bar-graph';
@@ -22,8 +22,8 @@ import {BarGraphDirective}       from '../directives/bar-graph';
   directives: [
     ProgressGraphDirective,
     BarGraphDirective,
+    ElapsedTimeDirective,
   ],
-  pipes: [ElapsedTimePipe]
 })
 export class ProblemSearchComponent implements OnChanges {
   @Input() user: User;

@@ -10,13 +10,15 @@ import {Submission, Verdict}         from '../models/submission';
 import {DatabaseService}             from '../services/database';
 import {ProblemService}              from '../services/problem';
 
-import {ElapsedTimePipe}             from '../pipes/elapsed-time';
+import {ElapsedTimeDirective}        from '../directives/elapsed-time';
 
 @Component({
   selector: 'uhunt-last-submissions',
   templateUrl: 'app/components/last-submissions.html',
-  directives: [ProblemComponent],
-  pipes: [ElapsedTimePipe]
+  directives: [
+    ProblemComponent,
+    ElapsedTimeDirective,
+  ],
 })
 export class LastSubmissionsComponent implements OnChanges {
   @Input() user: User;

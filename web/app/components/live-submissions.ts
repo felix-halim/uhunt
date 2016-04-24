@@ -1,27 +1,28 @@
-import {Component, Input} from 'angular2/core';
+import {Component, Input}      from 'angular2/core';
 
-import {Config}           from '../config';
+import {Config}                from '../config';
 
-import {ProblemComponent} from '../components/problem';
+import {ProblemComponent}      from '../components/problem';
 
-import {Submission}       from '../models/submission';
-import {User}             from '../models/user';
+import {Submission}            from '../models/submission';
+import {User}                  from '../models/user';
 
-import {PollingService}   from '../services/polling';
-import {DatabaseService}  from '../services/database';
+import {PollingService}        from '../services/polling';
+import {DatabaseService}       from '../services/database';
 
-import {ElapsedTimePipe}  from '../pipes/elapsed-time';
+import {ElapsedTimeDirective}  from '../directives/elapsed-time';
 
 @Component({
   selector: 'uhunt-live-submissions',
   templateUrl: 'app/components/live-submissions.html', 
-  directives: [ProblemComponent],
-  pipes: [ElapsedTimePipe]
+  directives: [
+    ProblemComponent,
+    ElapsedTimeDirective,
+  ],
 })
 export class LiveSubmissionsComponent {
   @Input() user: User;
 
-  private live_submissions: Submission[] = [];
   private show;
   private limit;
 
@@ -34,13 +35,6 @@ export class LiveSubmissionsComponent {
 
     this.limit = this._databaseService.get('uhunt_livesubs_limit') || 5;
     this.show = this._databaseService.get('uhunt_livesubs_show');
-
-    this._pollingService.submissions.subscribe((subs: Submission[]) => {
-      for (var s of subs) {
-        this.update(s);
-      }
-    });
-    this.refresh();
   }
 
   set_limit(n) {
@@ -49,29 +43,5 @@ export class LiveSubmissionsComponent {
 
   set_show(show) {
     this._databaseService.set('uhunt_livesubs_show', this.show = show);
-  }
-
-  private update(sub) {
-    var replaced = false;
-    for (let i = 0; i < this.live_submissions.length; i++) {
-      var s = this.live_submissions[i];
-      if (s.id == sub.id) {
-        this.live_submissions[i] = sub;
-        replaced = true;
-      }
-    }
-    if (!replaced) {
-      this.live_submissions.unshift(sub);
-      if (this.live_submissions.length > 100) {
-        this.live_submissions.pop();
-      }
-    }
-  }
-
-  private refresh() {
-    for (let s of this.live_submissions) {
-      s.submit_time += 1e-6;
-    }
-    setTimeout(() => this.refresh(), 1000);
   }
 }

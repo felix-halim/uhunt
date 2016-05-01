@@ -16,9 +16,10 @@ import {ProblemService}           from '../services/problem';
 
 import {ElapsedTimeDirective}     from '../directives/elapsed-time';
 
-@Pipe({ name: 'elapsedTime', pure: false })
+
+@Pipe({ name: 'elapsedTime' })
 export class ElapsedTimePipe implements PipeTransform {
-  transform(value: number, [format]): string {
+  transform(value: number): string {
     var delta = new Date().getTime() - value;
     var dur = Math.max(0, Math.floor(delta / 1000 / 60));
     if (dur < 60) { return dur + 'm'; }

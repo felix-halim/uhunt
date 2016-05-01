@@ -2,6 +2,7 @@ import {Directive, ElementRef, Input, OnInit, OnDestroy} from 'angular2/core';
 
 import {Config} from '../config';
 
+// TODO: use | async pipe
 @Directive({
   selector: '[uhunt-elapsed-time]',
 })
@@ -10,11 +11,16 @@ export class ElapsedTimeDirective implements OnInit, OnDestroy {
   private static delta_time: number = 0;
 
   // els[i] contains elements that needs to be updated in i unit.
-  // There are 3 units: 0: seconds, 1: minutes, 2: hours.
-  private static els: ElementRef[][] = [[], [], []];
+  // There are 4 units: 0: seconds, 1: minutes, 2: hours, 3: days.
+  private static els: ElementRef[][] = [[], [], [], []];
 
   // Delays for each unit.
-  private static delays = [1000, 60 * 1000, 60 * 60 * 1000];
+  private static delays = [
+                   1000,
+              60 * 1000,
+         60 * 60 * 1000,
+    24 * 60 * 60 * 1000
+  ];
 
   // ids[i] is the setInterval timer id for the i-th unit.
   private static ids: number[] = [];
@@ -23,7 +29,7 @@ export class ElapsedTimeDirective implements OnInit, OnDestroy {
 
   ngOnInit() {
     let unit = ElapsedTimeDirective.get_unit(this._el);
-    if (unit < 3) {
+    if (unit < 4) {
       ElapsedTimeDirective.els[unit].push(this._el);
       ElapsedTimeDirective.update_text(unit);
       ElapsedTimeDirective.start_timer(unit);
@@ -40,13 +46,12 @@ export class ElapsedTimeDirective implements OnInit, OnDestroy {
           setInterval(
             () => ElapsedTimeDirective.update_text(unit),
             ElapsedTimeDirective.delays[unit]);
-        console.log('register ', unit);
       }
     }
   }
 
   ngOnDestroy() {
-    for (let i = 0; i < 3; i++) {
+    for (let i = 0; i < 4; i++) {
       ElapsedTimeDirective.remove(ElapsedTimeDirective.els[i], this._el);
       ElapsedTimeDirective.stop_timer(i);
     }
@@ -57,7 +62,6 @@ export class ElapsedTimeDirective implements OnInit, OnDestroy {
       if (ElapsedTimeDirective.ids[unit]) {
         clearInterval(ElapsedTimeDirective.ids[unit]);
         ElapsedTimeDirective.ids[unit] = null;
-        console.log('clear ', unit);
       }
     }
   }
@@ -73,7 +77,7 @@ export class ElapsedTimeDirective implements OnInit, OnDestroy {
     }
     if (level_updated) {
       ElapsedTimeDirective.stop_timer(unit);
-      if (unit + 1 < 3) {
+      if (unit + 1 < 4) {
         ElapsedTimeDirective.start_timer(unit + 1);
       }
     }
@@ -95,6 +99,7 @@ export class ElapsedTimeDirective implements OnInit, OnDestroy {
       case 0: return Math.ceil(elapsed) + ' secs ago';
       case 1: return Math.floor(elapsed / 60) + ' mins ago';
       case 2: return Math.floor(elapsed / 60 / 60) + ' hours ago';
+      case 3: return Math.floor(elapsed / 60 / 60 / 24) + ' days ago';
       default: return ElapsedTimeDirective.full_date(timestamp);
     }
   }
@@ -116,7 +121,8 @@ export class ElapsedTimeDirective implements OnInit, OnDestroy {
     if (w <= 60) return 0;
     if (w <= 60 * 60) return 1;
     if (w <= 24 * 60 * 60) return 2;
-    return 3;
+    if (w <= 30 * 24 * 60 * 60) return 3;
+    return 4;
   }
 
   private static get_elapsed(timestamp: number) {

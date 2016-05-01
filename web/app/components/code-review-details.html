@@ -1,0 +1,57 @@
+
+<p>
+Reviewing 
+<a class="nou" target="_blank" href="/id/{{code_review.user.id}}">
+  {{code_review.user.username}}</a>'s code
+<br>
+for problem
+<a class="nou" target="_blank"
+   href="{{config.problem_pdf_link(code_review.problem)}}">
+     {{code_review.problem.number}}</a> -
+<uhunt-problem [problem]="code_review.problem" width="225"></uhunt-problem>
+</p>
+
+<p><a [routerLink]="['/CodeReview']">&lt; Back</a>
+
+<p><a href="">View Problem 100 Statistics</a>
+
+<br style="clear:both" />
+
+Felix halim and yours last submissions on this problem
+
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+  <th style="border: 1px solid black">Version 2:</th>
+  <th></th>
+  <th style="border: 1px solid black">Version 4:</th>
+</tr>
+<tr>
+  <td>
+    <table width="475" border="0" cellspacing="0">
+      <tr *ngFor="#line of a_lines; #i = index"
+          style="background-color: {{i == 18 ? 'lime': ''}}">
+        <td class="linenumber" valign="top">{{i + 1}}</td>
+        <td class="code">{{line}}</td>
+      </tr>
+    </table>
+  </td>
+  <td width="20"></td>
+  <td>
+    <table width="475" border="0" cellspacing="0">
+      <tr *ngFor="#line of a_lines; #i = index">
+        <td class="linenumber" valign="top">{{i + 1}}</td>
+        <td class="code">{{line}}</td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr>
+  <th style="border: 1px solid black">Version 2:</th>
+  <th></th>
+  <th style="border: 1px solid black">Version 4:</th>
+</tr>
+</table>
+
+Comments:
+
+Version 3 :: Line 3 

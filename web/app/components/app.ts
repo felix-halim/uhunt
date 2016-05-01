@@ -1,26 +1,28 @@
-import {Component}               from 'angular2/core';
-import {HTTP_PROVIDERS}          from 'angular2/http';
+import {Component}                   from 'angular2/core';
+import {HTTP_PROVIDERS}              from 'angular2/http';
 import {RouteConfig,
         RouterOutlet,
-        ROUTER_DIRECTIVES}       from 'angular2/router';
+        ROUTER_DIRECTIVES}           from 'angular2/router';
 
-import {WebApiComponent}         from './web-api';
-import {ChatBoxComponent}        from './chat-box';
-import {CodeReviewComponent}     from './code-review';
-import {FAQComponent}            from './faq';
-import {LogoComponent}           from './logo';
-import {StatisticsComponent}     from './statistics';
-import {VContestComponent}       from './vcontest/index';
+import {WebApiComponent}             from './web-api';
+import {ChatBoxComponent}            from './chat-box';
+import {CodeReviewComponent}         from './code-review';
+import {CodeReviewDetailsComponent}  from './code-review-details';
+import {FAQComponent}                from './faq';
+import {LogoComponent}               from './logo';
+import {StatisticsComponent}         from './statistics';
+import {VContestComponent}           from './vcontest/index';
 
-import {AlgorithmistService}     from '../services/algorithmist';
-import {CpBookExercisesService}  from '../services/cp-book-exercises';
-import {DatabaseService}         from '../services/database';
-import {HttpService}             from '../services/http';
-import {LoginService}            from '../services/login';
-import {PollingService}          from '../services/polling';
-import {ProblemService}          from '../services/problem';
-import {UDebugService}           from '../services/udebug';
-import {UserService}             from '../services/user';
+import {AlgorithmistService}         from '../services/algorithmist';
+import {CodeReviewService}           from '../services/code-review';
+import {CpBookExercisesService}      from '../services/cp-book-exercises';
+import {DatabaseService}             from '../services/database';
+import {HttpService}                 from '../services/http';
+import {LoginService}                from '../services/login';
+import {PollingService}              from '../services/polling';
+import {ProblemService}              from '../services/problem';
+import {UDebugService}               from '../services/udebug';
+import {UserService}                 from '../services/user';
 
 @Component({
   selector: 'uhunt-app',
@@ -39,6 +41,7 @@ import {UserService}             from '../services/user';
   providers: [
     AlgorithmistService,
     CpBookExercisesService,
+    CodeReviewService,
     DatabaseService,
     HTTP_PROVIDERS,
     HttpService,
@@ -62,6 +65,10 @@ import {UserService}             from '../services/user';
   path: '/cr',
   name: 'CodeReview',
   component: CodeReviewComponent
+}, {
+  path: '/cr/:id',
+  name: 'CodeReviewDetails',
+  component: CodeReviewDetailsComponent
 }, {
   path: '/vcontest/...',
   name: 'VContest',

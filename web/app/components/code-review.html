@@ -1,0 +1,86 @@
+<p>Rules: no full code, snippet ok
+show full when logged in
+only ac can see ac rev
+allow mark private/remove
+incentive for review points/ thanks?
+
+<br style="clear:both" />
+
+<table style="border: 1px solid #AAA" cellpadding="1">
+  <thead>
+    <tr class="tablebar" height="25">
+    <th align="left" colspan="10" height="25">
+      <span style="float:right; font-weight:normal; color:white;
+                   padding-right:10px">Show :
+        <a style="cursor:pointer" (click)="set_limit(5)"
+          [class.lightgreen-color]="limit==5"
+          [class.white-color]="limit!=5"> 5 </a> |
+        <a style="cursor:pointer" (click)="set_limit(10)"
+          [class.lightgreen-color]="limit==10"
+          [class.white-color]="limit!=10"> 10 </a> |
+        <a style="cursor:pointer" (click)="set_limit(25)"
+          [class.lightgreen-color]="limit==25"
+          [class.white-color]="limit!=25"> 25 </a> |
+        <a style="cursor:pointer" (click)="set_limit(50)"
+          [class.lightgreen-color]="limit==50"
+          [class.white-color]="limit!=50"> 50 </a> |
+        <a style="cursor:pointer" (click)="set_limit(100)"
+          [class.lightgreen-color]="limit==100"
+          [class.white-color]="limit!=100"> 100 </a>
+      </span>
+      &nbsp;
+      <a target="_blank" class="white"
+         href="{{config.live_submissions_link()}}">
+        <b>Needs Attention</b>
+      </a>
+      <a class="white" style="cursor:pointer"
+        (click)="set_show(false)">(hide)</a>
+    </th>
+    <tr class="tablesubar" height="20">
+      <th width="65" align="left">&nbsp; &nbsp; #</th>
+      <th width="40" align="left"></th>
+      <th width="195" align="left">&nbsp; Problem Title</th>
+      <th width="180" align="left">&nbsp; User (username)</th>
+      <th width="130" align="left">&nbsp; Status</th>
+      <th width="60" align="center">Size</th>
+      <th width="255" align="left">Last Comment</th>
+    </tr>
+  </thead>
+
+  <tbody class="alt_colors" style="font-family:verdana; font-size:11px">
+    <tr style="height:18px" *ngFor="#c of code_reviews | slice:0:limit">
+      <td>&nbsp;
+        <a class="nou" [routerLink]="['/CodeReviewDetails', {id: c.id}]">
+          {{c.id}}
+        </a>
+      </td>
+      <td align="right">
+        <a class="{{c.problem.getClass(user)}}" target="_blank"
+           href="{{config.problem_pdf_link(c.problem)}}">
+             {{c.problem.number}}
+        </a>
+      </td>
+      <td>
+        <uhunt-problem [problem]="c.problem" width="195"></uhunt-problem>
+      </td>
+      <td>
+        <a class="ellipsis" target="_blank" href="/id/{{c.user.id}}"
+          style="margin-left:5px; width:{{180 - 10}}px">
+            {{c.user.name + ' (' + c.user.username + ')' }}
+        </a>
+      </td>
+      <td style="font-weight:bold; color:{{status_color(c.status)}}">
+        &nbsp;{{ status_name(c.status) }}
+      </td>
+      <td align="center">{{c.size}}</td>
+      <td align="left">
+        <a class="nou" [routerLink]="['/CodeReviewDetails', {id: c.id}]">
+          {{c.last_comment_snippet}}
+        </a>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<h2>Outgoing Reviews</h2>
+<h2>Incoming Reviews</h2>

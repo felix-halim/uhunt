@@ -33,7 +33,7 @@ export class ElapsedTimePipe implements PipeTransform {
 @Component({
   selector: 'uhunt-chat-problem',
   template:
-`<span *ngFor="#t of text_links">{{t[0]}}<span *ngIf="t[1]"><a class="{{t[1].getClass(user)}}"
+`<span *ngFor="let t of text_links">{{t[0]}}<span *ngIf="t[1]"><a class="{{t[1].getClass(user)}}"
   href="{{config.problem_pdf_link(t[1].number)}}" target="_blank">{{t[1].number}}</a>
 (<a class="nou" href="{{config.problem_ranklist_link(t[1].id)}}" target="_blank">r</a>|<a class="nou"
   href="{{config.problem_discussion_link(t[1].number)}}" target="_blank">d</a>)</span></span>`

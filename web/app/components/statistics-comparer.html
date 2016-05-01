@@ -49,7 +49,7 @@ to force operator precedence.</p>
 <p [hidden]="result.length == 0">
 <i>
   <b>Result of
-    <span *ngFor="#t of colored_terms()">
+    <span *ngFor="let t of colored_terms()">
       <font style="color:red">{{t[0]}}</font>
       <font style="color:blue">{{t[1]}}</font>
     </span>
@@ -59,7 +59,7 @@ to force operator precedence.</p>
 </p>
 
 <p style="font-size:10px">
-  <a *ngFor="#p of problems" class="{{p.getClass(user)}}" target="_blank"
+  <a *ngFor="let p of problems" class="{{p.getClass(user)}}" target="_blank"
      style="text-decoration: none" 
      href="{{config.problem_pdf_link(p)}}">{{p.number}} </a>
 </p>

@@ -48,7 +48,7 @@ incentive for review points/ thanks?
   </thead>
 
   <tbody class="alt_colors" style="font-family:verdana; font-size:11px">
-    <tr style="height:18px" *ngFor="#c of code_reviews | slice:0:limit">
+    <tr style="height:18px" *ngFor="let c of code_reviews | slice:0:limit">
       <td>&nbsp;
         <a class="nou" [routerLink]="['/CodeReviewDetails', {id: c.id}]">
           {{c.id}}

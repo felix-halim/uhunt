@@ -1,99 +1,60 @@
 import {Directive, ElementRef, Input, OnInit, OnDestroy} from 'angular2/core';
 
+import {Observable}    from 'rxjs/Observable'
+import {Subscription}  from 'rxjs/Subscription'
+
 import {Config} from '../config';
 
-// TODO: use | async pipe
 @Directive({
   selector: '[uhunt-elapsed-time]',
 })
 export class ElapsedTimeDirective implements OnInit, OnDestroy {
   // To ensure non negative elapsed time.
-  private static delta_time: number = 0;
+  private static delta_time = 0;
 
-  // els[i] contains elements that needs to be updated in i unit.
+  // Observables for updating the elements for each unit.
   // There are 4 units: 0: seconds, 1: minutes, 2: hours, 3: days.
-  private static els: ElementRef[][] = [[], [], [], []];
-
-  // Delays for each unit.
-  private static delays = [
-                   1000,
-              60 * 1000,
-         60 * 60 * 1000,
-    24 * 60 * 60 * 1000
+  private static intervals = [
+    Observable.interval(1000),
+    Observable.interval(60 * 1000),
+    Observable.interval(60 * 60 * 1000),
+    Observable.interval(24 * 60 * 60 * 1000)
   ];
 
-  // ids[i] is the setInterval timer id for the i-th unit.
-  private static ids: number[] = [];
+  @Input('uhunt-elapsed-time') timestampString;
+
+  private timestamp: number;
+  private unit = -1;
+  private subscription: Subscription;
 
   constructor(private _el: ElementRef) {}
 
   ngOnInit() {
-    let unit = ElapsedTimeDirective.get_unit(this._el);
-    if (unit < 4) {
-      ElapsedTimeDirective.els[unit].push(this._el);
-      ElapsedTimeDirective.update_text(unit);
-      ElapsedTimeDirective.start_timer(unit);
-    } else {
-      this._el.nativeElement.innerText =
-        ElapsedTimeDirective.get_text(this._el);
+    this.timestamp = parseInt(this.timestampString, 10);
+    if (!isNaN(this.timestamp)) {
+      this.update_text();
     }
   }
 
-  public static start_timer(unit) {
-    if (ElapsedTimeDirective.els[unit].length > 0) {
-      if (!ElapsedTimeDirective.ids[unit]) {
-        ElapsedTimeDirective.ids[unit] =
-          setInterval(
-            () => ElapsedTimeDirective.update_text(unit),
-            ElapsedTimeDirective.delays[unit]);
-      }
+  update_text() {
+    let new_unit = ElapsedTimeDirective.get_unit(this.timestamp);
+    if (new_unit > this.unit) {
+      this.subscription && this.subscription.unsubscribe();
+      this.unit = new_unit;
+      this.subscription = (this.unit < 4)
+        ? ElapsedTimeDirective.intervals[this.unit]
+            .subscribe(() => this.update_text())
+        : null;
     }
+    this._el.nativeElement.innerText =
+      ElapsedTimeDirective.get_text(this.timestamp, this.unit);
   }
 
   ngOnDestroy() {
-    for (let i = 0; i < 4; i++) {
-      ElapsedTimeDirective.remove(ElapsedTimeDirective.els[i], this._el);
-      ElapsedTimeDirective.stop_timer(i);
-    }
+    this.subscription && this.subscription.unsubscribe();
   }
 
-  private static stop_timer(unit) {
-    if (ElapsedTimeDirective.els[unit].length == 0) {
-      if (ElapsedTimeDirective.ids[unit]) {
-        clearInterval(ElapsedTimeDirective.ids[unit]);
-        ElapsedTimeDirective.ids[unit] = null;
-      }
-    }
-  }
-
-  private static update_text(unit) {
-    let els = ElapsedTimeDirective.els[unit];
-    let level_updated = false;
-    for (let i = els.length; i--;) {
-      let new_unit = ElapsedTimeDirective.get_unit(els[i]);
-      level_updated = level_updated || new_unit > i;
-      els[i].nativeElement.innerText = ElapsedTimeDirective.get_text(els[i]);
-      ElapsedTimeDirective.els[new_unit].push(els.splice(i, 1)[0]);
-    }
-    if (level_updated) {
-      ElapsedTimeDirective.stop_timer(unit);
-      if (unit + 1 < 4) {
-        ElapsedTimeDirective.start_timer(unit + 1);
-      }
-    }
-  }
-
-  private static remove(arr, item) {
-    for (var i = arr.length; i--;) {
-      if (arr[i] === item) {
-        arr.splice(i, 1);
-      }
-    }
-  }
-
-  private static get_text(el: ElementRef) {
-    let unit = ElapsedTimeDirective.get_unit(el);
-    let timestamp = el.nativeElement.dataset.timestamp;
+  private static get_text(timestamp: number, unit: number) {
     let elapsed = ElapsedTimeDirective.get_elapsed(timestamp);
     switch (unit) {
       case 0: return Math.ceil(elapsed) + ' secs ago';
@@ -113,8 +74,7 @@ export class ElapsedTimeDirective implements OnInit, OnDestroy {
       this.addZeroPrefix(d.getMinutes(), 2);
   }
 
-  private static get_unit(el: ElementRef): number {
-    let timestamp = el.nativeElement.dataset.timestamp;
+  private static get_unit(timestamp: number): number {
     ElapsedTimeDirective.delta_time =
       Math.max(ElapsedTimeDirective.delta_time, timestamp - Config.now);
     let w = ElapsedTimeDirective.get_elapsed(timestamp);

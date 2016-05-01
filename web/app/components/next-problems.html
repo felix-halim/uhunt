@@ -78,11 +78,11 @@ it may requires a whole different algorithm to make a big runtime improvement.
           </tr>
         </thead>
         <tbody class="alt_colors">
-          <tr *ngFor="#p of ((volume == 0) ? volume_all : volumes[volume])
+          <tr *ngFor="let p of ((volume == 0) ? volume_all : volumes[volume])
                       | filterByView:view_which
                       | sortByColumn:sort_column:sort_desc
                       | slice:0:max_next_problems;
-                      #i = index" height="17">
+                      let i = index" height="17">
             <td align="center">{{i + 1}}</td>
             <td align="center"
                 style="background-color:{{column_color('number',i)}}">
@@ -134,7 +134,7 @@ it may requires a whole different algorithm to make a big runtime improvement.
           </tr>
         </thead>
         <tbody class="selectable-table">
-          <tr *ngFor="#v of volume_bars" style="cursor:pointer"
+          <tr *ngFor="let v of volume_bars" style="cursor:pointer"
               (click)="set_volume(v.index)"
               [class.volume-selected]="v.index==volume">
             <td width="55" align="center">{{v.name}}</td>

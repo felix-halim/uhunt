@@ -46,7 +46,7 @@
 
   <tbody class="selectable-table">
     <tr height="22"
-        *ngFor="#c of cpbooks[_cpBookService.edition].chapters; #i = index"
+        *ngFor="let c of cpbooks[_cpBookService.edition].chapters; let i = index"
        [class.cpbook-chapter-selected]="i==chapter">
       <td nowrap (click)="set_chapter(i, '')"
         style="padding:0 5px 0 5px; font-size:12px; border:0px; cursor:pointer">
@@ -121,7 +121,7 @@ We got a chance to take photos with Dr. C J Hwang (ACM ICPC Asia director) and s
 <br style="clear:both">
 
 <div [hidden]="chapter < 0">
-  <div *ngFor="#s of sections" style="float:{{s.float}}">
+  <div *ngFor="let s of sections" style="float:{{s.float}}">
     <table width="475" class="cpbook-table" border="1"
            style="margin-bottom:15px;" cellspacing="0">
       <thead>
@@ -132,14 +132,14 @@ We got a chance to take photos with Dr. C J Hwang (ACM ICPC Asia director) and s
           </th>
         </tr>
       </thead>
-      <tbody class="alt_colors" *ngFor="#sc of s.sections">
+      <tbody class="alt_colors" *ngFor="let sc of s.sections">
         <tr>
           <td colspan="3" style="font-weight:bold; font-size:11px">
             &nbsp;{{sc.title}}
             <tt>({{sc.solved + '/' + sc.total}})</tt>
           </td>
         </tr>
-        <tr *ngFor="#ssc of sc.sections">
+        <tr *ngFor="let ssc of sc.sections">
           <td nowrap width="*" bgcolor="">&nbsp;
             <a class="{{ssc.p.getClass(user)}}"
                href="{{config.problem_pdf_link(ssc.p)}}"

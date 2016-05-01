@@ -46,7 +46,7 @@
 
   <tbody class="alt_colors">
     <tr style="height:18px"
-       *ngFor="#s of last_submissions | slice:0:num_last_subs">
+       *ngFor="let s of last_submissions | slice:0:num_last_subs">
       <td>
         <a class="{{s.problem.getClass(user)}}"
            style="text-decoration:none;"
@@ -67,8 +67,7 @@
         </a>
       </td>
       <td align="center">{{s.getRank() }}</td>
-      <td align="center" uhunt-elapsed-time
-        [attr.data-timestamp]="s.submit_time"></td>
+      <td align="center" uhunt-elapsed-time="{{s.submit_time}}"></td>
     </tr>
   </tbody>
 </table>

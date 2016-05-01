@@ -26,7 +26,7 @@
     </tr>
   </thead>
   <tbody class="alt_colors" (click)="toggle_problem($event)">
-    <tr *ngFor="#problems of show_unsolved ? levels : all_levels; #i = index">
+    <tr *ngFor="let problems of show_unsolved ? levels : all_levels; let i = index">
       <template [ngIf]="problems && problems.length > 0">
         <td align=center>Level {{i + 1}}</td>
         <td>

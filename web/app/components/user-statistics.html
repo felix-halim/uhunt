@@ -31,7 +31,7 @@
 
   <div style="line-height:12px">
     <p style="font-size:10px; font-family:verdana; display:inline;">
-      <a *ngFor="#p of solved_problems | slice:0:limit_solved_problems()"
+      <a *ngFor="let p of solved_problems | slice:0:limit_solved_problems()"
           style="text-decoration:none;"
           class="{{p.getClass(user)}}"
           href="{{config.problem_pdf_link(p)}}"
@@ -53,7 +53,7 @@
       <b>{{tried_problems.length}}</b>
     </p>
     <p style="font-size:10px; font-family:verdana">
-      <a *ngFor="#p of tried_problems" 
+      <a *ngFor="let p of tried_problems" 
           style="text-decoration:none;"
           class="{{p.getClass(user)}}"
           href="{{config.problem_pdf_link(p)}}"

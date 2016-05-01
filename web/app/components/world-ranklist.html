@@ -55,7 +55,7 @@
     </tr>
   </thead>
   <tbody class="alt_colors">
-    <tr *ngFor="#u of ranklist" height="17"
+    <tr *ngFor="let u of ranklist" height="17"
         style="font-weight:{{u.userid == user.id ? 'bold' : ''}};">
       <td align=center>{{u.rank}}</td>
       <td>

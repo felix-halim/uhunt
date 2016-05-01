@@ -28,7 +28,7 @@ Felix halim and yours last submissions on this problem
 <tr>
   <td>
     <table width="475" border="0" cellspacing="0">
-      <tr *ngFor="#line of a_lines; #i = index"
+      <tr *ngFor="let line of a_lines; let i = index"
           style="background-color: {{i == 18 ? 'lime': ''}}">
         <td class="linenumber" valign="top">{{i + 1}}</td>
         <td class="code">{{line}}</td>
@@ -38,7 +38,7 @@ Felix halim and yours last submissions on this problem
   <td width="20"></td>
   <td>
     <table width="475" border="0" cellspacing="0">
-      <tr *ngFor="#line of a_lines; #i = index">
+      <tr *ngFor="let line of a_lines; let i = index">
         <td class="linenumber" valign="top">{{i + 1}}</td>
         <td class="code">{{line}}</td>
       </tr>

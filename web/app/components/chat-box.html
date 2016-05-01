@@ -5,7 +5,7 @@
            style="height:{{height - 30}}px; width:135px">
         -- Users({{whos_here.users.length}}/{{whos_here.total_users}}):{{
           whos_here.server_start_ts | elapsedTime}}<br>
-        <span *ngFor="#u of whos_here.users">
+        <span *ngFor="let u of whos_here.users">
           <a target="_blank" style="text-decoration:none"
             href="/id/{{u.id}}">{{u.username}}</a>:{{u.since | elapsedTime}}<br>
         </span>
@@ -16,7 +16,7 @@
            style="margin-left:2px; height:{{height - 30}}px;
                   width:{{width - 149}}px">
         <div [hidden]="show_login_dialog">
-          <div *ngFor="#msg of messages">
+          <div *ngFor="let msg of messages">
             <tt *ngIf="msg.is_system" style="color:green; font-size:12px">
               <i>uHunt</i>&gt;
               <a href="/u/{{msg.message.uname}}"

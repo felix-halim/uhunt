@@ -105,7 +105,7 @@
             </tr>
           </thead>
           <tbody class="alt_colors">
-            <tr *ngFor="#s of submissions | slice:0:max_last_subs"
+            <tr *ngFor="let s of submissions | slice:0:max_last_subs"
                  style="height:18px">
               <td align=right>{{s.id}}&nbsp;</td>
               <td align=center>{{s.getRank() }}</td>
@@ -177,7 +177,7 @@
             </tr>
           </thead>
           <tbody class="alt_colors">
-            <tr *ngFor="#s of ranklist | slice:0:max_rank"
+            <tr *ngFor="let s of ranklist | slice:0:max_rank"
                  style="height:18px; font-weight:{{
                     s.user.id == user.id ? 'bold' : ''}}">
               <td align=right>{{s.id}}&nbsp;</td>

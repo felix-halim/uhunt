@@ -1,21 +1,35 @@
 
 <p>
-Reviewing 
-<a class="nou" target="_blank" href="/id/{{code_review.user.id}}">
-  {{code_review.user.username}}</a>'s code
-<br>
-for problem
-<a class="nou" target="_blank"
-   href="{{config.problem_pdf_link(code_review.problem)}}">
-     {{code_review.problem.number}}</a> -
-<uhunt-problem [problem]="code_review.problem" width="225"></uhunt-problem>
+  Reviewing 
+  <a class="nou" target="_blank" href="/id/{{code_review.user.id}}">
+    {{code_review.user.username}}</a>'s code
+  <br>
+  for problem
+  <a class="nou" target="_blank"
+     href="{{config.problem_pdf_link(code_review.problem)}}">
+       {{code_review.problem.number}}</a> -
+  <uhunt-problem [problem]="code_review.problem" width="225"></uhunt-problem>
 </p>
 
-<p><a [routerLink]="['/CodeReview']">&lt; Back</a>
+<p>
+  <a class="nou" [routerLink]="['/CodeReview']">&lt; Back</a>
+</p>
 
-<p><a href="">View Problem 100 Statistics</a>
+<p>
+<a style="color:blue; cursor: pointer;" (click)="toggle_statistics()">
+  View Problem 100 Statistics
+</a>
+</p>
 
 <br style="clear:both" />
+
+<center *ngIf="show_statistics">
+  <uhunt-problem-statistics
+    [user]="user"
+    [problem]="code_review.problem"
+    (hideChange)="show_statistics=false">
+  </uhunt-problem-statistics>
+</center>
 
 Felix halim and yours last submissions on this problem
 

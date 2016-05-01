@@ -1,29 +1,30 @@
-import {Component, Input,
-        OnInit}            from 'angular2/core';
+import {Component, Input, OnInit}    from 'angular2/core';
 import {ROUTER_DIRECTIVES,
-        RouteParams}       from 'angular2/router';
+        RouteParams}                 from 'angular2/router';
 
-import {Config}            from '../config';
+import {Config}                      from '../config';
 
-import {ProblemComponent}  from './problem';
+import {ProblemComponent}            from './problem';
+import {ProblemStatisticsComponent}  from './problem-statistics';
 
-import {User}              from '../models/user';
-import {Problem}           from '../models/problem';
-import {Submission}        from '../models/submission';
+import {User}                        from '../models/user';
+import {Problem}                     from '../models/problem';
+import {Submission}                  from '../models/submission';
 import {CodeReview,
         CodeReviewSize,
-        CodeReviewStatus}  from '../models/code-review';
+        CodeReviewStatus}            from '../models/code-review';
 
-import {CodeReviewService} from '../services/code-review';
-import {DatabaseService}   from '../services/database';
-import {HttpService}       from '../services/http';
-import {ProblemService}    from '../services/problem';
+import {CodeReviewService}           from '../services/code-review';
+import {DatabaseService}             from '../services/database';
+import {HttpService}                 from '../services/http';
+import {ProblemService}              from '../services/problem';
 
 @Component({
   selector: 'uhunt-code-review-details',
   templateUrl: 'app/components/code-review-details.html',
   directives: [
     ProblemComponent,
+    ProblemStatisticsComponent,
     ROUTER_DIRECTIVES,
   ],
   styles: [`
@@ -54,6 +55,8 @@ td.linenumber {
 })
 export class CodeReviewDetailsComponent implements OnInit {
   @Input() user = new User({userid:339, username: 'Felix Halim'});
+
+  private show_statistics = false;
 
   private limit = 5;
   private code_review: CodeReview;
@@ -109,5 +112,9 @@ int main(){
 
   status_name(s: CodeReviewStatus) {
     return 'name'
+  }
+
+  toggle_statistics() {
+    this.show_statistics = !this.show_statistics;
   }
 }

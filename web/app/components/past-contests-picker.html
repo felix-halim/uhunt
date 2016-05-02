@@ -52,7 +52,7 @@
     </tr>
   </thead>
   <tbody class="alt_colors">
-    <template ngFor #c [ngForOf]="arr.slice(0, show)" #i="index">
+    <template ngFor let-c [ngForOf]="arr.slice(0, show)" let-i="index">
       <tr *ngIf="c.problems.length > 0
              && (view != 'unsolved' || c.solved != c.problems.length)
              && (view != 'solved' || c.solved == c.problems.length)"

@@ -30,7 +30,7 @@
       <template [ngIf]="problems && problems.length > 0">
         <td align=center>Level {{i + 1}}</td>
         <td>
-          <template ngFor #p [ngForOf]="problems">
+          <template ngFor let-p [ngForOf]="problems">
             <span style="font-size:10px; cursor:pointer"
                  [class.hilite]="selected[p.number]">{{p.number}}</span>
           </template>

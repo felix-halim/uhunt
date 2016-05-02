@@ -9,6 +9,8 @@ export class DatabaseService {
     'uhunt_problems_last_sync': 'int',
     'uhunt_livesubs_show': 'bool',
     'uhunt_livesubs_limit': 'int',
+    'uhunt_code_review_show': 'bool',
+    'uhunt_code_review_limit': 'int',
     'uhunt_prob_stats_max_subs': 'int',
     'uhunt_prob_stats_max_rank': 'int',
     'uhunt_prob_stats_show_last': 'string',

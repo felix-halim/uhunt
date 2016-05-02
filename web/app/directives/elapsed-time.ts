@@ -36,7 +36,7 @@ export class ElapsedTimeDirective implements OnInit, OnDestroy {
     }
   }
 
-  update_text() {
+  private update_text() {
     let new_unit = ElapsedTimeDirective.get_unit(this.timestamp);
     if (new_unit > this.unit) {
       this.subscription && this.subscription.unsubscribe();

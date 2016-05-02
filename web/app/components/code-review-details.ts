@@ -6,6 +6,7 @@ import {Config}                      from '../config';
 
 import {ProblemComponent}            from './problem';
 import {ProblemStatisticsComponent}  from './problem-statistics';
+import {SubmissionsComponent}        from './submissions'
 
 import {User}                        from '../models/user';
 import {Problem}                     from '../models/problem';
@@ -26,6 +27,7 @@ import {ProblemService}              from '../services/problem';
     ProblemComponent,
     ProblemStatisticsComponent,
     ROUTER_DIRECTIVES,
+    SubmissionsComponent,
   ],
   styles: [`
 td.code {
@@ -56,6 +58,7 @@ td.linenumber {
 export class CodeReviewDetailsComponent implements OnInit {
   @Input() user = new User({userid:339, username: 'Felix Halim'});
 
+  private submissions: Submission[] = [];
   private show_statistics = false;
 
   private limit = 5;
@@ -64,15 +67,25 @@ export class CodeReviewDetailsComponent implements OnInit {
   private a_lines = [];
 
   constructor(
-    private _problemService: ProblemService,
     private _codeReviewService: CodeReviewService,
-    private _routeParams: RouteParams,
-    private _databaseService: DatabaseService) {
+    private _databaseService: DatabaseService,
+    private _httpService: HttpService,
+    private _problemService: ProblemService,
+    private _routeParams: RouteParams) {
   }
 
   ngOnInit() {
     var id = parseInt(this._routeParams.get('id'), 10);
     this.code_review = this._codeReviewService.get(id);
+
+    this._problemService.ready.then(() => {
+
+      this._httpService.get(Config.API_PATH + '/p/subs/'
+        + this.code_review.problem.id + '/' + 0 + '/'
+        + Config.now + 60 * 60 * 24 * 30 + '/'
+        + 100)
+        .then((arr) => this.update_submissions(arr));
+    });
 
     this.a_lines = `#include <stdio.h>
 
@@ -116,5 +129,27 @@ int main(){
 
   toggle_statistics() {
     this.show_statistics = !this.show_statistics;
+  }
+
+  private update_submissions(arr) {
+    this.submissions = [];
+    for (let s of arr) {
+      this.submissions.push(new Submission([
+        s.sid,
+        new User({ userid: s.uid, username: s.uname, name: s.name }),
+        this._problemService.getProblemById(s.pid),
+        s.ver,
+        s.lan,
+        s.run,
+        s.mem,
+        s.rank,
+        s.sbt
+      ]));
+    }
+    this.submissions.sort(this.submit_time_cmp);
+  }
+
+  private submit_time_cmp(a: Submission, b: Submission) {
+    return b.submit_time - a.submit_time;
   }
 }

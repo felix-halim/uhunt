@@ -26,12 +26,7 @@ import {UserService}                 from '../services/user';
 
 @Component({
   selector: 'uhunt-app',
-  template:
-`<uhunt-chat-box width="550" height="245" style="float:right; padding-left:25px"
-   [user]="user">
-</uhunt-chat-box>
-<uhunt-logo highlite="vc" [user]="user"></uhunt-logo>
-<router-outlet></router-outlet>`,
+  template: `<router-outlet></router-outlet>`,
   directives: [
     ChatBoxComponent,
     LogoComponent,
@@ -52,30 +47,12 @@ import {UserService}                 from '../services/user';
     UserService,
   ],
 })
-@RouteConfig([{
-  path: '/',
-  name: 'FAQ',
-  component: FAQComponent,
-  useAsDefault: true
-}, {
-  path: '/id/:id',
-  name: 'Statistics',
-  component: StatisticsComponent
-}, {
-  path: '/cr',
-  name: 'CodeReview',
-  component: CodeReviewComponent
-}, {
-  path: '/cr/:id',
-  name: 'CodeReviewDetails',
-  component: CodeReviewDetailsComponent
-}, {
-  path: '/vcontest/...',
-  name: 'VContest',
-  component: VContestComponent
-}, {
-  path: '/api',
-  name: 'API',
-  component: WebApiComponent
-}])
+@RouteConfig([
+  {path: '/', name: 'FAQ', component: FAQComponent, useAsDefault: true},
+  {path: '/id/:id', name: 'Statistics', component: StatisticsComponent },
+  {path: '/cr', name: 'CodeReview', component: CodeReviewComponent },
+  {path: '/cr/:id', name: 'CodeReviewDetails',
+                    component: CodeReviewDetailsComponent },
+  {path: '/vcontest', name: 'VContest', component: VContestComponent },
+  {path: '/api', name: 'API', component: WebApiComponent }])
 export class AppComponent {}

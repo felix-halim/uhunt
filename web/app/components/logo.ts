@@ -1,5 +1,5 @@
 import {Component, Input, OnChanges}  from 'angular2/core';
-import {ROUTER_DIRECTIVES, Router}    from 'angular2/router';
+import {Router}                       from 'angular2/router';
 
 import {User}                         from '../models/user';
 
@@ -7,7 +7,6 @@ import {StatisticsComponent}          from './statistics';
 
 @Component({
   selector: 'uhunt-logo',
-  directives: [ROUTER_DIRECTIVES],
   styles: [`
     a:hover {text-shadow:1px 0px 0px blue;}
   `],
@@ -32,25 +31,33 @@ import {StatisticsComponent}          from './statistics';
   </td>
 </tr>
 </table>
-
 <p style="font-family: verdana">
-  <a [routerLink]="['./Statistics', {id:id}]" class="nou" 
-    style="{{style(['./Statistics', {id:id}])}}">Statistics</a> |
-  <a [routerLink]="['./CodeReview']" class="nou"
-    style="{{style(['./CodeReview'])}}">Code Review</a> |
-  <a [routerLink]="['./VContest']" class="nou"
-    style="{{style(['./VContest'])}}">VContests</a> |
-  <a [routerLink]="['./API']" class="nou" style="{{style(['./API'])}}">API</a> |
-  <a [routerLink]="['./FAQ']" class="nou" style="{{style(['./FAQ'])}}">FAQ</a>
+  <a style="color:blue; cursor:pointer;
+            {{active=='statistics' ? 'text-decoration: underline': ''}}"
+    (click)="_router.navigate(['Statistics', {id:id}])" class="nou">
+      Statistics</a> |
+  <a style="color:blue; cursor:pointer;
+            {{active=='vcontests' ? 'text-decoration: underline': ''}}"
+    (click)="_router.navigate(['VContest'])" class="nou">VContests</a> |
+  <a style="color:blue; cursor:pointer;
+            {{active=='codereview' ? 'text-decoration: underline': ''}}"
+    (click)="_router.navigate(['CodeReview'])" class="nou">Code Review</a> |
+  <a style="color:blue; cursor:pointer;
+            {{active=='webapi' ? 'text-decoration: underline': ''}}"
+    (click)="_router.navigate(['API'])" class="nou">Web API</a> |
+  <a style="color:blue; cursor:pointer;
+            {{active=='faq' ? 'text-decoration: underline': ''}}"
+    (click)="_router.navigate(['FAQ'])" class="nou">FAQ</a>
 </p>
 `,
 })
 export class LogoComponent implements OnChanges {
   @Input() user: User;
+  @Input() active: string;
 
   id: string;
 
-  constructor(private router: Router) {}
+  constructor(private _router: Router) { }
 
   ngOnChanges(changes) {
     this.user = new User({});
@@ -65,10 +72,5 @@ export class LogoComponent implements OnChanges {
     } else {
       this.id = '339';
     }
-  }
-
-  style(link) {
-    return "color: blue" + (this.router.isRouteActive(
-      this.router.generate(link)) ? '; text-decoration: underline' : '');
   }
 }

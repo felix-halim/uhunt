@@ -1,10 +1,11 @@
 import {Component, Input,
         OnInit}            from 'angular2/core';
-import {ROUTER_DIRECTIVES,
-        Router}            from 'angular2/router';
+import {ROUTER_DIRECTIVES} from 'angular2/router';
 
 import {Config}            from '../config';
 
+import {ChatBoxComponent}  from './chat-box'
+import {LogoComponent}     from './logo'
 import {ProblemComponent}  from './problem';
 
 import {User}              from '../models/user';
@@ -23,6 +24,8 @@ import {ProblemService}    from '../services/problem';
   selector: 'uhunt-code-review',
   templateUrl: 'app/components/code-review.html',
   directives: [
+    ChatBoxComponent,
+    LogoComponent,
     ProblemComponent,
     ROUTER_DIRECTIVES,
   ],

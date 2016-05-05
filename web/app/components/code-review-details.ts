@@ -4,6 +4,8 @@ import {ROUTER_DIRECTIVES,
 
 import {Config}                      from '../config';
 
+import {ChatBoxComponent}            from './chat-box';
+import {LogoComponent}               from './logo';
 import {ProblemComponent}            from './problem';
 import {ProblemStatisticsComponent}  from './problem-statistics';
 import {SubmissionsComponent}        from './submissions'
@@ -24,6 +26,8 @@ import {ProblemService}              from '../services/problem';
   selector: 'uhunt-code-review-details',
   templateUrl: 'app/components/code-review-details.html',
   directives: [
+    ChatBoxComponent,
+    LogoComponent,
     ProblemComponent,
     ProblemStatisticsComponent,
     ROUTER_DIRECTIVES,

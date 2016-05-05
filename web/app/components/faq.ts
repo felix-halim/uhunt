@@ -1,8 +1,14 @@
-import {Component}               from 'angular2/core';
+import {Component}         from 'angular2/core';
+
+import {ChatBoxComponent}  from './chat-box';
+import {LogoComponent}     from './logo';
 
 @Component({
   template: `
-
+<uhunt-chat-box width="550" height="245" style="float:right; padding-left:25px"
+   [user]="user">
+</uhunt-chat-box>
+<uhunt-logo active="faq" [user]="user"></uhunt-logo>
 <br style="clear:both" />
 <hr>
 <h2 align="center">Frequently Asked Questions</h2>
@@ -25,5 +31,10 @@ A: They represents the number of (distinct) solved problems in the past 2 days,
 7 days, and 31 days respectively.
 </ul>
   `,
+  directives: [
+    ChatBoxComponent,
+    LogoComponent,
+  ],
 })
-export class FAQComponent { }
+export class FAQComponent {
+}

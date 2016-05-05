@@ -5,10 +5,10 @@
       <div class="scroll-down-able"
            style="height:{{height - 30}}px; width:135px">
         -- Users({{whos_here.users.length}}/{{whos_here.total_users}}):{{
-          whos_here.server_start_ts | elapsedTime}}<br>
+          duration(whos_here.server_start_ts)}}<br>
         <span *ngFor="let u of whos_here.users">
           <a target="_blank" style="text-decoration:none"
-            href="/id/{{u.id}}">{{u.username}}</a>:{{u.since | elapsedTime}}<br>
+            href="/id/{{u.id}}">{{u.username}}</a>:{{duration(u.since)}}<br>
         </span>
       </div>
     </td>

@@ -35,6 +35,7 @@ export class ProblemService {
     }
 
     this.schedule_sync();
+    console.log('ProblemService constructed');
   }
 
   subscribe(f) {

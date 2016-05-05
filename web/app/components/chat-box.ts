@@ -16,20 +16,6 @@ import {ProblemService}           from '../services/problem';
 
 import {ElapsedTimeDirective}     from '../directives/elapsed-time';
 
-
-@Pipe({ name: 'elapsedTime' })
-export class ElapsedTimePipe implements PipeTransform {
-  transform(value: number): string {
-    var delta = new Date().getTime() - value;
-    var dur = Math.max(0, Math.floor(delta / 1000 / 60));
-    if (dur < 60) { return dur + 'm'; }
-    dur = Math.floor(dur / 60);
-    if (dur < 24) { return dur + 'h'; }
-    if (dur < 24 * 30) { return Math.floor(dur / 24) + 'd'; }
-    return Math.floor(dur / 24 / 30) + 'M';
-  }
-}
-
 @Component({
   selector: 'uhunt-chat-problem',
   template:
@@ -74,10 +60,7 @@ export class ChatProblemComponent implements OnInit {
 @Component({
   selector: 'uhunt-chat-box',
   templateUrl: 'app/components/chat-box.html',
-  directives: [
-    ChatProblemComponent
-  ],
-  pipes: [ElapsedTimePipe]
+  directives: [ChatProblemComponent],
 })
 export class ChatBoxComponent implements OnChanges, CanDeactivate {
   @Input() width: number;
@@ -141,6 +124,16 @@ export class ChatBoxComponent implements OnChanges, CanDeactivate {
     if (this.user) {
       this._pollingService.set_uid(this.user.id);
     }
+  }
+
+  duration(value) {
+    var delta = new Date().getTime() - value;
+    var dur = Math.max(0, Math.floor(delta / 1000 / 60));
+    if (dur < 60) { return dur + 'm'; }
+    dur = Math.floor(dur / 60);
+    if (dur < 24) { return dur + 'h'; }
+    if (dur < 24 * 30) { return Math.floor(dur / 24) + 'd'; }
+    return Math.floor(dur / 24 / 30) + 'M';
   }
 
   routerCanDeactivate(next, prev) {

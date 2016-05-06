@@ -28,12 +28,12 @@
       <th style="border:0; color:white" colspan="3">
         {{cpbooks[_cpBookService.edition].nth}} Edition's Exercises
         <span style="font-weight:normal">(switch to: 
-        <a (click)="switch_edition(0)" style="font-weight:bold;
-           color:{{cpbooks[0].color}}; cursor:pointer">1st</a>,
-        <a (click)="switch_edition(1)" style="font-weight:bold;
-           color:{{cpbooks[1].color}}; cursor:pointer">2nd</a>,
-        <a (click)="switch_edition(2)" style="font-weight:bold;
-           color:{{cpbooks[2].color}}; cursor:pointer">3rd</a>)
+        <a (click)="switch_edition(0)" style="font-weight:bold; cursor:pointer"
+           [style.color]="cpbooks[0].color">1st</a>,
+        <a (click)="switch_edition(1)" style="font-weight:bold; cursor:pointer"
+           [style.color]="cpbooks[1].color">2nd</a>,
+        <a (click)="switch_edition(2)" style="font-weight:bold; cursor:pointer"
+           [style.color]="cpbooks[2].color">3rd</a>)
         </span>
       </th>
     </tr>
@@ -121,7 +121,7 @@ We got a chance to take photos with Dr. C J Hwang (ACM ICPC Asia director) and s
 <br style="clear:both">
 
 <div [hidden]="chapter < 0">
-  <div *ngFor="let s of sections" style="float:{{s.float}}">
+  <div *ngFor="let s of sections" [style.float]="s.float">
     <table width="475" class="cpbook-table" border="1"
            style="margin-bottom:15px;" cellspacing="0">
       <thead>

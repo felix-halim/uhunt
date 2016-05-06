@@ -1,4 +1,4 @@
-import {Component, Input, OnChanges} from 'angular2/core';
+import {Component, Input, OnChanges} from '@angular/core';
 import {Observable}       from 'rxjs/Observable';
 import {Observer}         from 'rxjs/Observer';
 

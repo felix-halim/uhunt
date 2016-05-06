@@ -1,6 +1,6 @@
 import {Component, OnInit, Input,
-        Output, EventEmitter}       from 'angular2/core';
-import {Control}                    from 'angular2/common';
+        Output, EventEmitter}       from '@angular/core';
+import {Control}                    from '@angular/common';
 
 import {Config}                     from '../config';
 

@@ -48,11 +48,12 @@
         </td>
         <td>
           <a class="ellipsis" target="_blank" href="/id/{{s.user.id}}"
-            style="margin-left:5px; width:{{180 - 10}}px">
+            style="margin-left:5px; width:170px">
               {{s.user.name + ' (' + s.user.username + ')' }}
           </a>
         </td>
-        <td style="font-weight:bold; color:{{config.verdict_color(s.verdict)}}">
+        <td style="font-weight:bold;"
+           [style.color]="config.verdict_color(s.verdict)">
           &nbsp;{{ config.verdict_name(s.verdict) }}
         </td>
         <td align="center">{{config.language_name(s.language)}}</td>

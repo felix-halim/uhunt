@@ -1,6 +1,6 @@
 import {Component, Input,
         OnChanges, SimpleChange,
-        Pipe, PipeTransform}     from 'angular2/core';
+        Pipe, PipeTransform}     from '@angular/core';
 
 import {BarComponent}            from './bar';
 import {ProblemComponent}        from './problem';

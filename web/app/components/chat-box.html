@@ -3,7 +3,8 @@
   <tr>
     <td valign="top">
       <div class="scroll-down-able"
-           style="height:{{height - 30}}px; width:135px">
+           [style.width.px]="135"
+           [style.height.px]="height - 30">
         -- Users({{whos_here.users.length}}/{{whos_here.total_users}}):{{
           duration(whos_here.server_start_ts)}}<br>
         <span *ngFor="let u of whos_here.users">
@@ -13,9 +14,11 @@
       </div>
     </td>
     <td valign=top style="border-left:1px solid #aaa">
-      <div id="uhunt_chat_viewer" class="scroll-down-able"
-           style="margin-left:2px; height:{{height - 30}}px;
-                  width:{{width - 149}}px">
+      <div id="uhunt_chat_viewer"
+           class="scroll-down-able"
+           [style.width.px]="width - 149"
+           [style.height.px]="height - 30"
+           [style.margin-left.px]="2">
         <div [hidden]="show_login_dialog">
           <div *ngFor="let msg of messages">
             <tt *ngIf="msg.is_system" style="color:green; font-size:12px">
@@ -115,7 +118,7 @@
             style="display: inline;">
         <input [(ngModel)]="msg_value" id="uhunt_chat_post_id"
                 [disabled]="is_posting" type="text"
-                style="width:{{width - 149}}px; outline:none;"
+                [style.width.px]="width - 149" style="outline:none;"
                 placeholder="post your message here (max 255 chars)">
       </form>
     </td>

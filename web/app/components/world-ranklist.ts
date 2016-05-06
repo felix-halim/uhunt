@@ -1,4 +1,4 @@
-import {Component, Input, Output, EventEmitter, OnChanges} from 'angular2/core';
+import {Component, Input, Output, EventEmitter, OnChanges} from '@angular/core';
 
 import {Config}               from '../config';
 

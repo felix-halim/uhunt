@@ -1,12 +1,12 @@
-import {Component, Input, OnInit, OnChanges} from 'angular2/core';
+import {Component, Input, OnInit, OnChanges} from '@angular/core';
 
 @Component({
   selector: 'uhunt-bar',
   template:
 `<table cellpadding="0" cellspacing="0">
-  <tr style="height:{{height}}px">
-    <td style="width:{{width1}}px; background-color:{{color}}"></td>
-    <td style="width:{{width2}}px; border: 1px solid {{color}}"></td>
+  <tr [style.height.px]="height">
+    <td [style.width.px]="width1" [style.background-color]="color"></td>
+    <td [style.width.px]="width2" [style.border]="'1px solid ' + color"></td>
   </tr>
 </table>`
 })

@@ -1,5 +1,5 @@
-import {Component, Input}        from 'angular2/core';
-import {Control}                 from 'angular2/common';
+import {Component, Input}        from '@angular/core';
+import {Control}                 from '@angular/common';
 
 import {Config}                  from '../config';
 
@@ -32,7 +32,8 @@ import {UDebugService}           from '../services/udebug';
     </a>
   </span>
   <a class="ellipsis" href="{{config.problem_full_link(problem)}}"
-     style="margin-left:5px; color:black; width:{{name_width()}}px;"
+     [style.width.px]="name_width()"
+     style="margin-left:5px; color:black"
      target="_blank">{{problem.title}}</a>`,
 })
 export class ProblemComponent {

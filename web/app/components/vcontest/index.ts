@@ -1,5 +1,5 @@
-import {Component, OnInit, Input}     from 'angular2/core';
-import {Control}                      from 'angular2/common';
+import {Component, OnInit, Input}     from '@angular/core';
+import {Control}                      from '@angular/common';
 
 import {ChatBoxComponent}            from '../chat-box';
 import {LogoComponent}               from '../logo';

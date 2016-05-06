@@ -1,7 +1,7 @@
 import {Component, Input,
         OnInit, OnChanges,
-        Pipe, PipeTransform}      from 'angular2/core';
-import {CanDeactivate}            from 'angular2/router';
+        Pipe, PipeTransform}      from '@angular/core';
+import {CanDeactivate}            from '@angular/router-deprecated';
 
 import {Config}                   from '../config';
 

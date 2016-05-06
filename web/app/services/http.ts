@@ -1,5 +1,5 @@
-import {Http, URLSearchParams}  from 'angular2/http';
-import {Injectable}             from 'angular2/core';
+import {Http, URLSearchParams}  from '@angular/http';
+import {Injectable}             from '@angular/core';
 
 @Injectable()
 export class HttpService {

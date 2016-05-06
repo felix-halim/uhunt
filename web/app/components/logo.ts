@@ -1,5 +1,5 @@
-import {Component, Input, OnChanges}  from 'angular2/core';
-import {Router}                       from 'angular2/router';
+import {Component, Input, OnChanges}  from '@angular/core';
+import {Router}                       from '@angular/router-deprecated';
 
 import {User}                         from '../models/user';
 
@@ -32,21 +32,21 @@ import {StatisticsComponent}          from './statistics';
 </tr>
 </table>
 <p style="font-family: verdana">
-  <a style="color:blue; cursor:pointer;
-            {{active=='statistics' ? 'text-decoration: underline': ''}}"
+  <a style="color:blue; cursor:pointer"
+    [style.text-decoration]="active=='statistics' ? 'underline': ''"
     (click)="_router.navigate(['Statistics', {id:id}])" class="nou">
       Statistics</a> |
-  <a style="color:blue; cursor:pointer;
-            {{active=='vcontests' ? 'text-decoration: underline': ''}}"
+  <a style="color:blue; cursor:pointer"
+    [style.text-decoration]="active=='vcontests' ? 'underline': ''"
     (click)="_router.navigate(['VContest'])" class="nou">VContests</a> |
-  <a style="color:blue; cursor:pointer;
-            {{active=='codereview' ? 'text-decoration: underline': ''}}"
+  <a style="color:blue; cursor:pointer"
+    [style.text-decoration]="active=='codereview' ? 'underline': ''"
     (click)="_router.navigate(['CodeReview'])" class="nou">Code Review</a> |
-  <a style="color:blue; cursor:pointer;
-            {{active=='webapi' ? 'text-decoration: underline': ''}}"
+  <a style="color:blue; cursor:pointer"
+    [style.text-decoration]="active=='webapi' ? 'underline': ''"
     (click)="_router.navigate(['API'])" class="nou">Web API</a> |
-  <a style="color:blue; cursor:pointer;
-            {{active=='faq' ? 'text-decoration: underline': ''}}"
+  <a style="color:blue; cursor:pointer"
+    [style.text-decoration]="active=='faq' ? 'underline': ''"
     (click)="_router.navigate(['FAQ'])" class="nou">FAQ</a>
 </p>
 `,

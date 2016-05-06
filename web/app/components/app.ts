@@ -1,8 +1,8 @@
-import {Component}                   from 'angular2/core';
-import {HTTP_PROVIDERS}              from 'angular2/http';
+import {Component}                   from '@angular/core';
+import {HTTP_PROVIDERS}              from '@angular/http';
 import {RouteConfig,
         RouterOutlet,
-        ROUTER_DIRECTIVES}           from 'angular2/router';
+        ROUTER_DIRECTIVES}           from '@angular/router-deprecated';
 
 import {WebApiComponent}             from './web-api';
 import {ChatBoxComponent}            from './chat-box';
@@ -12,6 +12,7 @@ import {FAQComponent}                from './faq';
 import {LogoComponent}               from './logo';
 import {StatisticsComponent}         from './statistics';
 import {VContestComponent}           from './vcontest/index';
+import {VContestScoreboardComponent} from './vcontest/scoreboard';
 
 import {AlgorithmistService}         from '../services/algorithmist';
 import {CodeReviewService}           from '../services/code-review';
@@ -48,11 +49,13 @@ import {UserService}                 from '../services/user';
   ],
 })
 @RouteConfig([
-  {path: '/', name: 'FAQ', component: FAQComponent, useAsDefault: true},
-  {path: '/id/:id', name: 'Statistics', component: StatisticsComponent },
-  {path: '/cr', name: 'CodeReview', component: CodeReviewComponent },
-  {path: '/cr/:id', name: 'CodeReviewDetails',
-                    component: CodeReviewDetailsComponent },
-  {path: '/vcontest', name: 'VContest', component: VContestComponent },
-  {path: '/api', name: 'API', component: WebApiComponent }])
-export class AppComponent {}
+  { path: '/', name: 'FAQ', component: FAQComponent, useAsDefault: true },
+  { path: '/id/:id', name: 'Statistics', component: StatisticsComponent },
+  { path: '/cr', name: 'CodeReview', component: CodeReviewComponent },
+  { path: '/cr/:id', name: 'CodeReviewDetails',
+                     component: CodeReviewDetailsComponent },
+  { path: '/vcontest', name: 'VContest', component: VContestComponent },
+  { path: '/vcontest/:id', name: 'VContestScoreboard',
+                           component: VContestScoreboardComponent },
+  { path: '/api', name: 'API', component: WebApiComponent }])
+export class AppComponent { }

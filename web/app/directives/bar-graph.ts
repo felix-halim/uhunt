@@ -1,4 +1,4 @@
-import {Directive, ElementRef, Input, OnInit, OnChanges} from 'angular2/core';
+import {Directive, ElementRef, Input, OnInit, OnChanges} from '@angular/core';
 
 import {Config} from '../config';
 

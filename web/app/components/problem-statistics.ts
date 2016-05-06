@@ -1,5 +1,5 @@
 import {Component, Input, Output,
-        OnChanges, EventEmitter}      from 'angular2/core';
+        OnChanges, EventEmitter}      from '@angular/core';
 
 import {Config}                       from '../config';
 

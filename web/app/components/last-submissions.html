@@ -55,7 +55,8 @@
         -
         <uhunt-problem [problem]="s.problem" width="210"></uhunt-problem>
       </td>
-      <td style="font-weight:bold; color:{{config.verdict_color(s.verdict)}}">
+      <td style="font-weight:bold" 
+         [style.color]="config.verdict_color(s.verdict)">
         &nbsp;{{ config.verdict_name(s.verdict) }}
       </td>
       <td align="center">{{config.language_name(s.language)}}</td>

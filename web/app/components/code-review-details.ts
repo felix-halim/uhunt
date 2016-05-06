@@ -1,6 +1,6 @@
-import {Component, Input, OnInit}    from 'angular2/core';
+import {Component, Input, OnInit}    from '@angular/core';
 import {ROUTER_DIRECTIVES,
-        RouteParams}                 from 'angular2/router';
+        RouteParams}                 from '@angular/router-deprecated';
 
 import {Config}                      from '../config';
 

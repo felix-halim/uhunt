@@ -111,7 +111,9 @@
             </td>
             <td align="center">{{config.language_name(s.language)}}</td>
             <td align="center">{{s.runtime_ms * 1e-3 | number:'1.3-3'}}</td>
-            <td align="center" uhunt-elapsed-time="{{s.submit_time}}"></td>
+            <td align="center">
+              <uhunt-timer [timestamp]="s.submit_time"></uhunt-timer>
+            </td>
           </tr>
         </tbody>
       </table>
@@ -179,7 +181,9 @@
             </td>
             <td align="center">{{config.language_name(s.language)}}</td>
             <td align="center">{{s.runtime_ms * 1e-3 | number:'1.3-3'}}</td>
-            <td align="center" uhunt-elapsed-time="{{s.submit_time}}"></td>
+            <td align="center">
+              <uhunt-timer [timestamp]="s.submit_time"></uhunt-timer>
+            </td>
         </tbody>
       </table>
     </td>

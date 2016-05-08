@@ -10,14 +10,14 @@ import {User}                      from '../models/user';
 import {PollingService}            from '../services/polling';
 import {DatabaseService}           from '../services/database';
 
-import {ElapsedTimeDirective}      from '../directives/elapsed-time';
+import {TimerComponent}            from '../components/timer';
 
 @Component({
   selector: 'uhunt-submissions',
   templateUrl: 'app/components/submissions.html',
   directives: [
     ProblemComponent,
-    ElapsedTimeDirective,
+    TimerComponent,
   ],
 })
 export class SubmissionsComponent implements OnInit {
@@ -29,8 +29,8 @@ export class SubmissionsComponent implements OnInit {
   private limit_dbkey: string;
   private show_dbkey: string;
 
-  private show;
-  private limit;
+  private show: number;
+  private limit: number;
 
   private host = Config.UVA_HOST;
   private config = Config;
@@ -46,11 +46,11 @@ export class SubmissionsComponent implements OnInit {
     this.show = this._databaseService.get(this.show_dbkey);
   }
 
-  set_limit(n) {
+  set_limit(n: number) {
     this._databaseService.set(this.limit_dbkey, this.limit = n);
   }
 
-  set_show(show) {
+  set_show(show: number) {
     this._databaseService.set(this.show_dbkey, this.show = show);
   }
 }

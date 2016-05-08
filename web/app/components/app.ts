@@ -24,6 +24,7 @@ import {PollingService}              from '../services/polling';
 import {ProblemService}              from '../services/problem';
 import {UDebugService}               from '../services/udebug';
 import {UserService}                 from '../services/user';
+import {VContestService}             from '../services/vcontest';
 
 @Component({
   selector: 'uhunt-app',
@@ -46,6 +47,7 @@ import {UserService}                 from '../services/user';
     ProblemService,
     UDebugService,
     UserService,
+    VContestService,
   ],
 })
 @RouteConfig([

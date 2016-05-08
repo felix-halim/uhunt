@@ -65,7 +65,9 @@
           </a>
         </td>
         <td align="center">{{s.getRank()}}</td>
-        <td align="center" uhunt-elapsed-time="{{s.submit_time}}"></td>
+        <td align="center">
+          <uhunt-timer [timestamp]="s.submit_time"></uhunt-timer>
+        </td>
       </tr>
     </tbody>
   </table>

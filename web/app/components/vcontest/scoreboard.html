@@ -1,0 +1,26 @@
+<div *ngIf="isScheduled">
+  The contest date is
+  <uhunt-timer [timestamp]="contest.start_ts"
+               [adjuster]="contestService.remote_adjuster"></uhunt-timer>
+</div>
+
+<div *ngIf="isCountingDown">
+  The contest will start in
+  <uhunt-timer [timestamp]="contest.start_ts"
+               [adjuster]="contestService.remote_adjuster"></uhunt-timer>
+</div>
+
+<div *ngIf="isStarting">
+  Starting, please wait ... 
+</div>
+
+<div *ngIf="isRunning">
+  <h1>
+    <a style="float:right" target="_blank"
+       href="http://uva.onlinejudge.org/index.php?option=com_onlinejudge&
+  Itemid=25&page=submit_problem">Quick Submit</a>
+    {{ contest.name || 'UVa Virtual Contest' }}
+  </h1>
+
+  <div id="livesubs_container"></div>
+</div>

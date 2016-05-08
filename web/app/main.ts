@@ -5,5 +5,5 @@ import 'rxjs/Rx';
 
 import {AppComponent}      from './components/app';
 
-// enableProdMode();
+enableProdMode();
 bootstrap(AppComponent, [ROUTER_PROVIDERS]);

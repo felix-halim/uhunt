@@ -12,7 +12,7 @@ import {HttpService}                  from '../services/http';
 import {ProblemService}               from '../services/problem';
 import {UserService}                  from '../services/user';
 
-import {ElapsedTimeDirective}         from '../directives/elapsed-time';
+import {TimerComponent}               from '../components/timer'; 
 
 import {ProgressGraphDirective}       from '../directives/progress-graph';
 import {BarGraphDirective}            from '../directives/bar-graph';
@@ -23,7 +23,7 @@ import {BarGraphDirective}            from '../directives/bar-graph';
   directives: [
     ProgressGraphDirective,
     BarGraphDirective,
-    ElapsedTimeDirective,
+    TimerComponent,
   ],
 })
 export class ProblemStatisticsComponent implements OnChanges {

@@ -10,19 +10,19 @@ import {Submission, Verdict}         from '../models/submission';
 import {DatabaseService}             from '../services/database';
 import {ProblemService}              from '../services/problem';
 
-import {ElapsedTimeDirective}        from '../directives/elapsed-time';
+import {TimerComponent}              from '../components/timer';
 
 @Component({
   selector: 'uhunt-last-submissions',
   templateUrl: 'app/components/last-submissions.html',
   directives: [
     ProblemComponent,
-    ElapsedTimeDirective,
+    TimerComponent,
   ],
 })
 export class LastSubmissionsComponent implements OnChanges {
   @Input() user: User;
-  @Output('world-ranklist') worldRanklistClicked: EventEmitter<boolean> = new EventEmitter();
+  @Output('world-ranklist') worldRanklistClicked = new EventEmitter<boolean>();
 
   private last_submissions: Submission[] = [];
   private num_last_subs: number;

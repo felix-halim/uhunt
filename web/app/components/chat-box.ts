@@ -14,7 +14,7 @@ import {LoginService}             from '../services/login';
 import {PollingService}           from '../services/polling';
 import {ProblemService}           from '../services/problem';
 
-import {ElapsedTimeDirective}     from '../directives/elapsed-time';
+import {TimerComponent}           from '../components/timer';
 
 @Component({
   selector: 'uhunt-chat-problem',
@@ -75,7 +75,7 @@ export class ChatBoxComponent implements OnChanges, CanDeactivate {
   private show_login_dialog = false;
   private is_posting = false;
   private msg_value = "";
-  private etd = ElapsedTimeDirective;
+  private etd = TimerComponent;
 
   constructor(
       private _databaseService: DatabaseService,

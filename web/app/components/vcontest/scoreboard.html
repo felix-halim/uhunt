@@ -14,7 +14,7 @@
   Starting, please wait ... 
 </div>
 
-<div *ngIf="isRunning">
+<div *ngIf="isRunning" style="width: 965px">
   <h1>
     <a style="float:right" target="_blank"
        href="http://uva.onlinejudge.org/index.php?option=com_onlinejudge&
@@ -22,5 +22,80 @@
     {{ contest.name || 'UVa Virtual Contest' }}
   </h1>
 
-  <div id="livesubs_container"></div>
+  <uhunt-submissions dbname="vcontest_livesubs"
+    [user]="user"
+    [submissions]="live_submissions.submissions">
+<!--  if (!include_shadows){
+        var ok = false; console.log(user_ids); 
+        for (var j=0; j<user_ids.length; j++)
+          if (user_ids[j] == s.uid) ok = true;
+        if (!ok) continue;
+      }
+      if (!vcontest.relevant_sub(s.uid, s.pid, intval(s.sbt))) continue; 
+ -->
+  </uhunt-submissions>
+
+  <table style="border: 1px solid #AAA; margin-bottom:15px">
+    <thead>
+      <tr class="tablebar">
+        <th align="left" height="25" style="padding-left:10px"
+           [attr.colspan]="3 + contest.problems.length">
+          <span style="float:right; margin-right:10px; font-weight:normal">
+            {{contest_status}}
+          </span>
+          <a style="text-decoration:none; color:white">Contest Ranklist</a> 
+
+          &nbsp; &nbsp;
+          <input (click)="toggle_include_past_subs()"
+                  type="checkbox" [attr.checked]="include_past_subs">
+          <a style="text-decoration:none; color:white; font-weight:normal;">
+            past submissions
+          </a>
+
+          &nbsp; &nbsp;
+          <input (click)="toggle_shadows()"
+                  type="checkbox" [attr.checked]="include_shadows">
+          <a style="text-decoration:none; color:white; font-weight:normal;">
+            shadow users
+          </a>
+        </th>
+      </tr>
+
+      <tr class="tablesubar">
+        <th width="40" align="center">#</th>
+        <th width="150" align="left">&nbsp; Author Name</th>
+        <th width="{{width}}" *ngFor="let p of contest.problems">
+          <a class="{{p.getClass(user)}}" target="_blank"
+             href="{{config.problem_pdf_link(p)}}">{{p.number}}</a>
+        </th>
+        <th width="{{ac_width}}">AC / Time</th>
+      </tr>
+    </thead>
+ 
+    <tbody class="alt_colors">
+ <!--    <% for (var i=0,k=0; i<author_scores.length; i++){
+      var a = author_scores[i];
+      if (!include_shadows){
+        var ok = false;
+        for (var j=0; j<user_ids.length; j++)
+          if (user_ids[j] == a.uid) ok = true;
+        if (!ok) continue;
+      } %>
+      <tr <%= (a.uid[0]=="s" || !include_shadows)? ""
+        : "style='font-weight:bold'" %> >
+      <td class=rank> <%= ++k %>
+      <td style="padding-left:5px" nowrap>
+        <%= tpl.render("author_link",
+        {width:130, uid:a.uid, name:a.name, uname:""}) %>
+      <% for (var j=0; j<a.problems.length; j++){ var pb = a.problems[j]; %>
+        <td class=problem><%= (!pb)? "&nbsp;" :
+          (!pb.ac)? ("(" + pb.nos + ") --:--") :
+          (pb.nos)? ("(" + pb.nos + ") " + tpl.format_sub(pb.sbt)) :
+          tpl.format_sub(pb.sbt) %>
+      <% } %>
+      <td align=center nowrap><%= "<b>" + a.solved + "</b> / "
+      + tpl.format_sub(a.penalty) %>
+    <% } %> -->
+    </tbody>
+  </table>
 </div>

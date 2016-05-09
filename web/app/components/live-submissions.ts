@@ -4,6 +4,7 @@ import {ProblemComponent}      from './problem';
 import {SubmissionsComponent}  from './submissions';
 
 import {User}                  from '../models/user';
+import {LiveSubmissions}       from '../models/live-submissions';
 
 import {PollingService}        from '../services/polling';
 
@@ -12,7 +13,7 @@ import {PollingService}        from '../services/polling';
   template:
     `<uhunt-submissions dbname="livesubs"
       [user]="user"
-      [submissions]="_pollingService.live_submissions">
+      [submissions]="live_submissions.submissions">
     </uhunt-submissions>`, 
   directives: [
     ProblemComponent,
@@ -22,5 +23,9 @@ import {PollingService}        from '../services/polling';
 export class LiveSubmissionsComponent {
   @Input() user: User;
 
-  constructor(private _pollingService: PollingService) {}
+  live_submissions = new LiveSubmissions();
+
+  constructor(pollingService: PollingService) {
+    this.live_submissions.subscribe(pollingService.submissions);
+  }
 }

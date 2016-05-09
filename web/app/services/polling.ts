@@ -1,25 +1,29 @@
-import {Injectable, EventEmitter} from '@angular/core';
+import { Injectable, EventEmitter }  from '@angular/core';
 
-import {Config}                   from '../config';
+import { Observable }                from 'rxjs/Observable'
+import { Subscriber }                from 'rxjs/Subscriber'
 
-import {ChatMessage}              from '../models/chat';
-import {Submission}               from '../models/submission';
-import {User}                     from '../models/user';
+import { Config }                    from '../config';
 
-import {HttpService}              from './http';
-import {ProblemService}           from './problem';
+import { ChatMessage }               from '../models/chat';
+import { Submission }                from '../models/submission';
+import { User }                      from '../models/user';
+
+import { HttpService }               from './http';
+import { ProblemService }            from './problem';
 
 @Injectable()
 export class PollingService {
-  submissions: EventEmitter<Submission[]> = new EventEmitter();
-  chat_messages: EventEmitter<ChatMessage[]> = new EventEmitter();
-  out_of_sync: EventEmitter<boolean> = new EventEmitter();
-  new_session: EventEmitter<any> = new EventEmitter();
+  submissions = new Observable<Submission[]>(
+    (o: Subscriber<Submission[]>) => this.submissions_observer = o);
+  chat_messages = new EventEmitter<ChatMessage[]>();
+  out_of_sync = new EventEmitter<boolean>();
+  new_session = new EventEmitter();
   last_poll_id: number = 0;
   session_id: number = 0;
   ids: any = {};
 
-  live_submissions: Submission[] = [];
+  private submissions_observer: Subscriber<Submission[]>;
 
   constructor(
     private _httpService: HttpService,
@@ -28,37 +32,11 @@ export class PollingService {
     this.ids[Config.CHAT_ROOM] = 0;
     this.ids['lastsubs'] = 0;
     this.ids['uid'] = 0;
-
-    this.submissions.subscribe(subs => {
-      for (var s of subs) {
-        this.update(s);
-      }
-    });
-
     this.poll();
   }
 
-  private update(sub) {
-    for (let i = 0; i < this.live_submissions.length; i++) {
-      var s = this.live_submissions[i];
-      if (s.id == sub.id) {
-        this.live_submissions[i] = sub;
-        return;
-      }
-      if (sub.id > s.id) {
-        this.live_submissions.splice(i, 0, sub);
-        if (this.live_submissions.length > 100) {
-          this.live_submissions.pop();
-        }
-        return;
-      }
-    }
-    if (this.live_submissions.length < 100) {
-      this.live_submissions.push(sub);
-    }
-  }
 
-  set_uid(uid) {
+  set_uid(uid: number) {
     this.ids['uid'] = uid;
   }
 
@@ -81,12 +59,13 @@ export class PollingService {
     });
   }
 
-  private process_submissions(subs) {
+  private process_submissions(subs: any[]) {
     var is_out_of_sync = false;
-    var submissions = [];
+    var submissions: Submission[] = [];
     for (let s of subs) {
       if (this.ids.lastsubs && this.ids.lastsubs + 1 != s.id) {
-        console.error('lastsubs out of sync ' + (this.ids.lastsubs + 1) + ' != ' + s.id);
+        console.error('lastsubs out of sync '
+          + (this.ids.lastsubs + 1) + ' != ' + s.id);
         is_out_of_sync = true;
       }
       this.ids.lastsubs = s.id;
@@ -108,11 +87,15 @@ export class PollingService {
     if (is_out_of_sync) {
       this.out_of_sync.emit(true);
     }
-    this.submissions.emit(submissions);
+    if (this.submissions_observer != null) {
+      this.submissions_observer.next(submissions);
+    } else {
+      console.log("missing subscriber");
+    }
   }
 
   private process_chat_messages(msgs) {
-    var chats = [];
+    var chats: ChatMessage[] = [];
     for (let chat of msgs) {
       this.ids[Config.CHAT_ROOM] = chat.id;
       if (chat.userid == 14031984) {

@@ -42,23 +42,27 @@ export class VContestService {
         let start_in = -this.remote_adjuster.get_elapsed(c.start_sbt);
         if (start_in >= 30 * 24 * 60 * 60) {
           contest.status = ContestStatus.START_DATE;
+          observer.next(contest);
           let delay = start_in - 30 * 24 * 60 * 60 + 1;
           setTimeout(() => this.try_start(id, observer), delay * 1000);
         } if (start_in > 1) {
           contest.status = ContestStatus.STARTING_IN;;
+          observer.next(contest);
           setTimeout(() => this.try_start(id, observer), (start_in - 1) * 1000);
         } else if (c.problem_numbers[0] == -1) {
           contest.status = ContestStatus.STARTING;
+          observer.next(contest);
           setTimeout(() => this.try_start(id, observer), 1000);
         } else if (!contest.id) {
           contest.status = ContestStatus.RUNNING;
-        } else {
-          this.fill_contest_details(contest).then(
-            () => contest.status = ContestStatus.RUNNING);
-        }
-        observer.next(contest);
-        if (contest.status == ContestStatus.RUNNING) {
+          observer.next(contest);
           observer.complete();
+        } else {
+          this.fill_contest_details(contest).then(() => {
+            contest.status = ContestStatus.RUNNING;
+            observer.next(contest);
+            observer.complete();
+          });
         }
       });
   }
@@ -114,6 +118,35 @@ export class VContestService {
           s[4] + shadow_start_sbt
         ]));
       }
+    });
+  }
+
+  get_contestant_submissions(c: Contest): Observable<Submission[]> {
+    return new Observable<Submission[]>((o: Subscriber<Submission[]>) => {
+      this.httpService.get(Config.API_PATH + '/subs-pids/'
+        + c.contestants.map(u => u.id).join(',') + '/'
+        + c.problems.map(p => p.number).join(',') + '/0')
+      .then(subs_by_user => {
+        let subs: Submission[] = [];
+        for (let uid in subs_by_user) {
+          let a = subs_by_user[uid];
+          for (let sub of a.subs) {
+            subs.push(new Submission([
+              parseInt(sub[0], 10),
+              new User({ userid: uid, name: a.name, username: a.uname }),
+              this.problemService.getProblemById(parseInt(sub[1], 10)),
+              parseInt(sub[2], 10),
+              parseInt(sub[5], 10),
+              parseInt(sub[3], 10),
+              0,
+              parseInt(sub[6], 10),
+              parseInt(sub[4], 10)
+            ]));
+          }
+        }
+        subs.sort((a, b) => a.submit_time - b.submit_time);
+        o.next(subs);
+      });
     });
   }
 }

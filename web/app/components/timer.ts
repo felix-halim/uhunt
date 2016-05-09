@@ -1,10 +1,10 @@
-import {Component, Input, OnInit, OnDestroy} from '@angular/core';
+import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 
-import {Observable}    from 'rxjs/Observable'
-import {Subscription}  from 'rxjs/Subscription'
+import { Observable }         from 'rxjs/Observable'
+import { Subscription }       from 'rxjs/Subscription'
 
-import {Config}             from '../config';
-import {DeltaTimeAdjuster}  from '../models/delta-time-adjuster'
+import { Config }             from '../config';
+import { DeltaTimeAdjuster }  from '../models/delta-time-adjuster'
 
 @Component({
   selector: 'uhunt-timer',

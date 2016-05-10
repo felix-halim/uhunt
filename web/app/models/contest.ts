@@ -20,8 +20,11 @@ export class Contest {
   problems: Problem[] = [];
   past_submissions: Submission[] = [];
   status: ContestStatus;
+  ranklist: Ranklist;
 
-  ranklist = new Ranklist(this);
+  create_ranklist() {
+    this.ranklist = new Ranklist(this);
+  }
 
   start_shadow_submisions() {
     return new Observable<Submission[]>(
@@ -60,13 +63,14 @@ export enum ContestStatus {
 };
 
 export class Ranklist {
+  ranklist: Author[];
   submissions: Submission[] = [];
   valid_problem_id: { [key: number]: boolean } = {};
   valid_user_id: { [key: number]: boolean } = {};
 
   constructor(private contest: Contest) {
     for (let problem of contest.problems) {
-      this.valid_problem_id[problem.id];
+      this.valid_problem_id[problem.id] = true;
     }
     for (let user of contest.contestants) {
       this.valid_user_id[user.id] = true;
@@ -77,11 +81,18 @@ export class Ranklist {
     for (let sub of subs) {
       this.submissions.push(sub);
     }
+    this.compute();
   }
 
   compute() {
     let scores: {[prop: number]: Author} = {};
     for (let sub of this.submissions) {
+      // if (!this.contest.include_past_subs);
+      // this.valid_user_id[uid]
+      if (sub.submit_time < this.contest.start_ts) continue;
+      if (sub.submit_time > this.contest.end_ts) continue;
+      if (!this.valid_problem_id[sub.problem.id]) continue;
+
       let a = scores[sub.user.id];
       if (!a) {
         a = scores[sub.user.id] = new Author(sub.user);
@@ -89,16 +100,13 @@ export class Ranklist {
       a.submissions.push(sub);
     }
 
-    let author_scores: Author[] = [];
+    this.ranklist = [];
     for (let uid in scores) {
       let a = scores[uid];
       a.submissions.sort((a, b) => a.id - b.id);
-      var p = {}; // [[0:sid, 1:pid, 2:ver, 3:run, 4:sbt, 5:lan, 6:rank]]
+      var p = a.problems;
       for (let s of a.submissions) {
-        if (!this.relevant_sub(a.user.id, s.problem.id, s.submit_time)) {
-          continue;
-        }
-        if (!p[s.problem.id]) p[s.problem.id] = { nos: 0, ac: 0 };
+        if (!p[s.problem.id]) p[s.problem.id] = new Status();
         if (p[s.problem.id].ac) continue;
         if (s.verdict == 90) {
           p[s.problem.id].ac = 1;
@@ -109,28 +117,27 @@ export class Ranklist {
           p[s.problem.id].nos++;
         }
       }
-      author_scores.push(a);
+      this.ranklist.push(a);
     }
-    author_scores.sort(function solved_pen_cmp(a, b) {
+    this.ranklist.sort(function solved_pen_cmp(a, b) {
       return (a.solved != b.solved)
               ? (b.solved - a.solved)
               : (a.penalty - b.penalty);
     });
   }
-
-  relevant_sub(uid: number, pid: number, sbt: number): boolean {
-    // TODO: fix
-    // if (!this.contest.include_past_subs);
-    if (sbt < this.contest.start_ts) return false;
-    if (sbt > this.contest.end_ts) return false;
-    return this.valid_user_id[uid] && this.valid_problem_id[pid];
-  }
 }
 
-class Author {
+export class Author {
   solved = 0;
   penalty = 0;
   submissions: Submission[] = [];
+  problems: {[prop: number]: Status} = {};
 
   constructor(public user: User) { }
+}
+
+class Status {
+  ac = 0;
+  nos = 0;
+  sbt = 0;
 }

@@ -7,7 +7,7 @@ import {Config}                       from '../../config';
 import {TimerComponent}               from '../timer';
 import {SubmissionsComponent}         from '../submissions';
 
-import {Contest,
+import {Contest, Author,
         ContestStatus, Ranklist}      from '../../models/contest';
 import {User}                         from '../../models/user';
 import {Problem}                      from '../../models/problem';
@@ -30,7 +30,6 @@ import {VContestService}              from '../../services/vcontest';
 export class VContestScoreboardComponent implements OnInit {
   @Input() user: User = User.UNKNOWN;
 
-  ac_width = 90;
   width: number;
   config = Config;
   include_shadows: boolean;
@@ -51,12 +50,7 @@ export class VContestScoreboardComponent implements OnInit {
       this.contest = c;
       if (c.status == ContestStatus.RUNNING) {
         this.include_shadows = !!c.id;
-
-        this.width = Math.floor(620 / this.contest.problems.length);
-        if (this.width > this.ac_width) {
-          this.width = this.ac_width =
-            Math.floor(710 / (this.contest.problems.length + 1));
-        }
+        this.width = Math.floor(710 / (this.contest.problems.length + 1));
 
         let observable = this.contest.start_shadow_submisions();
         this.live_submissions.subscribe(observable);
@@ -88,42 +82,37 @@ export class VContestScoreboardComponent implements OnInit {
 
   get contest_status(): string {
     var status = '';
-    if (conf.end_sbt < 1e50) {
-      var c = now();
-      if (conf.start_sbt > c) {
-        var t = tpl.format_time_v(conf.start_sbt - c, 1);
-        if (t === false)
-          status = 'Contest start date: ' + tpl.format_date(conf.start_sbt);
-        else
-          status = 'Will start in: ' + t;
-      }
-      else if (conf.end_sbt < c) status = 'Contest has ended';
-      else {
-        var t = tpl.format_time_v(conf.end_sbt - c, 1);
-        if (t === false)
-          status = 'Contest end date: ' + tpl.format_date(conf.end_sbt);
-        else
-          status = 'Time remaining: <font color=yellow>' + t + '</font>';
-      }
+    if (this.contest.end_ts < 1e50) {
+      var c = Config.now;
+      if (this.contest.start_ts > c) return 'The contest is not started yet';
+      if (this.contest.end_ts < c) return 'Contest has ended';
+      return 'Time remaining: ';
     }
-    $('#contest_status').html(status);
-    setTimeout(update_status, 1000);
+    return status;
   }
 
-  format_sub: function(sbt) {  // for ranklist submission table
+  problems(a: Author) {
+    return this.contest.problems.map(p => a.problems[p.id]);
+  }
+
+  format_sub(sbt: number) {  // for ranklist submission table
     var sign = sbt < 0 ? '-' : '';
     sbt = sbt < 0 ? -sbt : sbt;
     var yy = Math.floor(sbt / 60 / 60 / 24 / 365);
     var MM = Math.floor((sbt / 60 / 60 / 24 / 30) % 12);
     if (yy > 0) return sign + yy + ':<font color=blue>'
-      + tpl.format_xx(MM) + '</font>';
+      + this.format_xx(MM) + '</font>';
     var dd = Math.floor((sbt / 60 / 60 / 24) % 30);
     if (MM > 0) return sign + '<font color=blue>' + MM
-      + '</font>:<font color=green>' + tpl.format_xx(dd) + '</font>';
+      + '</font>:<font color=green>' + this.format_xx(dd) + '</font>';
     var hh = Math.floor((sbt / 60 / 60) % 24);
     if (dd > 0) return sign + '<font color=green>' + dd + '</font>:'
-      + tpl.format_xx(dd);
+      + this.format_xx(dd);
     var mm = Math.floor(sbt / 60) % 60;
-    return sign + hh + ':' + tpl.format_xx(mm);
+    return sign + hh + ':' + this.format_xx(mm);
+  }
+
+  format_xx(x: number) {
+    return x < 10 ? ('0' + x) : x;
   }
 }

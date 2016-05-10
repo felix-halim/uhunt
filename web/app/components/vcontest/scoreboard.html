@@ -36,66 +36,76 @@
   </uhunt-submissions>
 
   <table style="border: 1px solid #AAA; margin-bottom:15px">
-    <thead>
-      <tr class="tablebar">
-        <th align="left" height="25" style="padding-left:10px"
-           [attr.colspan]="3 + contest.problems.length">
-          <span style="float:right; margin-right:10px; font-weight:normal">
-            {{contest_status}}
-          </span>
-          <a style="text-decoration:none; color:white">Contest Ranklist</a> 
+  <thead>
+    <tr class="tablebar">
+      <th align="left" height="25" style="padding-left:10px"
+         [attr.colspan]="3 + contest.problems.length">
+        <span style="float:right; margin-right:10px; font-weight:normal">
+          {{contest_status}}
+          <uhunt-timer style="color: yellow"
+            *ngIf="contest.start_ts > config.now && contest.end_ts < config.now"
+            [timestamp]="contest.end_ts"
+            [adjuster]="contestService.remote_adjuster">
+          </uhunt-timer>
+        </span>
+        <a style="text-decoration:none; color:white">Contest Ranklist</a> 
 
-          &nbsp; &nbsp;
-          <input (click)="toggle_include_past_subs()"
-                  type="checkbox" [attr.checked]="include_past_subs">
-          <a style="text-decoration:none; color:white; font-weight:normal;">
-            past submissions
-          </a>
+        &nbsp; &nbsp;
+        <input (click)="toggle_include_past_subs()"
+                type="checkbox" [attr.checked]="include_past_subs">
+        <a style="text-decoration:none; color:white; font-weight:normal;">
+          past submissions
+        </a>
 
-          &nbsp; &nbsp;
-          <input (click)="toggle_shadows()"
-                  type="checkbox" [attr.checked]="include_shadows">
-          <a style="text-decoration:none; color:white; font-weight:normal;">
-            shadow users
-          </a>
-        </th>
-      </tr>
+        &nbsp; &nbsp;
+        <input (click)="toggle_shadows()"
+                type="checkbox" [attr.checked]="include_shadows">
+        <a style="text-decoration:none; color:white; font-weight:normal;">
+          shadow users
+        </a>
+      </th>
+    </tr>
 
-      <tr class="tablesubar">
-        <th width="40" align="center">#</th>
-        <th width="150" align="left">&nbsp; Author Name</th>
-        <th width="{{width}}" *ngFor="let p of contest.problems">
-          <a class="{{p.getClass(user)}}" target="_blank"
-             href="{{config.problem_pdf_link(p)}}">{{p.number}}</a>
-        </th>
-        <th width="{{ac_width}}">AC / Time</th>
-      </tr>
-    </thead>
- 
-    <tbody class="alt_colors">
- <!--    <% for (var i=0,k=0; i<author_scores.length; i++){
-      var a = author_scores[i];
-      if (!include_shadows){
-        var ok = false;
-        for (var j=0; j<user_ids.length; j++)
-          if (user_ids[j] == a.uid) ok = true;
-        if (!ok) continue;
-      } %>
-      <tr <%= (a.uid[0]=="s" || !include_shadows)? ""
-        : "style='font-weight:bold'" %> >
-      <td class=rank> <%= ++k %>
+    <tr class="tablesubar">
+      <th width="45" align="left">&nbsp; #</th>
+      <th width="170" align="left">&nbsp; Author Name</th>
+      <th width="{{width}}" *ngFor="let p of contest.problems">
+        <a class="nou" target="_blank"
+           href="{{config.problem_pdf_link(p)}}">{{p.number}}</a>
+      </th>
+      <th width="{{width}}">AC/Time</th>
+    </tr>
+  </thead>
+
+  <tbody class="alt_colors">
+<!--    
+    var a = author_scores[i];
+    if (!include_shadows){
+      var ok = false;
+      for (var j=0; j<user_ids.length; j++)
+        if (user_ids[j] == a.uid) ok = true;
+      if (!ok) continue;
+    } %>
+    a.uid[0]=='s' || 
+-->
+    <tr *ngFor="let a of contest.ranklist.ranklist; let i = index"
+        [style.font-weight]="(!include_shadows)? '' : 'bold'">
+      <td class="rank">{{ i + 1 }}</td>
       <td style="padding-left:5px" nowrap>
-        <%= tpl.render("author_link",
-        {width:130, uid:a.uid, name:a.name, uname:""}) %>
-      <% for (var j=0; j<a.problems.length; j++){ var pb = a.problems[j]; %>
-        <td class=problem><%= (!pb)? "&nbsp;" :
-          (!pb.ac)? ("(" + pb.nos + ") --:--") :
-          (pb.nos)? ("(" + pb.nos + ") " + tpl.format_sub(pb.sbt)) :
-          tpl.format_sub(pb.sbt) %>
-      <% } %>
-      <td align=center nowrap><%= "<b>" + a.solved + "</b> / "
-      + tpl.format_sub(a.penalty) %>
-    <% } %> -->
-    </tbody>
+        <a class="ellipsis" target="_blank" href="/id/{{a.user.id}}"
+          style="margin-left:5px; width:170px">
+            {{a.user.name + ' (' + a.user.username + ')' }}
+        </a>
+      </td>
+      <td *ngFor="let s of problems(a)" class="problem">
+           {{ (!s)? '&nbsp;' :
+              (!s.ac)? ('(' + s.nos + ') --:--') :
+              (s.nos)? ('(' + s.nos + ') ' + format_sub(s.sbt)) :
+              format_sub(s.sbt)}}
+      </td>
+      <td align="center" nowrap>
+        <b>{{ a.solved }}</b> / {{ format_sub(a.penalty) }}
+      </td>
+  </tbody>
   </table>
 </div>

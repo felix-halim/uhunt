@@ -85,6 +85,7 @@ export class VContestService {
     for (let num of c.problem_numbers) {
       contest.problems.push(this.problemService.getProblemByNumber(num));
     }
+    contest.create_ranklist();
     return contest;
   }
 

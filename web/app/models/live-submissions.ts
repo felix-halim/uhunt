@@ -1,14 +1,24 @@
-import { Observable,
-         Subscribable }  from 'rxjs/Observable'
+import { Observable, Subscribable }  from 'rxjs/Observable'
+import { AnonymousSubscription }     from 'rxjs/Subscription'
 
 import { Submission }    from './submission';
 import { User }          from './user';
 
 export class LiveSubmissions {
   submissions: Submission[] = [];
+  subscription: AnonymousSubscription;
+  reset_first: boolean;
 
   subscribe(subscribable: Subscribable<Submission[]>) {
-    subscribable.subscribe((subs) => {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+      this.reset_first = true;
+    }
+    this.subscription = subscribable.subscribe((subs) => {
+      if (this.reset_first) {
+        this.submissions.length = 0;
+        this.reset_first = false;
+      }
       for (let s of subs) {
         this.update(s);
       }

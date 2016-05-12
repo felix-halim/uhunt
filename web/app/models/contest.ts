@@ -1,7 +1,6 @@
-import { Observable,
-         Subscribable }  from 'rxjs/Observable'
-import { Subscriber }    from 'rxjs/Subscriber'
-import { Subscription }  from 'rxjs/Subscription'
+import { Observable, Subscribable }  from 'rxjs/Observable'
+import { Subscriber }                from 'rxjs/Subscriber'
+import { AnonymousSubscription }     from 'rxjs/Subscription'
 
 import { Config }        from '../config';
 
@@ -11,19 +10,86 @@ import { Submission }    from './submission';
 
 export class Contest {
   private static ticks = Observable.interval(1000);
+  subscription: AnonymousSubscription;
+  reset_first: boolean;
 
-  id: number;
-  name: string;
-  start_ts: number;
-  end_ts: number;
-  contestants: User[] = [];
-  problems: Problem[] = [];
   past_submissions: Submission[] = [];
-  status: ContestStatus;
-  ranklist: Ranklist;
+  status = ContestStatus.START_DATE;
 
-  create_ranklist() {
-    this.ranklist = new Ranklist(this);
+  author_by_id: {[prop: number]: Author};
+  author_ranklist: Author[];
+
+  is_problem_id: { [key: number]: boolean };
+  is_contestant_id: { [key: number]: boolean };
+
+  constructor(
+    public id: number,
+    public name: string,
+    public start_ts: number,
+    public end_ts: number,
+    public contestants: User[],
+    public problems: Problem[]) {
+
+    this.reset();
+  }
+
+  is_contestant(uid: number) {
+    return this.is_contestant_id[uid];
+  }
+
+  reset() {
+    this.is_problem_id = {};
+    for (let problem of this.problems) {
+      this.is_problem_id[problem.id] = true;
+    }
+
+    this.is_contestant_id = {};
+    this.author_by_id = {};
+    this.author_ranklist = [];
+    for (let user of this.contestants) {
+      this.is_contestant_id[user.id] = true;
+      this.author_by_id[user.id] = new Author(user, this.problems);
+      this.author_ranklist.push(this.author_by_id[user.id]);
+    }
+  }
+
+  subscribe(subscribable: Subscribable<Submission[]>) {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+      this.reset_first = true;
+    }
+    this.subscription = subscribable.subscribe(subs => {
+      if (this.reset_first) {
+        this.reset();
+        this.reset_first = false;
+      }
+      for (let s of subs) {
+        if (s.submit_time < this.start_ts) continue;
+        if (s.submit_time > this.end_ts) continue;
+        if (!this.is_problem_id[s.problem.id]) continue;
+
+        let a = this.author_by_id[s.user.id];
+        if (!a) {
+          a = this.author_by_id[s.user.id] = new Author(s.user, this.problems);
+          this.author_ranklist.push(a);
+        }
+
+        var p = a.status;
+        if (!p[s.problem.id]) p[s.problem.id] = new Status();
+        if (p[s.problem.id].ac) continue;
+        if (s.verdict == 90) {
+          p[s.problem.id].ac = 1;
+          p[s.problem.id].sbt = s.submit_time - this.start_ts;
+          a.solved++;
+          a.penalty += p[s.problem.id].sbt + p[s.problem.id].nos * 20 * 60;
+        } else {
+          p[s.problem.id].nos++;
+        }
+      }
+
+      this.author_ranklist.sort((a, b) => (a.solved != b.solved)
+        ? (b.solved - a.solved) : (a.penalty - b.penalty));
+    });
   }
 
   start_shadow_submisions() {
@@ -49,10 +115,6 @@ export class Contest {
         });
       });
   }
-
-  subscribe(subscribable: Subscribable<Submission[]>) {
-    subscribable.subscribe((subs) => this.ranklist.add_submission(subs));
-  }
 }
 
 export enum ContestStatus {
@@ -62,78 +124,16 @@ export enum ContestStatus {
   RUNNING,
 };
 
-export class Ranklist {
-  ranklist: Author[];
-  submissions: Submission[] = [];
-  valid_problem_id: { [key: number]: boolean } = {};
-  valid_user_id: { [key: number]: boolean } = {};
-
-  constructor(private contest: Contest) {
-    for (let problem of contest.problems) {
-      this.valid_problem_id[problem.id] = true;
-    }
-    for (let user of contest.contestants) {
-      this.valid_user_id[user.id] = true;
-    }
-  }
-
-  add_submission(subs: Submission[]) {
-    for (let sub of subs) {
-      this.submissions.push(sub);
-    }
-    this.compute();
-  }
-
-  compute() {
-    let scores: {[prop: number]: Author} = {};
-    for (let sub of this.submissions) {
-      // if (!this.contest.include_past_subs);
-      // this.valid_user_id[uid]
-      if (sub.submit_time < this.contest.start_ts) continue;
-      if (sub.submit_time > this.contest.end_ts) continue;
-      if (!this.valid_problem_id[sub.problem.id]) continue;
-
-      let a = scores[sub.user.id];
-      if (!a) {
-        a = scores[sub.user.id] = new Author(sub.user);
-      }
-      a.submissions.push(sub);
-    }
-
-    this.ranklist = [];
-    for (let uid in scores) {
-      let a = scores[uid];
-      a.submissions.sort((a, b) => a.id - b.id);
-      var p = a.problems;
-      for (let s of a.submissions) {
-        if (!p[s.problem.id]) p[s.problem.id] = new Status();
-        if (p[s.problem.id].ac) continue;
-        if (s.verdict == 90) {
-          p[s.problem.id].ac = 1;
-          p[s.problem.id].sbt = s.submit_time - this.contest.start_ts;
-          a.solved++;
-          a.penalty += p[s.problem.id].sbt + p[s.problem.id].nos * 20 * 60;
-        } else {
-          p[s.problem.id].nos++;
-        }
-      }
-      this.ranklist.push(a);
-    }
-    this.ranklist.sort(function solved_pen_cmp(a, b) {
-      return (a.solved != b.solved)
-              ? (b.solved - a.solved)
-              : (a.penalty - b.penalty);
-    });
-  }
-}
-
 export class Author {
   solved = 0;
   penalty = 0;
-  submissions: Submission[] = [];
-  problems: {[prop: number]: Status} = {};
+  status: {[prop: number]: Status} = {};
 
-  constructor(public user: User) { }
+  constructor(public user: User, public problems: Problem[]) { }
+
+  get problems_status() {
+    return this.problems.map(p => this.status[p.id]);
+  }
 }
 
 class Status {

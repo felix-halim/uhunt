@@ -1,23 +1,25 @@
-import {Component, OnInit, Input}     from '@angular/core';
-import {RouteParams}                  from '@angular/router-deprecated';
-import {Control}                      from '@angular/common';
+import { Component, OnInit, Input }     from '@angular/core';
+import { RouteParams }                  from '@angular/router-deprecated';
+import { Control }                      from '@angular/common';
 
-import {Config}                       from '../../config';
+import { Observable, Subscribable }     from 'rxjs/Observable'
 
-import {TimerComponent}               from '../timer';
-import {SubmissionsComponent}         from '../submissions';
+import { Config }                       from '../../config';
 
-import {Contest, Author,
-        ContestStatus, Ranklist}      from '../../models/contest';
-import {User}                         from '../../models/user';
-import {Problem}                      from '../../models/problem';
-import {Submission}                   from '../../models/submission';
-import {LiveSubmissions}              from '../../models/live-submissions';
+import { TimerComponent }               from '../timer';
+import { SubmissionsComponent }         from '../submissions';
 
-import {PollingService}               from '../../services/polling';
-import {HttpService}                  from '../../services/http';
-import {ProblemService}               from '../../services/problem';
-import {VContestService}              from '../../services/vcontest';
+import { Contest, Author, 
+         ContestStatus }                from '../../models/contest';
+import { User }                         from '../../models/user';
+import { Problem }                      from '../../models/problem';
+import { Submission }                   from '../../models/submission';
+import { LiveSubmissions }              from '../../models/live-submissions';
+
+import { PollingService }               from '../../services/polling';
+import { HttpService }                  from '../../services/http';
+import { ProblemService }               from '../../services/problem';
+import { VContestService }              from '../../services/vcontest';
 
 @Component({
   selector: 'uhunt-vcontest',
@@ -46,20 +48,13 @@ export class VContestScoreboardComponent implements OnInit {
     private routeParams: RouteParams) {}
 
   ngOnInit() {
-    this.contestService.start(this.routeParams.get('id')).subscribe((c) => {
+    this.contestService.start(this.routeParams.get('id')).then(c => {
       this.contest = c;
       if (c.status == ContestStatus.RUNNING) {
+        this.include_past_subs = true;
         this.include_shadows = !!c.id;
         this.width = Math.floor(710 / (this.contest.problems.length + 1));
-
-        let observable = this.contest.start_shadow_submisions();
-        this.live_submissions.subscribe(observable);
-
-        // TODO: when out of sync, re-create ranklist.
-        let initial_subs = this.contestService.get_contestant_submissions(c);
-        this.contest.subscribe(initial_subs);
-        this.contest.subscribe(observable);
-        this.contest.subscribe(this.pollingService.submissions);
+        this.refresh();
       }
     });
   }
@@ -91,8 +86,31 @@ export class VContestScoreboardComponent implements OnInit {
     return status;
   }
 
-  problems(a: Author) {
-    return this.contest.problems.map(p => a.problems[p.id]);
+  toggle_include_past_subs() {
+    this.include_past_subs = !this.include_past_subs;
+    this.refresh();
+  }
+
+  toggle_shadows() {
+    this.include_shadows = !this.include_shadows;
+    this.refresh();
+  }
+
+  private refresh() {
+    // TODO: when out of sync, re-create ranklist.
+    let o = this.pollingService.submissions;
+
+    if (this.include_shadows) {
+      o = Observable.merge(o, this.contest.start_shadow_submisions());
+    }
+
+    if (this.include_past_subs) {
+      o = Observable.merge(o,
+            this.contestService.start_past_submissions(this.contest));
+    }
+
+    this.live_submissions.subscribe(o);
+    this.contest.subscribe(o);
   }
 
   format_sub(sbt: number) {  // for ranklist submission table

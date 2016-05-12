@@ -25,14 +25,6 @@
   <uhunt-submissions dbname="vcontest_livesubs"
     [user]="user"
     [submissions]="live_submissions.submissions">
-<!--  if (!include_shadows){
-        var ok = false; console.log(user_ids); 
-        for (var j=0; j<user_ids.length; j++)
-          if (user_ids[j] == s.uid) ok = true;
-        if (!ok) continue;
-      }
-      if (!vcontest.relevant_sub(s.uid, s.pid, intval(s.sbt))) continue; 
- -->
   </uhunt-submissions>
 
   <table style="border: 1px solid #AAA; margin-bottom:15px">
@@ -78,18 +70,9 @@
   </thead>
 
   <tbody class="alt_colors">
-<!--    
-    var a = author_scores[i];
-    if (!include_shadows){
-      var ok = false;
-      for (var j=0; j<user_ids.length; j++)
-        if (user_ids[j] == a.uid) ok = true;
-      if (!ok) continue;
-    } %>
-    a.uid[0]=='s' || 
--->
-    <tr *ngFor="let a of contest.ranklist.ranklist; let i = index"
-        [style.font-weight]="(!include_shadows)? '' : 'bold'">
+    <tr *ngFor="let a of contest.author_ranklist; let i = index"
+        [style.font-weight]="(contest.is_contestant(a.user.id)
+                             && include_shadows)? 'bold' : ''">
       <td class="rank">{{ i + 1 }}</td>
       <td style="padding-left:5px" nowrap>
         <a class="ellipsis" target="_blank" href="/id/{{a.user.id}}"
@@ -97,7 +80,7 @@
             {{a.user.name + ' (' + a.user.username + ')' }}
         </a>
       </td>
-      <td *ngFor="let s of problems(a)" class="problem">
+      <td *ngFor="let s of a.problems_status" class="problem">
            {{ (!s)? '&nbsp;' :
               (!s.ac)? ('(' + s.nos + ') --:--') :
               (s.nos)? ('(' + s.nos + ') ' + format_sub(s.sbt)) :
@@ -106,6 +89,7 @@
       <td align="center" nowrap>
         <b>{{ a.solved }}</b> / {{ format_sub(a.penalty) }}
       </td>
+    </tr>
   </tbody>
   </table>
 </div>
